@@ -1,0 +1,71 @@
+# 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
+# File Created: 24.03.2022 23:26:00
+
+newmtl CyberpunkDeLorean_DeLorean_MainBody
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0360 0.0360 0.0360
+	Tr 0.0000
+	d 1.0000
+	Tf 1.0000 1.0000 1.0000
+	Pr 0.8000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5000
+	Ke 0.0235 0.0235 0.0235
+	illum 2
+	map_Kd G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Tareas\auto\DeLorean.jpg
+
+newmtl wire_087224198
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.3412 0.8784 0.7765
+	Kd 0.3412 0.8784 0.7765
+	Ks 0.3500 0.3500 0.3500
+
+newmtl wire_006134006
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.0235 0.5255 0.0235
+	Kd 0.0235 0.5255 0.0235
+	Ks 0.3500 0.3500 0.3500
+
+newmtl wire_028089177
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.1098 0.3490 0.6941
+	Kd 0.1098 0.3490 0.6941
+	Ks 0.3500 0.3500 0.3500
+
+newmtl wire_177028149
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.6941 0.1098 0.5843
+	Kd 0.6941 0.1098 0.5843
+	Ks 0.3500 0.3500 0.3500
+
+newmtl CyberpunkDeLorean_DeLorean_DarkCables
+	Kd 0.0392 0.0392 0.0392
+	Ks 0.0450 0.0450 0.0450
+	Tr 0.0000
+	d 1.0000
+	Tf 1.0000 1.0000 1.0000
+	Pr 0.8000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5000
+	Ke 0.0008 0.0008 0.0008
+	illum 2
