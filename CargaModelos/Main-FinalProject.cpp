@@ -44,12 +44,6 @@ Texture plainBlueTexture;
 Texture pisoTexture;
 
 
-Model Car;
-Model Llanta_M;
-Model Camino_M;
-Model Blackhawk_M;
-Model Helicopter_body_M;
-Model Helicopter_helice_M;
 Model Escritorio_M;
 Model Lampara_M;
 Model Cuarto_M;
@@ -198,18 +192,6 @@ int main()
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
 
-	Car = Model();
-	Car.LoadModel("Models/DeLoreanCar.obj");
-	Llanta_M = Model();
-	Llanta_M.LoadModel("Models/rueda_delorean.obj");
-	Blackhawk_M = Model();
-	Blackhawk_M.LoadModel("Models/uh60.obj");
-	Helicopter_body_M = Model();
-	Helicopter_body_M.LoadModel("Models/helicopter_body.obj");
-	Helicopter_helice_M = Model();
-	Helicopter_helice_M.LoadModel("Models/helicopter_helice.obj");
-	Camino_M = Model();
-	Camino_M.LoadModel("Models/railroad track.obj");
 	//Modelos para el proyecto
 	Escritorio_M = Model();
 	Escritorio_M.LoadModel("Models/escritorio.obj");
@@ -217,8 +199,7 @@ int main()
 	Lampara_M.LoadModel("Models/lampara.obj");
 	Cuarto_M = Model();
 	Cuarto_M.LoadModel("Models/cuarto_2.obj");
-	Cubo_M = Model();
-	Cubo_M.LoadModel("Models/cubo_blender.obj");
+	
 
 
 	std::vector<std::string> skyboxFaces;
@@ -302,14 +283,7 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Cuarto_M.RenderModel();
 
-		// Cubo Blender
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-3.0f, 5.0f, 5.0f));
-		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//Cubo_M.RenderModel();
+	
 
 
 		glUseProgram(0);
