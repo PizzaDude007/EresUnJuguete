@@ -1,0 +1,100 @@
+# Blender MTL File: 'untitled.blend'
+# Material Count: 9
+
+newmtl Handle
+Ns 517.562489
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.404545 0.404545 0.404545
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\Door.001.tga
+
+newmtl Lock
+Ns 399.999952
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\Door.001.png.001.tga
+
+newmtl Material.019
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\2.tga
+
+newmtl Material.020
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\1.tga
+
+newmtl Material.022
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\1.tga
+
+newmtl Material.023
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\1.tga
+
+newmtl Material.025
+Ns 360.999991
+Ka 0.754545 0.754545 0.754545
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\Door.001.png.002.tga
+
+newmtl Material.026
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\wall_blue.tga
+
+newmtl Material.039
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2

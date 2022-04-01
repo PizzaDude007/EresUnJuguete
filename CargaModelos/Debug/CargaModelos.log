@@ -1,18 +1,4 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (CargaModelos.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Camera.cpp
-  Main-FinalProject.cpp
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(186,15): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(188,33): warning C4244: '+=': conversion from 'double' to 'GLfloat', possible loss of data
-  DirectionalLight.cpp
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\DirectionalLight.cpp(18,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\DirectionalLight.cpp(19,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\DirectionalLight.cpp(21,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\DirectionalLight.cpp(22,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-  Light.cpp
-  Material.cpp
-  Mesh_tn.cpp
   Model.cpp
 G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Model.cpp(16,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'const std::string'
 G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Model.cpp(16,80): warning C4474: 'printf' : too many arguments passed for format string
@@ -20,43 +6,7 @@ G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJugue
 G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Model.cpp(51,7): warning C4804: '<': unsafe use of type 'bool' in operation
 G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Model.cpp(51,21): warning C4018: '<': signed/unsigned mismatch
 G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Model.cpp(138,14): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Model.cpp(147,14): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-  PointLight.cpp
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\PointLight.cpp(28,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\PointLight.cpp(29,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\PointLight.cpp(30,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\PointLight.cpp(32,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\PointLight.cpp(33,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\PointLight.cpp(34,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\PointLight.cpp(35,14): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-  Shader_light.cpp
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(207,75): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(207,26): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(206,91): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(206,42): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(220,98): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(220,62): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(220,24): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(219,70): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(219,24): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(218,88): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Shader_light.cpp(218,42): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
-  Skybox.cpp
-  Sphere.cpp
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Sphere.cpp(39,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Sphere.cpp(43,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  SpotLight.cpp
-  Texture.cpp
-  Window.cpp
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.cpp(150,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.cpp(151,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.cpp(155,28): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.cpp(156,40): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.cpp(158,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.cpp(159,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-  Generating Code...
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.cpp(76): warning C4715: 'Window::Initialise': not all control paths return a value
+G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Model.cpp(145,13): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Model.cpp(149,14): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CargaModelos.vcxproj -> G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\Debug\FinalProject.exe

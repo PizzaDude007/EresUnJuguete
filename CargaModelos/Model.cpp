@@ -142,6 +142,8 @@ void Model::LoadMaterials(const aiScene * scene)
 				}
 				else
 				{
+					printf("Cargar la Textura :%s\n", texPath);
+
 					if (!TextureList[i]->LoadTexture())
 					{
 						printf("Falló en cargar la Textura :%s\n", texPath);
