@@ -44,11 +44,19 @@ Texture plainBlueTexture;
 Texture pisoTexture;
 
 
-Model Escritorio_M;
-Model Lampara_M;
-Model Cuarto_M;
-Model Dado_M;
-Model Cubo_M;
+
+Model Escritorio_M = Model();
+Model Lampara_M = Model();
+Model Cuarto_M = Model();
+Model Dado_M = Model();
+Model Cubo_M = Model();
+Model Silla_M = Model();
+Model Bote_basura_M = Model();
+Model Puff_M = Model();
+Model SetUp_M = Model();
+Model Gabinete_M = Model();
+Model HeadSet_M = Model();
+Model LuzTecho_M = Model();
 Skybox skybox;
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
@@ -193,12 +201,16 @@ int main()
 	pisoTexture.LoadTextureA();
 
 	//Modelos para el proyecto
-	Escritorio_M = Model();
-	Escritorio_M.LoadModel("Models/escritorio.obj");
-	Lampara_M = Model();
-	Lampara_M.LoadModel("Models/lampara.obj");
-	Cuarto_M = Model();
+	Escritorio_M.LoadModel("Models/SM_Prop_Desk_02_OBJ.obj");
+	Lampara_M.LoadModel("Models/SM_Prop_DeskLamp_05_OBJ.obj");
 	Cuarto_M.LoadModel("Models/cuarto_2.obj");
+	Bote_basura_M.LoadModel("Models/SM_Prop_Bin_03_OBJ.obj");
+	Silla_M.LoadModel("Models/SM_Prop_Chair_10_OBJ.obj");
+	Puff_M.LoadModel("Models/SM_Prop_Chair_BeanBag_03_OBJ.obj");
+	SetUp_M.LoadModel("Models/SM_Prop_Computer_Setup_02_OBJ.obj");
+	Gabinete_M.LoadModel("Models/SM_Prop_Computer_Tower_Modern_01_OBJ.obj");
+	HeadSet_M.LoadModel("Models/SM_Prop_Headset_02_OBJ.obj");
+	LuzTecho_M.LoadModel("Models/SM_Prop_Light_07_OBJ.obj");
 	
 
 
@@ -258,33 +270,78 @@ int main()
 
 
 		//Escritorio
-		color = glm::vec3(0.705f, 0.705f, 0.105f);
+		//color = glm::vec3(0.705f, 0.705f, 0.105f);
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.0f, 1.0f, 40.0f));
+		model = glm::translate(model, glm::vec3(50.0f, 1.0f, -317.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Escritorio_M.RenderModel();
 
 		//Lampara
-		color = glm::vec3(0.705f, 0.705f, 0.705f);
+		//color = glm::vec3(0.705f, 0.705f, 0.705f);
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 17.0f, -50.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 52.0f, -50.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Lampara_M.RenderModel();
 
 		//Cuarto
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		//color = glm::vec3(1.0f, 1.0f, 1.0f);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(50.0f, 50.0f, 50.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Cuarto_M.RenderModel();
 
-	
+		//Bote de basura
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -250.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bote_basura_M.RenderModel();
 
+		//Silla Gamer
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(120.0f, 0.0f, -250.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Silla_M.RenderModel();
+
+		//Puff
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 80.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Puff_M.RenderModel();
+	
+		//SetUp
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(120.0f, 64.0f, -350.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		SetUp_M.RenderModel();
+
+		//Gabinete
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(100.0f, 64.0f, -350.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Gabinete_M.RenderModel();
+
+		//HeadSet
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(150.0f, 64.0f, -350.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		HeadSet_M.RenderModel();
+
+		//Luz de techo 1
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 215.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		LuzTecho_M.RenderModel();
+
+		//Luz de techo 2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 215.0f, -300.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		LuzTecho_M.RenderModel();
 
 		glUseProgram(0);
 
