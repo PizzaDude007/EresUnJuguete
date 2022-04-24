@@ -57,6 +57,9 @@ Model SetUp_M = Model();
 Model Gabinete_M = Model();
 Model HeadSet_M = Model();
 Model LuzTecho_M = Model();
+
+Model ML_Ring_M = Model();
+
 Skybox skybox;
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
@@ -174,7 +177,7 @@ void CreateObjects()
 
 void CreateShaders()
 {
-	Shader *shader1 = new Shader();
+	Shader* shader1 = new Shader();
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
 }
@@ -211,8 +214,8 @@ int main()
 	Gabinete_M.LoadModel("Models/SM_Prop_Computer_Tower_Modern_01_OBJ.obj");
 	HeadSet_M.LoadModel("Models/SM_Prop_Headset_02_OBJ.obj");
 	LuzTecho_M.LoadModel("Models/SM_Prop_Light_07_OBJ.obj");
-	
 
+	ML_Ring_M.LoadModel("Models/ring_texturizado.obj");
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -312,7 +315,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 80.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Puff_M.RenderModel();
-	
+
 		//SetUp
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(120.0f, 64.0f, -350.0f));
@@ -342,6 +345,16 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 215.0f, -300.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		LuzTecho_M.RenderModel();
+
+	//	M U C H A  L U C H A
+
+			//ring
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 63.5f, -230.0f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ML_Ring_M.RenderModel();
 
 		glUseProgram(0);
 
