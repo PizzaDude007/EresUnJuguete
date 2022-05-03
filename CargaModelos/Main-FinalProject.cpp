@@ -208,10 +208,11 @@ int main()
 	Lampara_M.LoadModel("Models/SM_Prop_DeskLamp_05_OBJ.obj");
 	Cuarto_M.LoadModel("Models/cuarto_text.obj");
 	Bote_basura_M.LoadModel("Models/SM_Prop_Bin_03_OBJ.obj");
-	Silla_M.LoadModel("Models/SM_Prop_Chair_10_OBJ.obj");
+	//Silla_M.LoadModel("Models/SM_Prop_Chair_10_OBJ.obj");
+	Silla_M.LoadModel("Models/silla_desk.obj");
 	Puff_M.LoadModel("Models/SM_Prop_Chair_BeanBag_03_OBJ.obj");
 	SetUp_M.LoadModel("Models/SM_Prop_Computer_Setup_02_OBJ.obj");
-	Gabinete_M.LoadModel("Models/SM_Prop_Computer_Tower_Modern_01_OBJ.obj");
+	//Gabinete_M.LoadModel("Models/SM_Prop_Computer_Tower_Modern_01_OBJ.obj");
 	HeadSet_M.LoadModel("Models/SM_Prop_Headset_02_OBJ.obj");
 	LuzTecho_M.LoadModel("Models/SM_Prop_Light_07_OBJ.obj");
 
@@ -292,7 +293,7 @@ int main()
 		//Cuarto
 		//color = glm::vec3(1.0f, 1.0f, 1.0f);
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(50.0f, 50.0f, 50.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -307,6 +308,7 @@ int main()
 		//Silla Gamer
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(120.0f, 0.0f, -250.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Silla_M.RenderModel();
 
