@@ -203,7 +203,7 @@ int main()
 	//Modelos para el proyecto
 	Escritorio_M.LoadModel("Models/SM_Prop_Desk_02_OBJ.obj");
 	Lampara_M.LoadModel("Models/SM_Prop_DeskLamp_05_OBJ.obj");
-	Cuarto_M.LoadModel("Models/cuarto_2.obj");
+	Cuarto_M.LoadModel("Models/cuarto_text.obj");
 	Bote_basura_M.LoadModel("Models/SM_Prop_Bin_03_OBJ.obj");
 	Silla_M.LoadModel("Models/SM_Prop_Chair_10_OBJ.obj");
 	Puff_M.LoadModel("Models/SM_Prop_Chair_BeanBag_03_OBJ.obj");
