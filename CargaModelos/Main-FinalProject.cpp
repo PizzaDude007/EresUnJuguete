@@ -45,9 +45,11 @@ Texture pisoTexture;
 
 
 
-Model Escritorio_M = Model();
-Model Lampara_M = Model();
 Model Cuarto_M = Model();
+Model Escritorio_M = Model();
+Model Escritorio2_M = Model();
+Model Escritorio3_M = Model();
+Model Lampara_M = Model();
 Model Dado_M = Model();
 Model Cubo_M = Model();
 Model Silla_M = Model();
@@ -57,6 +59,16 @@ Model SetUp_M = Model();
 Model Gabinete_M = Model();
 Model HeadSet_M = Model();
 Model LuzTecho_M = Model();
+Model Cama_M = Model();
+Model Alfombra_M = Model();
+//Wheezy
+Model Wheezy_torso_M = Model();
+Model Wheezy_cabeza_M = Model();
+Model Wheezy_brazo_izq_M = Model();
+Model Wheezy_brazo_der_M = Model();
+Model Wheezy_pie_izq_M = Model();
+Model Wheezy_pie_der_M = Model();
+
 
 Model ML_Ring_M = Model();
 
@@ -204,9 +216,11 @@ int main()
 	pisoTexture.LoadTextureA();
 
 	//Modelos para el proyecto
-	Escritorio_M.LoadModel("Models/SM_Prop_Desk_02_OBJ.obj");
-	Lampara_M.LoadModel("Models/SM_Prop_DeskLamp_05_OBJ.obj");
 	Cuarto_M.LoadModel("Models/cuarto_text.obj");
+	Escritorio_M.LoadModel("Models/SM_Prop_Desk_02_OBJ.obj");
+	Escritorio2_M.LoadModel("Models/desk_2.obj");
+	Escritorio3_M.LoadModel("Models/desk_3.obj");
+	Lampara_M.LoadModel("Models/SM_Prop_DeskLamp_05_OBJ.obj");
 	Bote_basura_M.LoadModel("Models/SM_Prop_Bin_03_OBJ.obj");
 	//Silla_M.LoadModel("Models/SM_Prop_Chair_10_OBJ.obj");
 	Silla_M.LoadModel("Models/silla_desk.obj");
@@ -215,6 +229,16 @@ int main()
 	//Gabinete_M.LoadModel("Models/SM_Prop_Computer_Tower_Modern_01_OBJ.obj");
 	HeadSet_M.LoadModel("Models/SM_Prop_Headset_02_OBJ.obj");
 	LuzTecho_M.LoadModel("Models/SM_Prop_Light_07_OBJ.obj");
+	Cama_M.LoadModel("Models/bed_red.obj");
+	Alfombra_M.LoadModel("Models/alfombra.obj");
+
+	//Wheezy
+	Wheezy_torso_M.LoadModel("Models/wheezy_torso.obj");
+	Wheezy_cabeza_M.LoadModel("Models/wheezy_cabeza.obj");
+	Wheezy_brazo_izq_M.LoadModel("Models/wheezy_brazo_izq.obj");
+	Wheezy_brazo_der_M.LoadModel("Models/wheezy_brazo_der.obj");
+	Wheezy_pie_izq_M.LoadModel("Models/wheezy_pie_izq.obj");
+	Wheezy_pie_der_M.LoadModel("Models/wheezy_pie_der.obj");
 
 	ML_Ring_M.LoadModel("Models/ring_texturizado.obj");
 
@@ -232,6 +256,9 @@ int main()
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
+
+	float var1 = 0.0f;
+
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
@@ -261,6 +288,7 @@ int main()
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
+		glm::mat4 modelaux_body(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
@@ -271,7 +299,46 @@ int main()
 		pisoTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
+		//Cuarto
+		//color = glm::vec3(1.0f, 1.0f, 1.0f);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(50.0f, 50.0f, 50.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Cuarto_M.RenderModel();
 
+
+		//CAMA
+		//color = glm::vec3(0.705f, 0.705f, 0.105f);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-150.0f, 1.0f, 90.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Cama_M.RenderModel();
+
+		//Alfombra
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-50.0f, 1.0f, -100.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Alfombra_M.RenderModel();
+
+		//Escritorio2
+		//color = glm::vec3(0.705f, 0.705f, 0.105f);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-150.0f, 1.0f, -330.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Escritorio2_M.RenderModel();
+
+		//Escritorio3
+		//color = glm::vec3(0.705f, 0.705f, 0.105f);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(210.0f, 1.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Escritorio3_M.RenderModel();
 
 		//Escritorio
 		//color = glm::vec3(0.705f, 0.705f, 0.105f);
@@ -290,15 +357,6 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Lampara_M.RenderModel();
 
-		//Cuarto
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(50.0f, 50.0f, 50.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		Cuarto_M.RenderModel();
-
 		//Bote de basura
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -250.0f));
@@ -307,14 +365,14 @@ int main()
 
 		//Silla Gamer
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(120.0f, 0.0f, -250.0f));
+		model = glm::translate(model, glm::vec3(120.0f, 0.0f, -270.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Silla_M.RenderModel();
 
 		//Puff
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 80.0f));
+		model = glm::translate(model, glm::vec3(40.0f, 0.0f, 80.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Puff_M.RenderModel();
 
@@ -347,6 +405,76 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 215.0f, -300.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		LuzTecho_M.RenderModel();
+	
+	// TOY STORY
+	  //WHEEZY
+		//torso
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 15.0f, 0.0f));
+		modelaux_body = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Wheezy_torso_M.RenderModel();
+
+		//articulacion pie der
+		model = modelaux_body;
+		model = glm::translate(model, glm::vec3(-1.7f, -5.0f, 0.0f));
+		model = glm::rotate(model, -40 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux = model;
+
+		//pie der
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Wheezy_pie_der_M.RenderModel();
+
+		//articulacion pie izq
+		model = modelaux_body;
+		model = glm::translate(model, glm::vec3(1.6f, -5.0f, 0.0f));
+		model = glm::rotate(model,  10 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux = model;
+
+		//pie izq
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Wheezy_pie_izq_M.RenderModel();
+
+		//articulacion brazo der
+		model = modelaux_body;
+		model = glm::translate(model, glm::vec3(-4.6f, 4.0f, 0.0f));
+		model = glm::rotate(model, 0 * var1++ * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux = model;
+
+		//brazo der
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Wheezy_brazo_der_M.RenderModel();
+
+		//articulacion brazo izq
+		model = modelaux_body;
+		model = glm::translate(model, glm::vec3(4.0f, 4.0f, 0.0f));
+		model = glm::rotate(model, 0 * var1++ * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux = model;
+
+		//brazo izq
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Wheezy_brazo_der_M.RenderModel();
+
+		//articulacion cabeza
+		model = modelaux_body;
+		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 0.0f));
+		model = glm::rotate(model, 0 * var1++ * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelaux = model;
+
+		//cabeza
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Wheezy_cabeza_M.RenderModel();
+
 
 	//	M U C H A  L U C H A
 

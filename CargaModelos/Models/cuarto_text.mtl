@@ -1,4 +1,4 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'cuarto.blend'
 # Material Count: 9
 
 newmtl Handle
@@ -87,7 +87,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\wall_blue.tga
+map_Kd G:\\My Drive\\Escuela\\UNAM\\Semestre8\\Compu Grafica\\Proyecto Final\\Repo\\EresUnJuguete\\CargaModelos\\Textures\\blue_wall_c.jpg
 
 newmtl Material.039
 Ns 225.000000

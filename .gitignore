@@ -2,3 +2,6 @@
 .vscode/
 !Debug/
 /Debug
+/.vscode
+/.vs/EresUnJuguete/v17
+/CargaModelos/Debug

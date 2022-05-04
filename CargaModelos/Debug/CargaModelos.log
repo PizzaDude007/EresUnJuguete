@@ -2,7 +2,7 @@
   Main-FinalProject.cpp
 G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
 G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(238,15): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(240,33): warning C4244: '+=': conversion from 'double' to 'GLfloat', possible loss of data
+G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(265,15): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(267,33): warning C4244: '+=': conversion from 'double' to 'GLfloat', possible loss of data
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   CargaModelos.vcxproj -> G:\My Drive\Escuela\UNAM\Semestre8\Compu Grafica\Proyecto Final\Repo\EresUnJuguete\Debug\FinalProject.exe
