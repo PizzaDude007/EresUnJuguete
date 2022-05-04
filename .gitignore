@@ -4,4 +4,4 @@
 /Debug
 /.vscode
 /.vs/EresUnJuguete/v17
-/CargaModelos/Debug
+!/CargaModelos/Debug

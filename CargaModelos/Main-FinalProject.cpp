@@ -29,6 +29,8 @@ Pr�ctica 5: Carga de Modelos
 #include"Model.h"
 #include "Skybox.h"
 
+//#include "Modelos_MuchaLucha.h"
+
 const float toRadians = 3.14159265f / 180.0f;
 
 Window mainWindow;
@@ -43,7 +45,9 @@ Texture plainTexture;
 Texture plainBlueTexture;
 Texture pisoTexture;
 
-
+Texture StreetMan1_Texture;
+Texture StreetMan2_Texture;
+Texture StreetMan3_Texture;
 
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
@@ -71,6 +75,7 @@ Model Wheezy_pie_der_M = Model();
 
 
 Model ML_Ring_M = Model();
+Model Luchador_M = Model();
 
 Skybox skybox;
 
@@ -215,6 +220,13 @@ int main()
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
 
+	StreetMan1_Texture = Texture("Textures/SimplePeople_StreetMan_Black.png");
+	StreetMan1_Texture.LoadTexture();
+	StreetMan2_Texture = Texture("Textures/SimplePeople_StreetMan_Brown.png");
+	StreetMan2_Texture.LoadTexture();
+	StreetMan3_Texture = Texture("Textures/SimplePeople_StreetMan_White.png");
+	StreetMan3_Texture.LoadTexture();
+
 	//Modelos para el proyecto
 	Cuarto_M.LoadModel("Models/cuarto_text.obj");
 	Escritorio_M.LoadModel("Models/SM_Prop_Desk_02_OBJ.obj");
@@ -241,6 +253,9 @@ int main()
 	Wheezy_pie_der_M.LoadModel("Models/wheezy_pie_der.obj");
 
 	ML_Ring_M.LoadModel("Models/ring_texturizado.obj");
+	Luchador_M.LoadModel("Models/Characters/SK_Character_Streetman.fbx");
+
+	//Modelos_MuchaLucha* frijolito = new Modelos_MuchaLucha();
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -477,14 +492,47 @@ int main()
 
 
 	//	M U C H A  L U C H A
+		glm::mat4 auxML(1.0);
 
 			//ring
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(20.0f, 63.5f, -230.0f));
 		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		auxML = model;
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ML_Ring_M.RenderModel();
+
+		//auxML = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		
+		//frijolito->RenderModels(uniformColor, uniformModel);
+
+		//Luchador 1
+		model = auxML;
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, -20.0f));
+		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		StreetMan1_Texture.UseTexture();
+		Luchador_M.RenderModel();
+
+		//Luchador 2
+		model = auxML;
+		model = glm::translate(model, glm::vec3(20.0f, 0.0f, 20.0f));
+		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		StreetMan2_Texture.UseTexture();
+		Luchador_M.RenderModel();
+
+		//Luchador 3
+		model = auxML;
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 20.0f));
+		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		StreetMan3_Texture.UseTexture();
+		Luchador_M.RenderModel();
+
 
 		glUseProgram(0);
 
