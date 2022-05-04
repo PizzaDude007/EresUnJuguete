@@ -1,8 +1,7 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(510,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (CargaModelos.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (CargaModelos.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
   Main-FinalProject.cpp
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(234,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(236,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
-  CargaModelos.vcxproj -> H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\Debug\FinalProject.exe
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(240,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(242,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+  CargaModelos.vcxproj -> D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\Debug\FinalProject.exe

@@ -45,6 +45,7 @@ Texture pisoTexture;
 
 
 
+
 Model Escritorio_M = Model();
 Model Lampara_M = Model();
 Model Cuarto_M = Model();
@@ -57,6 +58,7 @@ Model SetUp_M = Model();
 Model Gabinete_M = Model();
 Model HeadSet_M = Model();
 Model LuzTecho_M = Model();
+Model JettCompleta = Model();
 
 Model ML_Ring_M = Model();
 
@@ -214,6 +216,7 @@ int main()
 	Gabinete_M.LoadModel("Models/SM_Prop_Computer_Tower_Modern_01_OBJ.obj");
 	HeadSet_M.LoadModel("Models/SM_Prop_Headset_02_OBJ.obj");
 	LuzTecho_M.LoadModel("Models/SM_Prop_Light_07_OBJ.obj");
+	JettCompleta.LoadModel("Models/JettCompleta.obj");
 
 	ML_Ring_M.LoadModel("Models/ring_texturizado.obj");
 
@@ -355,6 +358,13 @@ int main()
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ML_Ring_M.RenderModel();
+
+
+	//  VALORATN ----------- VALORANT
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 70.0f, -230.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		JettCompleta.RenderModel();
 
 		glUseProgram(0);
 
