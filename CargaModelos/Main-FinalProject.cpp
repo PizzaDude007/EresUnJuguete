@@ -29,6 +29,14 @@ Pr�ctica 5: Carga de Modelos
 #include"Model.h"
 #include "Skybox.h"
 
+
+//para iluminaci�n
+#include "CommonValues.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+#include "Material.h"
+
 //#include "Modelos_MuchaLucha.h"
 
 const float toRadians = 3.14159265f / 180.0f;
@@ -78,6 +86,9 @@ Model ML_Ring_M = Model();
 Model Luchador_M = Model();
 
 Skybox skybox;
+//materiales
+Material Material_brillante;
+Material Material_opaco;
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
 GLfloat deltaTime = 0.0f;
@@ -85,11 +96,22 @@ GLfloat lastTime = 0.0f;
 static double limitFPS = 1.0 / 60.0;
 
 
+// luz direccional
+DirectionalLight mainLight;
+//para declarar varias luces de tipo pointlight
+PointLight pointLights[MAX_POINT_LIGHTS];
+SpotLight spotLights[MAX_SPOT_LIGHTS];
+
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
 
 // Fragment Shader
 static const char* fShader = "shaders/shader_light.frag";
+
+Sphere sp = Sphere(10.0, 4, 10); //radio horizontal vertical
+
+
+
 
 
 //c�lculo del promedio de las normales para sombreado de Phong
@@ -207,6 +229,8 @@ int main()
 	mainWindow.Initialise();
 
 	CreateObjects();
+	sp.init(); //inicializar esfera
+	sp.load();//enviar la esfera al shader
 	CreateShaders();
 
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
@@ -267,6 +291,36 @@ int main()
 
 	skybox = Skybox(skyboxFaces);
 
+	Material_brillante = Material(4.0f, 256);
+	Material_opaco = Material(0.3f, 4);
+
+
+	//luz direccional, s�lo 1 y siempre debe de existir
+	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f, //color
+		0.8f, 0.3f, // 0.5, 0.3 mas iluminado (AMBIENTAL, DIFUSA)
+		0.0f, 0.0f, -1.0f); //(DESDE DONDE ILUMINA)
+	//contador de luces puntuales
+	unsigned int pointLightCount = 0;
+	//Declaraci�n de primer luz puntual
+
+	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f, //color rojo
+		0.6f, 1.0f, //ambiente, difusa
+		2.0f, 1.5f, 4.5f, // posicion
+		0.3f, 0.2f, 0.1f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount++;
+
+	unsigned int spotLightCount = 0;
+	spotLights[spotLightCount] = SpotLight(1.0f, 1.0f, 1.0f, //COLOR
+		0.0f, 2.0f, //AMBIENTE, DIFUSA
+		0.0f, 0.0f, 0.0f, //POSICION
+		0.0f, -1.0f, 0.0f, //DIRECCION
+		1.0f, 0.0f, 0.0f, //C,B,A: ECUACION DE SEGUNDO GRADO
+		5.0f); //ANGULO DE APERTURA
+	spotLightCount++;
+
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
@@ -297,6 +351,11 @@ int main()
 		uniformView = shaderList[0].GetViewLocation();
 		uniformEyePosition = shaderList[0].GetEyePositionLocation();
 		uniformColor = shaderList[0].getColorLocation();
+		
+		//informaci�n en el shader de intensidad especular y brillo
+		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
+		uniformShininess = shaderList[0].GetShininessLocation();
+
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
@@ -323,6 +382,13 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Cuarto_M.RenderModel();
 
+		//PELOTA
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.1f, 0.85f, -4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		sp.render(); //esfera
 
 		//CAMA
 		//color = glm::vec3(0.705f, 0.705f, 0.105f);
@@ -533,6 +599,13 @@ int main()
 		StreetMan3_Texture.UseTexture();
 		Luchador_M.RenderModel();
 
+
+
+		//informaci�n al shader de fuentes de iluminaci�n
+		//informaci�n al shader de fuentes de iluminaci�n
+		shaderList[0].SetDirectionalLight(&mainLight);
+		shaderList[0].SetPointLights(pointLights, pointLightCount);
+		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 		glUseProgram(0);
 
