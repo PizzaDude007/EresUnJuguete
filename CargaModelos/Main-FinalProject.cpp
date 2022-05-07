@@ -47,7 +47,12 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
-Camera camera;
+//Camaras
+Camera * camera;
+Camera cameraWheezy;
+Camera cameraLibre;
+
+
 
 Texture brickTexture;
 Texture dirtTexture;
@@ -111,7 +116,7 @@ static const char* vShader = "shaders/shader_light.vert";
 // Fragment Shader
 static const char* fShader = "shaders/shader_light.frag";
 
-Sphere sp = Sphere(10.0, 4, 10); //radio horizontal vertical
+Sphere sp = Sphere(10.0, 30, 30); //radio horizontal vertical
 
 
 
@@ -150,18 +155,35 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 void CreateObjects()
 {
 	unsigned int indices[] = {
-		0, 3, 1,
-		1, 3, 2,
-		2, 3, 0,
-		0, 1, 2
+		0, 1, 2,
+		3, 4, 5,
+		5, 6, 7,
+		7, 8, 9,
+		9, 10, 11,
+		2, 1, 9,
+		1, 5, 9,
+		5, 7, 9
 	};
 
 	GLfloat vertices[] = {
-		//	x      y      z			u	  v			nx	  ny    nz
-			-1.0f, -1.0f, -0.6f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-			0.0f, -1.0f, 1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
-			1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
+		//		x      		y 		     z				u	  v			nx	  ny    nz
+			0.054193f, -0.55023f, 0.83147f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+			0.15008f,  -0.12317f, 0.98079f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+			-0.13795f,  -0.13795f, 0.98079f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+			
+			0.15008f,  -0.12317f, 0.98079f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+			0.55023f,  -0.054193f, 0.83147f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+			0.25788f,  0.12742f, 0.95233f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+
+			0.30866f,  0.46194f, 0.83147f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+			0.037329f,  0.28521f, 0.95233f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+
+			-0.34285f,  0.39285f, 0.83147f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+			-0.27245f,  0.092253f, 0.95233f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+
+			-0.53089f,  -0.11439f, 0.83147f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+			-0.13795f,  -0.13795f, 0.98079f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+
 	};
 
 	unsigned int floorIndices[] = {
@@ -195,15 +217,15 @@ void CreateObjects()
 		0.0f, 0.5f, 0.5f,		1.0f, 1.0f,		0.0f, 0.0f, 0.0f,
 		0.0f, 0.5f, -0.5f,		0.0f, 1.0f,		0.0f, 0.0f, 0.0f,
 	};
-	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
+	calcAverageNormals(indices, 24, vertices, 96, 8, 5);
 
 
 	Mesh* obj1 = new Mesh();
-	obj1->CreateMesh(vertices, indices, 32, 12);
+	obj1->CreateMesh(vertices, indices, 96, 24);
 	meshList.push_back(obj1);
 
 	Mesh* obj2 = new Mesh();
-	obj2->CreateMesh(vertices, indices, 32, 12);
+	obj2->CreateMesh(vertices, indices, 96, 24);
 	meshList.push_back(obj2);
 
 	Mesh* obj3 = new Mesh();
@@ -216,6 +238,285 @@ void CreateObjects()
 	meshList.push_back(obj4);
 }
 
+void CreatePersonaje() {
+	unsigned int indices[] = {
+		//arriba
+		0,1,2,		//0, 1, 2,
+		3,4,5,		//1, 2, 3,
+		//izq
+		6,7,8,		//0, 2, 4,
+		9,10,11,	//2, 4, 6,
+		//atras
+		12,13,14,	//0, 1, 5,
+		15,16,17,	//0, 4, 5,
+		//der
+		18,19,20,	//1, 3, 5,
+		21,22,23,	//3, 5, 7,
+		//abajo
+		24,25,26,	//4, 5, 6,
+		27,28,29,	//5, 6, 7
+	};
+
+	GLfloat verticesCabeza[] = {
+		//	x      y      z			u	  v			nx	  ny    nz
+			//arriba
+			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
+			0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.25f, 0.25f, -0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+
+			0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.25f, 0.25f, -0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+
+			//izq
+			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
+			-0.25f, 0.25f, -0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+
+			-0.25f, 0.25f, -0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.25f, -0.25f, -0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+
+			//atras
+			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
+			0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
+			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
+			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
+			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			//der
+			0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
+			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+
+			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+
+			//abajo
+			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
+			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.25f, -0.25f, -0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+
+			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
+			-0.25f, -0.25f, -0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
+			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+	};
+
+	GLfloat verticesBrazoIzq[] = {
+		//	x      y      z			u	  v			nx	  ny    nz
+			//arriba
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
+			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+
+			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+
+			//izq
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
+			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+
+			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+
+			//atras
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
+			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			//der
+			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+
+			//abajo
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
+			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+	};
+
+	GLfloat verticesBrazoDer[] = {
+		//	x      y      z			u	  v			nx	  ny    nz
+			//arriba
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
+			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+
+			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+
+			//izq
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
+			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+
+			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+
+			//atras
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
+			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			//der
+			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+
+			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+
+			//abajo
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+
+			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
+			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
+			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+	};
+
+	GLfloat verticesPiernaIzq[] = {
+		//	x      y      z			u	  v			nx	  ny    nz
+			//arriba
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
+			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+
+			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+
+			//izq
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
+			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+
+			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.125f, -0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+
+			//atras
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
+			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			//der
+			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+
+			//abajo
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.125f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
+			-0.125f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+	};
+
+	GLfloat verticesPiernaDer[] = {
+		//	x      y      z			u	  v			nx	  ny    nz
+			//arriba
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
+			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+
+			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+
+			//izq
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
+			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+
+			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.125f, -0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+
+			//atras
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
+			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+
+			//der
+			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+
+			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+
+			//abajo
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.125f, -0.375f, -0.1f,0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+
+			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
+			-0.125f, -0.375f, -0.1f,0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
+			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+	};
+
+	Mesh* obj1 = new Mesh();
+	obj1->CreateMesh(verticesCabeza, indices, 232, 29);
+	meshList.push_back(obj1);
+
+	Mesh* obj2 = new Mesh();
+	obj2->CreateMesh(verticesBrazoIzq, indices, 232, 29);
+	meshList.push_back(obj2);
+
+	Mesh* obj3 = new Mesh();
+	obj2->CreateMesh(verticesBrazoDer, indices, 232, 29);
+	meshList.push_back(obj3);
+
+	Mesh* obj4 = new Mesh();
+	obj3->CreateMesh(verticesPiernaIzq, indices, 232, 29);
+	meshList.push_back(obj4);
+
+	Mesh* obj5 = new Mesh();
+	obj3->CreateMesh(verticesPiernaDer, indices, 232, 29);
+	meshList.push_back(obj5);
+}
 
 void CreateShaders()
 {
@@ -236,7 +537,8 @@ int main()
 	sp.load();//enviar la esfera al shader
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
+	cameraLibre = Camera(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
+	cameraWheezy = Camera(glm::vec3(0.0f, 24.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
@@ -333,6 +635,8 @@ int main()
 	float var1 = 0.0f;
 	contadorDiaNoche = 1.0f;
 
+	bool isWheezyCam = false;
+
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
@@ -341,15 +645,26 @@ int main()
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 
+		isWheezyCam = mainWindow.getCamaraVal();
+
 		//Recibir eventos del usuario
 		glfwPollEvents();
-		camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		if (isWheezyCam) {
+			camera = &cameraWheezy;
+			camera->keyControl(mainWindow.getsKeys(), deltaTime);
+			camera->mouseControl(mainWindow.getXChange(), 0.0f);
+		}
+		else {
+			camera = &cameraLibre;
+			camera->keyControl(mainWindow.getsKeys(), deltaTime);
+			camera->mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		}
+
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+		skybox.DrawSkybox(camera->calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -379,8 +694,8 @@ int main()
 		mainLight.ChangeDiffuseAmbient(contadorDiaNoche, 0.3);
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
-		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
+		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
+		glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
@@ -404,13 +719,7 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Cuarto_M.RenderModel();
 
-		//PELOTA
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.1f, 0.85f, -4.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		sp.render(); //esfera
+		
 
 		//CAMA
 		//color = glm::vec3(0.705f, 0.705f, 0.105f);
@@ -422,7 +731,7 @@ int main()
 
 		//Alfombra
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 1.0f, -100.0f));
+		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, -100.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Alfombra_M.RenderModel();
@@ -511,20 +820,36 @@ int main()
 	
 	// TOY STORY
 	  //WHEEZY
-		//torso
+		
+		//posicion de la camara Wheezy
+		glm::vec3 poscam = cameraWheezy.getCameraPosition();
+		//direccion de la camara Wheezy
+		glm::vec3 dircam = cameraWheezy.getCameraDirection();
+		float angulo_cam = atan(dircam.z / dircam.x);
+		angulo_cam += (90 * toRadians);
+		if (dircam.x > 0) {
+			angulo_cam += (180 * toRadians);
+		}
+		//printf("\n angulo de camara: %.2f", angulo_cam / toRadians);
+		glm::vec3 poswheezy = glm::vec3(0, 0, 0);
+		poswheezy.x = poscam.x + ( ( 0*cos(angulo_cam) ) - (40*sin(angulo_cam)) );
+		poswheezy.z = poscam.z + ( ( 0*sin(angulo_cam) ) + (40*cos(angulo_cam)) );
+		poswheezy.y = poscam.y - 10;
+		//Torso
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 15.0f, 0.0f));
+		model = glm::translate(model, poswheezy);
+		model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux_body = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Wheezy_torso_M.RenderModel();
 
-		//articulacion pie der
+		//Articulacion pie der
 		model = modelaux_body;
 		model = glm::translate(model, glm::vec3(-1.7f, -5.0f, 0.0f));
 		model = glm::rotate(model, -40 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		modelaux = model;
 
-		//pie der
+		//Pie der
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -578,8 +903,38 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Wheezy_cabeza_M.RenderModel();
 
+		//PELOTA
+		color = glm::vec3(248.0f/255.0f, 228.0f / 255.0f, 46.0f / 255.0f);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 10.0f, -20.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		plainTexture.UseTexture();
+		sp.render(); //esfera
+			//franja azul
+		color = glm::vec3(29.0f / 255.0f, 68.0f / 255.0f, 135.0f / 255.0f);
+		model = modelaux;
+		model = glm::scale(model, glm::vec3(1.04f, 1.04f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		plainTexture.UseTexture();
+		sp.render(); //esfera
+			//estrellas rojas
+		color = glm::vec3(212.0f / 255.0f, 62.0f / 255.0f, 44.0f / 255.0f);
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -4.4f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		plainTexture.UseTexture();
+		meshList[0]->RenderMesh();
+
 
 	//	M U C H A  L U C H A
+		color = glm::vec3(1.0f,1.0f,1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+
 		glm::mat4 auxML(1.0);
 
 			//ring
