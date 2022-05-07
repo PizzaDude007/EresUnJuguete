@@ -39,6 +39,8 @@ Pr�ctica 5: Carga de Modelos
 
 //#include "Modelos_MuchaLucha.h"
 
+float contadorDiaNoche = 0.0f;
+bool dia = false;
 const float toRadians = 3.14159265f / 180.0f;
 
 Window mainWindow;
@@ -299,7 +301,7 @@ int main()
 
 	//luz direccional, s�lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f, //color
-		0.8f, 0.3f, // 0.5, 0.3 mas iluminado (AMBIENTAL, DIFUSA)
+		0.1f, 0.3f, // 0.5, 0.3 mas iluminado (AMBIENTAL, DIFUSA)
 		0.0f, 0.0f, -1.0f); //(DESDE DONDE ILUMINA)
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
@@ -329,6 +331,7 @@ int main()
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 
 	float var1 = 0.0f;
+	contadorDiaNoche = 1.0f;
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -357,6 +360,23 @@ int main()
 		//informaci�n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
+
+		//Cambio del ciclo de luz de dia y noche
+		
+		if (contadorDiaNoche <= 1.0f and dia) {
+			contadorDiaNoche += deltaTime * 0.0001f;
+		}
+		else if (contadorDiaNoche >= 1.0f and dia) {
+			dia = false;
+		}
+		else if (contadorDiaNoche >= 0.0f and !dia){
+			contadorDiaNoche -= deltaTime * 0.0001f;
+		}
+		else if (contadorDiaNoche <= 0.0f and !dia) {
+			dia = true;
+		}
+		//printf("\nContador = %f", contadorDiaNoche);
+		mainLight.ChangeDiffuseAmbient(contadorDiaNoche, 0.3);
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
