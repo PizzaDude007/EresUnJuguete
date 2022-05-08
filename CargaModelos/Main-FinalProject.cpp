@@ -53,6 +53,10 @@ Texture plainTexture;
 Texture plainBlueTexture;
 Texture pisoTexture;
 
+Texture WheezyTexture;
+Texture FrijolitoTexture;
+Texture JettTexture;
+
 Texture StreetMan1_Texture;
 Texture StreetMan2_Texture;
 Texture StreetMan3_Texture;
@@ -230,267 +234,442 @@ void CreatePersonaje() {
 		//abajo
 		24,25,26,	//4, 5, 6,
 		27,28,29,	//5, 6, 7
+		//frente
+		30,31,32,	//2, 3, 6,
+		33,34,35,	//3, 6, 7,
 	};
 
 	GLfloat verticesCabeza[] = {
-		//	x      y      z			u	  v			nx	  ny    nz
+		//	x      y      z			u	  v				nx	  ny    nz
 			//arriba
-			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
-			0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.25f, 0.25f, -0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.25f, 0.25f, -0.25f,	0.125f, 1.0f,		0.0f, 1.0f, 0.0f, //0
+			0.25f, 0.25f, -0.25f,	0.250f, 1.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.25f, 0.25f, 0.25f,	0.125f, 0.875f,		0.0f, 1.0f, 0.0f, //2
 
-			0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.25f, 0.25f, -0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+			0.25f, 0.25f, -0.25f,	0.250f, 1.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.25f, 0.25f, 0.25f,	0.125f, 0.875f,		0.0f, 1.0f, 0.0f, //2
+			0.25f, 0.25f, 0.25f,	0.250f, 0.875f,		0.0f, 1.0f, 0.0f, //3
 
 			//izq
-			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
-			-0.25f, 0.25f, -0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.25f, 0.25f, -0.25f,	0.0f, 0.875f,		-1.0f, 0.0f, 0.0f, //0
+			-0.25f, 0.25f, 0.25f,	0.125f, 0.875f,		-1.0f, 0.0f, 0.0f, //2
+			-0.25f, -0.25f, -0.25f,	0.0f, 0.75f,		-1.0f, 0.0f, 0.0f, //4
 
-			-0.25f, 0.25f, -0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-			-0.25f, -0.25f, -0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+			-0.25f, 0.25f, 0.25f,	0.125f, 0.875f,		-1.0f, 0.0f, 0.0f, //2
+			-0.25f, -0.25f, -0.25f,	0.0f, 0.75f,		-1.0f, 0.0f, 0.0f, //4
+			-0.25f, -0.25f, 0.25f,	0.125f, 0.75f,		-1.0f, 0.0f, 0.0f, //6
 
 			//atras
-			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
-			0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
-			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+			-0.25f, 0.25f, -0.25f,	0.375f, 0.875f,		0.0f, 0.0f, -1.0f, //0
+			0.25f, 0.25f, -0.25f,	0.5f, 0.875f,		0.0f, 0.0f, -1.0f, //1
+			0.25f, -0.25f, -0.25f,	0.5f, 0.75f,		0.0f, 0.0f, -1.0f, //5
 
-			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
-			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
-			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+			-0.25f, 0.25f, -0.25f,	0.375f, 0.875f,		0.0f, 1.0f, -1.0f, //0
+			-0.25f, -0.25f, -0.25f,	0.5f, 0.75f,		0.0f, 0.0f, -1.0f, //4
+			0.25f, -0.25f, -0.25f,	0.5f, 0.75f,		0.0f, 0.0f, -1.0f, //5
 
 			//der
-			0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
-			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			0.25f, 0.25f, -0.25f,	0.5f, 0.875f,		1.0f, 0.0f, 0.0f, //1
+			0.25f, 0.25f, 0.25f,	0.25f, 0.875f,		1.0f, 0.0f, 0.0f, //3
+			0.25f, -0.25f, -0.25f,	0.5f, 0.75f,		1.0f, 0.0f, 0.0f, //5
 
-			-0.25f, 0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+			0.25f, 0.25f, 0.25f,	0.25f, 0.875f,		1.0f, 0.0f, 0.0f, //3
+			0.25f, -0.25f, -0.25f,	0.5f, 0.75f,		1.0f, 0.0f, 0.0f, //5
+			0.25f, -0.25f, 0.25f,	0.25f, 0.75f,		1.0f, 0.0f, 0.0f, //7
 
 			//abajo
-			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
-			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.25f, -0.25f, -0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+			-0.25f, -0.25f, -0.25f,	0.25f, 1.0f,		0.0f, -1.0f, 0.0f, //4
+			0.25f, -0.25f, -0.25f,	0.375f, 1.0f,		0.0f, -1.0f, 0.0f, //5
+			-0.25f, -0.25f, 0.25f,	0.25f, 0.875f,		0.0f, -1.0f, 0.0f, //6
 
-			0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
-			-0.25f, -0.25f, -0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
-			-0.25f, -0.25f, 0.25f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+			0.25f, -0.25f, -0.25f,	0.375f, 1.0f,		0.0f, -1.0f, 0.0f, //5
+			-0.25f, -0.25f, 0.25f, 0.25f, 0.875f,		0.0f, -1.0f, 0.0f, //6
+			0.25f, -0.25f, 0.25f,	0.375f, 0.875f,		0.0f, -1.0f, 0.0f, //7
+
+			//frente
+			-0.25f, 0.25f, 0.25f,	0.125f, 0.875f,		0.0f, 0.0f, 1.0f, //2
+			0.25f, 0.25f, 0.25f,	0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
+			-0.25f, -0.25f, 0.25f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
+
+			0.25f, 0.25f, 0.25f,	0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
+			-0.25f, -0.25f, 0.25f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
+			0.25f, -0.25f, 0.25f,	0.25f, 0.75f,		0.0f, 0.0f, 1.0f, //7
 	};
 
-	GLfloat verticesBrazoIzq[] = {
-		//	x      y      z			u	  v			nx	  ny    nz
+	GLfloat verticesTorso[] = {
+		//	x      y      z				u	  v				nx	  ny    nz
 			//arriba
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
-			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.25f, 0.375f, -0.125f,	0.4375f, 0.5f,		0.0f, 1.0f, 0.0f, //0
+			0.25f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
+			-0.25f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
 
-			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+			0.25f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
+			-0.25f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
+			0.25f, 0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 1.0f, 0.0f, //3
 
 			//izq
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
-			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.25f, 0.375f, -0.125f,	0.25f, 0.4375f,		-1.0f, 0.0f, 0.0f, //0
+			-0.25f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
+			-0.25f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
 
-			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+			-0.25f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
+			-0.25f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
+			-0.25f, -0.375f, 0.125f,	0.3125f, 0.25f,		-1.0f, 0.0f, 0.0f, //6
 
 			//atras
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
-			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+			-0.25f, 0.375f, -0.125f,	0.4375f, 0.4375f,	0.0f, 0.0f, -1.0f, //0
+			0.25f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, -1.0f, //1
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
 
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+			-0.25f, 0.375f, -0.125f,	0.4375f, 0.4375f,	0.0f, 1.0f, -1.0f, //0
+			-0.25f, -0.375f, -0.125f,	0.4375f, 0.25f,		-1.0f, 0.0f, -1.0f, //4
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
 
 			//der
-			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			0.25f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 1.0f, //1
+			0.25f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
 
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+			0.25f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
+			0.25f, -0.375f, 0.125f,		0.625f, 0.25f,		0.0f, 0.0f, 1.0f, //7
 
 			//abajo
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+			-0.25f, -0.375f, -0.125f,	0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //4
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.5f,		0.0f, 0.0f, 1.0f, //5
+			-0.25f, -0.375f, 0.125f,	0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //6
 
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
-			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.5f,		0.0f, 0.0f, 0.0f, //5
+			-0.25f, -0.375f, 0.125f,	0.4375f, 0.4375f,	0.0f, 0.0f, 0.0f, //6
+			0.25f, -0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 0.0f, //7
+
+			//frente
+			-0.25f, 0.375f, 0.125f,		0.3125f, 0.4375f,	0.0f, 0.0f, 1.0f, //2
+			0.25f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
+			-0.25f, -0.375f, 0.125f,	0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
+
+			0.25f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
+			-0.25f, -0.375f, 0.125f,	0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
+			0.25f, -0.375f, 0.125f,		0.4375f, 0.25f,		0.0f, 0.0f, 1.0f, //7
 	};
 
+	GLfloat verticesBrazo[] = {
+		//	x      y      z				u	  v				nx	  ny    nz
+			//arriba
+			-0.1f, 0.375f, -0.125f,		0.6875f, 0.75f,		0.0f, 1.0f, 0.0f, //0
+			0.1f, 0.375f, -0.125f,		0.734375f, 0.75f,	0.0f, 1.0f, 0.0f, //1
+			-0.1f, 0.375f, 0.125f,		0.6875f, 0.6875f,	0.0f, 1.0f, 0.0f, //2
+
+			0.1f, 0.375f, -0.125f,		0.734375f, 0.75f,	0.0f, 1.0f, 0.0f, //1
+			-0.1f, 0.375f, 0.125f,		0.6875f, 0.6875f,	0.0f, 1.0f, 0.0f, //2
+			0.1f, 0.375f, 0.125f,		0.734375f, 0.5f,	0.0f, 1.0f, 0.0f, //3
+
+			//izq
+			-0.1f, 0.375f, -0.125f,		0.625f, 0.6875f,	-1.0f, 0.0f, 0.0f, //0
+			-0.1f, 0.375f, 0.125f,		0.6875f, 0.6875f,	-1.0f, 0.0f, 0.0f, //2
+			-0.1f, -0.375f, -0.125f,	0.625f, 0.5f,		-1.0f, 0.0f, 0.0f, //4
+
+			-0.1f, 0.375f, 0.125f,		0.6875f, 0.6875f,	-1.0f, 0.0f, 0.0f, //2
+			-0.1f, -0.375f, -0.125f,	0.625f, 0.5f,		-1.0f, 0.0f, 0.0f, //4
+			-0.1f, -0.375f, 0.125f,		0.6875f, 0.5f,		-1.0f, 0.0f, 0.0f, //6
+
+			//atras
+			-0.1f, 0.375f, -0.125f,		0.734375f, 0.6875f,	0.0f, 0.0f, -1.0f, //0
+			0.1f, 0.375f, -0.125f,		0.78125f, 0.6875f,	0.0f, 0.0f, -1.0f, //1
+			0.1f, -0.375f, -0.125f,		0.78125f, 0.5f,		0.0f, 0.0f, -1.0f, //5
+
+			-0.1f, 0.375f, -0.125f,		0.734375f, 0.6875f,	0.0f, 1.0f, -1.0f, //0
+			-0.1f, -0.375f, -0.125f,	0.734375f, 0.5f,	-1.0f, 0.0f, -1.0f, //4
+			0.1f, -0.375f, -0.125f,		0.78125f, 0.5f,		0.0f, 0.0f, -1.0f, //5
+
+			//der
+			0.1f, 0.375f, -0.125f,		0.78125f, 0.6875f,	0.0f, 0.0f, 1.0f, //1
+			0.1f, 0.375f, 0.125f,		0.84375f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			0.1f, -0.375f, -0.125f,		0.78125f, 0.5f,		0.0f, 0.0f, 1.0f, //5
+
+			0.1f, 0.375f, 0.125f,		0.84375f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			0.1f, -0.375f, -0.125f,		0.78125f, 0.5f,		0.0f, 0.0f, 1.0f, //5
+			0.1f, -0.375f, 0.125f,		0.84375f, 0.5f,		0.0f, 0.0f, 1.0f, //7
+
+			//abajo
+			-0.1f, -0.375f, -0.125f,	0.734375f, 0.75f,	0.0f, 0.0f, 1.0f, //4
+			0.1f, -0.375f, -0.125f,		0.78125f, 0.75f,	0.0f, 0.0f, 1.0f, //5
+			-0.1f, -0.375f, 0.125f,		0.734375f, 0.6875f,	0.0f, 0.0f, 1.0f, //6
+
+			0.1f, -0.375f, -0.125f,		0.78125f, 0.75f,	0.0f, 0.0f, 0.0f, //5
+			-0.1f, -0.375f, 0.125f,		0.734375f, 0.6875f,	0.0f, 0.0f, 0.0f, //6
+			0.1f, -0.375f, 0.125f,		0.78125f, 0.6875f,	0.0f, 0.0f, 0.0f, //7
+
+			//frente
+			-0.1f, 0.375f, 0.125f,		0.6875f, 0.6875f,	0.0f, 0.0f, 1.0f, //2
+			0.1f, 0.375f, 0.125f,		0.734375f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			-0.1f, -0.375f, 0.125f,		0.6875f, 0.5f,		0.0f, 0.0f, 1.0f, //6
+
+			0.1f, 0.375f, 0.125f,		0.734375f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			-0.1f, -0.375f, 0.125f,		0.6875f, 0.5f,		0.0f, 0.0f, 1.0f, //6
+			0.1f, -0.375f, 0.125f,		0.734375f, 0.5f,	0.0f, 0.0f, 1.0f, //7
+	};
+
+	GLfloat verticesPierna[] = {
+		//	x      y      z				u	  v				nx	  ny    nz
+			//arriba
+			-0.125f, 0.375f, -0.125f,	0.0625f, 0.75f,		0.0f, 1.0f, 0.0f, //0
+			0.125f, 0.375f, -0.125f,	0.125f, 0.75f,		0.0f, 1.0f, 0.0f, //1
+			-0.125f, 0.375f, 0.125f,	0.0625f, 0.6875f,	0.0f, 1.0f, 0.0f, //2
+
+			0.125f, 0.375f, -0.125f,	0.125f, 0.75f,		0.0f, 1.0f, 0.0f, //1
+			-0.125f, 0.375f, 0.125f,	0.0625f, 0.6875f,	0.0f, 1.0f, 0.0f, //2
+			0.125f, 0.375f, 0.125f,		0.125f, 0.5f,		0.0f, 1.0f, 0.0f, //3
+
+			//izq
+			-0.125f, 0.375f, -0.125f,	0.0f, 0.6875f,		-1.0f, 0.0f, 0.0f, //0
+			-0.125f, 0.375f, 0.125f,	0.0625f, 0.6875f,	-1.0f, 0.0f, 0.0f, //2
+			-0.125f, -0.375f, -0.125f,	0.0f, 0.5f,			-1.0f, 0.0f, 0.0f, //4
+
+			-0.125f, 0.375f, 0.125f,	0.0625f, 0.6875f,	-1.0f, 0.0f, 0.0f, //2
+			-0.125f, -0.375f, -0.125f,	0.0f, 0.5f,			-1.0f, 0.0f, 0.0f, //4
+			-0.125f, -0.375f, 0.125f,	0.0625f, 0.5f,		-1.0f, 0.0f, 0.0f, //6
+
+			//atras
+			-0.125f, 0.375f, -0.125f,	0.125f, 0.6875f,	0.0f, 0.0f, -1.0f, //0
+			0.125f, 0.375f, -0.125f,	0.1875f, 0.6875f,	0.0f, 0.0f, -1.0f, //1
+			0.125f, -0.375f, -0.125f,	0.1875f, 0.5f,		0.0f, 0.0f, -1.0f, //5
+
+			-0.125f, 0.375f, -0.125f,	0.125f, 0.6875f,	0.0f, 1.0f, -1.0f, //0
+			-0.125f, -0.375f, -0.125f,	0.125f, 0.5f,		-1.0f, 0.0f, -1.0f, //4
+			0.125f, -0.375f, -0.125f,	0.1875f, 0.5f,		0.0f, 0.0f, -1.0f, //5
+
+			//der
+			0.125f, 0.375f, -0.125f,	0.1875f, 0.6875f,	0.0f, 0.0f, 1.0f, //1
+			0.125f, 0.375f, 0.125f,		0.25f, 0.6875f,		0.0f, 0.0f, 1.0f, //3
+			0.125f, -0.375f, -0.125f,	0.1875f, 0.5f,		0.0f, 0.0f, 1.0f, //5
+
+			0.125f, 0.375f, 0.125f,		0.25f, 0.6875f,		0.0f, 0.0f, 1.0f, //3
+			0.125f, -0.375f, -0.125f,	0.1875f, 0.5f,		0.0f, 0.0f, 1.0f, //5
+			0.125f, -0.375f, 0.125f,	0.25f, 0.5f,		0.0f, 0.0f, 1.0f, //7
+
+			//abajo
+			-0.125f, -0.375f, -0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //4
+			0.125f, -0.375f, -0.125f,	0.1875f, 0.75f,		0.0f, 0.0f, 1.0f, //5
+			-0.125f, -0.375f, 0.125f,	0.125f, 0.6875f,	0.0f, 0.0f, 1.0f, //6
+
+			0.125f, -0.375f, -0.125f,	0.1875f, 0.75f,		0.0f, 0.0f, 0.0f, //5
+			-0.125f, -0.375f, 0.125f,	0.125f, 0.6875f,	0.0f, 0.0f, 0.0f, //6
+			0.125f, -0.375f, 0.125f,	0.1875f, 0.6875f,	0.0f, 0.0f, 0.0f, //7
+
+			//frente
+			-0.125f, 0.375f, 0.125f,	0.0625f, 0.6875f,	0.0f, 0.0f, 1.0f, //2
+			0.125f, 0.375f, 0.125f,		0.125f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			-0.125f, -0.375f, 0.125f,	0.0625f, 0.5f,		0.0f, 0.0f, 1.0f, //6
+
+			0.125f, 0.375f, 0.125f,		0.125f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			-0.125f, -0.375f, 0.125f,	0.0625f, 0.5f,		0.0f, 0.0f, 1.0f, //6
+			0.125f, -0.375f, 0.125f,	0.125f, 0.5f,		0.0f, 0.0f, 1.0f, //7
+	};
+
+	GLfloat verticesTorso2[] = {
+		//	x      y      z				u	  v				nx	  ny    nz
+			//arriba
+			-0.25f, 0.375f, -0.125f,	0.4375f, 0.75f,		0.0f, 1.0f, 0.0f, //0
+			0.25f, 0.375f, -0.125f,		0.5625f, 0.75f,		0.0f, 1.0f, 0.0f, //1
+			-0.25f, 0.375f, 0.125f,		0.4375f, 0.6875f,	0.0f, 1.0f, 0.0f, //2
+
+			0.25f, 0.375f, -0.125f,		0.5625f, 0.75f,		0.0f, 1.0f, 0.0f, //1
+			-0.25f, 0.375f, 0.125f,		0.4375f, 0.6875f,	0.0f, 1.0f, 0.0f, //2
+			0.25f, 0.375f, 0.125f,		0.5625f, 0.6875f,	0.0f, 1.0f, 0.0f, //3
+
+			//izq
+			-0.25f, 0.375f, -0.125f,	0.25f, 0.6875f,		-1.0f, 0.0f, 0.0f, //0
+			-0.25f, 0.375f, 0.125f,		0.3125f, 0.6875f,	-1.0f, 0.0f, 0.0f, //2
+			-0.25f, -0.375f, -0.125f,	0.25f, 0.5f,		-1.0f, 0.0f, 0.0f, //4
+
+			-0.25f, 0.375f, 0.125f,		0.3125f, 0.6875f,	-1.0f, 0.0f, 0.0f, //2
+			-0.25f, -0.375f, -0.125f,	0.25f, 0.5f,		-1.0f, 0.0f, 0.0f, //4
+			-0.25f, -0.375f, 0.125f,	0.3125f, 0.5f,		-1.0f, 0.0f, 0.0f, //6
+
+			//atras
+			-0.25f, 0.375f, -0.125f,	0.4375f, 0.6875f,	0.0f, 0.0f, -1.0f, //0
+			0.25f, 0.375f, -0.125f,		0.5625f, 0.6875f,	0.0f, 0.0f, -1.0f, //1
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.5f,		0.0f, 0.0f, -1.0f, //5
+
+			-0.25f, 0.375f, -0.125f,	0.4375f, 0.6875f,	0.0f, 1.0f, -1.0f, //0
+			-0.25f, -0.375f, -0.125f,	0.4375f, 0.5f,		-1.0f, 0.0f, -1.0f, //4
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.5f,		0.0f, 0.0f, -1.0f, //5
+
+			//der
+			0.25f, 0.375f, -0.125f,		0.5625f, 0.6875f,	0.0f, 0.0f, 1.0f, //1
+			0.25f, 0.375f, 0.125f,		0.625f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.5f,		0.0f, 0.0f, 1.0f, //5
+
+			0.25f, 0.375f, 0.125f,		0.625f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.5f,		0.0f, 0.0f, 1.0f, //5
+			0.25f, -0.375f, 0.125f,		0.625f, 0.5f,		0.0f, 0.0f, 1.0f, //7
+
+			//abajo
+			-0.25f, -0.375f, -0.125f,	0.4375f, 0.75f,		0.0f, 0.0f, 1.0f, //4
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.75f,		0.0f, 0.0f, 1.0f, //5
+			-0.25f, -0.375f, 0.125f,	0.4375f, 0.6875f,	0.0f, 0.0f, 1.0f, //6
+
+			0.25f, -0.375f, -0.125f,	0.5625f, 0.75f,		0.0f, 0.0f, 0.0f, //5
+			-0.25f, -0.375f, 0.125f,	0.4375f, 0.6875f,	0.0f, 0.0f, 0.0f, //6
+			0.25f, -0.375f, 0.125f,		0.5625f, 0.6875f,	0.0f, 0.0f, 0.0f, //7
+
+			//frente
+			-0.25f, 0.375f, 0.125f,		0.3125f, 0.6875f,	0.0f, 0.0f, 1.0f, //2
+			0.25f, 0.375f, 0.125f,		0.4375f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			-0.25f, -0.375f, 0.125f,	0.3125f, 0.5f,		0.0f, 0.0f, 1.0f, //6
+
+			0.25f, 0.375f, 0.125f,		0.4375f, 0.6875f,	0.0f, 0.0f, 1.0f, //3
+			-0.25f, -0.375f, 0.125f,	0.3125f, 0.5f,		0.0f, 0.0f, 1.0f, //6
+			0.25f, -0.375f, 0.125f,		0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //7
+	};
+
+	/*
 	GLfloat verticesBrazoDer[] = {
-		//	x      y      z			u	  v			nx	  ny    nz
+		//	x      y      z				u	  v				nx	  ny    nz
 			//arriba
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
-			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.1f, 0.375f, -0.125f,		0.4375f, 0.5f,		0.0f, 1.0f, 0.0f, //0
+			0.1f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
+			-0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
 
-			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+			0.1f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
+			-0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
+			0.1f, 0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 1.0f, 0.0f, //3
 
 			//izq
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
-			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.1f, 0.375f, -0.125f,		0.25f, 0.4375f,		-1.0f, 0.0f, 0.0f, //0
+			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
+			-0.1f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
 
-			-0.1f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
-
-			//atras
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
-			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
-
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
-
-			//der
-			0.1f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-
-			-0.1f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
-
-			//abajo
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
-
-			0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
-			-0.1f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
-			-0.1f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
-	};
-
-	GLfloat verticesPiernaIzq[] = {
-		//	x      y      z			u	  v			nx	  ny    nz
-			//arriba
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
-			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-
-			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
-
-			//izq
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
-			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-
-			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-			-0.125f, -0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
+			-0.1f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
+			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		-1.0f, 0.0f, 0.0f, //6
 
 			//atras
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
-			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+			-0.1f, 0.375f, -0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, -1.0f, //0
+			0.1f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, -1.0f, //1
+			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
 
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+			-0.1f, 0.375f, -0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, -1.0f, //0
+			-0.1f, -0.375f, -0.125f,	0.4375f, 0.25f,		-1.0f, 0.0f, -1.0f, //4
+			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
 
 			//der
-			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			0.1f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 1.0f, //1
+			0.1f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
+			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
 
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+			0.1f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
+			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
+			0.1f, -0.375f, 0.125f,		0.625f, 0.25f,		0.0f, 0.0f, 1.0f, //7
 
 			//abajo
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+			-0.1f, -0.375f, -0.125f,	0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //4
+			0.1f, -0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 0.0f, 1.0f, //5
+			-0.1f, -0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //6
 
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
-			-0.125f, -0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+			0.1f, -0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 0.0f, 0.0f, //5
+			-0.1f, -0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 0.0f, //6
+			0.1f, -0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 0.0f, //7
+
+			//frente
+			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	0.0f, 0.0f, 1.0f, //2
+			0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
+			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
+
+			0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
+			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
+			0.1f, -0.375f, 0.125f,		0.4375f, 0.25f,		0.0f, 0.0f, 1.0f, //7
 	};
 
 	GLfloat verticesPiernaDer[] = {
-		//	x      y      z			u	  v			nx	  ny    nz
+		//	x      y      z				u	  v			nx	  ny    nz
 			//arriba
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
-			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
+			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
 
-			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
+			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
+			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
+			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
 
 			//izq
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
-			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
+			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
 
-			-0.125f, 0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-			-0.125f, -0.375f, -0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
+			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
+			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
+			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
 
 			//atras
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
-			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
+			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
+			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
 
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
+			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
+			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
+			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
 
 			//der
-			0.125f, 0.375f, 0.1f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
+			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
 
-			-0.125f, 0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
+			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
+			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
 
 			//abajo
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, -0.1f,0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
+			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
+			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
+			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
 
-			0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
-			-0.125f, -0.375f, -0.1f,0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
-			-0.125f, -0.375f, 0.1f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
+			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
+			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
+
+			//frente
+			-0.125f, 0.375f, 0.125f,	0.125f, 0.875f,		0.0f, 0.0f, 1.0f, //2
+			0.125f, 0.375f, 0.125f,		0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
+			-0.125f, -0.375f, 0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
+
+			0.125f, 0.375f, 0.125f,		0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
+			-0.125f, -0.375f, 0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
+			0.125f, -0.375f, 0.125f,	0.25f, 0.75f,		0.0f, 0.0f, 1.0f, //7
 	};
+	*/
 
 	Mesh* obj1 = new Mesh();
-	obj1->CreateMesh(verticesCabeza, indices, 232, 29);
+	obj1->CreateMesh(verticesCabeza, indices, 288, 36);
 	meshList.push_back(obj1);
 
 	Mesh* obj2 = new Mesh();
-	obj2->CreateMesh(verticesBrazoIzq, indices, 232, 29);
+	obj2->CreateMesh(verticesTorso, indices, 288, 36);
 	meshList.push_back(obj2);
 
 	Mesh* obj3 = new Mesh();
-	obj2->CreateMesh(verticesBrazoDer, indices, 232, 29);
+	obj3->CreateMesh(verticesBrazo, indices, 288, 36);
 	meshList.push_back(obj3);
 
 	Mesh* obj4 = new Mesh();
-	obj3->CreateMesh(verticesPiernaIzq, indices, 232, 29);
+	obj4->CreateMesh(verticesPierna, indices, 288, 36);
 	meshList.push_back(obj4);
 
 	Mesh* obj5 = new Mesh();
-	obj3->CreateMesh(verticesPiernaDer, indices, 232, 29);
+	obj5->CreateMesh(verticesTorso2, indices, 288, 36);
 	meshList.push_back(obj5);
+
+
+	/*
+	Mesh* obj4 = new Mesh();
+	obj4->CreateMesh(verticesBrazoDer, indices, 288, 36);
+	meshList.push_back(obj4);
+
+	Mesh* obj6 = new Mesh();
+	obj6->CreateMesh(verticesPiernaDer, indices, 288, 36);
+	meshList.push_back(obj6);
+	*/
 }
 
 void CreateShaders()
@@ -507,7 +686,8 @@ int main()
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
-	CreateObjects();
+	//CreateObjects();
+	CreatePersonaje();
 	sp.init(); //inicializar esfera
 	sp.load();//enviar la esfera al shader
 	CreateShaders();
@@ -522,6 +702,14 @@ int main()
 	plainTexture.LoadTextureA();
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
+
+	//WheezyTexture = Texture("Textures/wheezy_textura.png");
+	WheezyTexture = Texture("Textures/wheezy_textura.tga");
+	WheezyTexture.LoadTextureA();
+	FrijolitoTexture = Texture("Textures/frijolito_texture.tga");
+	FrijolitoTexture.LoadTextureA();
+	JettTexture = Texture("Textures/jett_texture.jpg");
+	JettTexture.LoadTextureA();
 
 	StreetMan1_Texture = Texture("Textures/SimplePeople_StreetMan_Black.png");
 	StreetMan1_Texture.LoadTexture();
@@ -560,6 +748,8 @@ int main()
 
 	//Modelos_MuchaLucha* frijolito = new Modelos_MuchaLucha();
 
+	// TODO: agreagar doble textura para que haya uno de día y uno de noche
+
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
@@ -596,7 +786,22 @@ int main()
 		0.0f, 2.0f, //AMBIENTE, DIFUSA
 		0.0f, 0.0f, 0.0f, //POSICION
 		0.0f, -1.0f, 0.0f, //DIRECCION
-		1.0f, 0.0f, 0.0f, //C,B,A: ECUACION DE SEGUNDO GRADO
+		1.0f, 0.0f, 0.0f, //C,B,A: ECUACION DE SEGUNDO GRADO  
+		// C: cambia la tonalidad del color (menor más fuerte)
+		// B: a cierta distancia deja de iluminar, más focalizado (pequeño) cuando se usa en conjunto con A
+		// A: a mayor distancia ilumina menos
+		5.0f); //ANGULO DE APERTURA
+	spotLightCount++;
+
+	// LEDs cama
+	spotLights[spotLightCount] = SpotLight(1.0f, 0.0f, 0.0f, //COLOR
+		0.0f, 2.0f, //AMBIENTE, DIFUSA
+		0.0f, 0.0f, 0.0f, //POSICION
+		0.0f, -1.0f, 0.0f, //DIRECCION
+		1.0f, 0.0f, 0.0f, //C,B,A: ECUACION DE SEGUNDO GRADO  
+		// C: cambia la tonalidad del color (menor más fuerte)
+		// B: a cierta distancia deja de iluminar, más focalizado (pequeño) cuando se usa en conjunto con A
+		// A: a mayor distancia ilumina menos
 		5.0f); //ANGULO DE APERTURA
 	spotLightCount++;
 
@@ -614,6 +819,10 @@ int main()
 		deltaTime = now - lastTime;
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
+
+//	Aquí se debe modificar, para hacer una condición en donde se modifique la cámara y se cambie a la que
+//	puede ser fija o se vaya moviendo con el personaje
+//  Se puede modificar la camara o crear dos y escoger cual se le pasa al shader
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
@@ -634,6 +843,8 @@ int main()
 		//informaci�n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
+
+// TODO: agregar lo de las luces de la cama, para que vayan rotando alrededor súper rápido 
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
@@ -878,6 +1089,193 @@ int main()
 		StreetMan3_Texture.UseTexture();
 		Luchador_M.RenderModel();
 
+//	Personaje Frijolito
+		glm::mat4 auxPersonaje(1.0);
+ 
+		//Torso
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 50.0f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		auxPersonaje = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		FrijolitoTexture.UseTexture();
+		meshList[1]->RenderMesh();
+
+		//Cabeza
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.0f, 0.375f, 0.0f));
+		model = glm::rotate(model, 20 * toRadians, glm::vec3(1.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.25f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		FrijolitoTexture.UseTexture();
+		meshList[0]->RenderMesh();
+
+		//Brazo izq
+		model = glm::mat4(1.0);
+		model = auxPersonaje;
+		//se traslada lo necesario para el hombro
+		model = glm::translate(model, glm::vec3(-0.25f, 0.0f, 0.0f));
+		//se desplaza la distancia equivalente al cateto opuesto (distancia inferior) al realizar la rotación
+		model = glm::translate(model, glm::vec3(-tan(10*toRadians)*0.375f, 0.0f, 0.0f));
+		//se realiza la rotación
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
+		//se desplaza lo necesario para llegar al centro del objeto (la mitad de su ancho)
+		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		FrijolitoTexture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Brazo der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		FrijolitoTexture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Pierna izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(15 * toRadians) * 0.25f));
+		model = glm::rotate(model, 15 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.f, -0.125f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		FrijolitoTexture.UseTexture();
+		meshList[3]->RenderMesh();
+
+		//Pierna der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(15 * toRadians) * 0.25f));
+		model = glm::rotate(model, 15 * toRadians, glm::vec3(-1.0f, 0.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		FrijolitoTexture.UseTexture();
+		meshList[3]->RenderMesh();
+
+//	Personaje Jett
+		
+		//Torso (utiliza torso 2)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(15.0f, 50.0f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		auxPersonaje = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		JettTexture.UseTexture();
+		meshList[4]->RenderMesh();
+
+		//Cabeza
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.0f, 0.625f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		JettTexture.UseTexture();
+		meshList[0]->RenderMesh();
+
+		//Brazo izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		JettTexture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Brazo der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		JettTexture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Pierna izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		JettTexture.UseTexture();
+		meshList[3]->RenderMesh();
+
+		//Pierna der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		JettTexture.UseTexture();
+		meshList[3]->RenderMesh();
+
+
+		//informaci�n al shader de fuentes de iluminaci�n
+		//informaci�n al shader de fuentes de iluminaci�n
+		shaderList[0].SetDirectionalLight(&mainLight);
+		shaderList[0].SetPointLights(pointLights, pointLightCount);
+		shaderList[0].SetSpotLights(spotLights, spotLightCount);
+
+//	Personaje Wheezy
+
+		//Torso (utiliza torso 2)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-15.0f, 50.0f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		auxPersonaje = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		WheezyTexture.UseTexture();
+		meshList[4]->RenderMesh();
+
+		//Cabeza
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.0f, 0.625f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		WheezyTexture.UseTexture();
+		meshList[0]->RenderMesh();
+
+		//Brazo izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		WheezyTexture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Brazo der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		WheezyTexture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Pierna izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		WheezyTexture.UseTexture();
+		meshList[3]->RenderMesh();
+
+		//Pierna der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		WheezyTexture.UseTexture();
+		meshList[3]->RenderMesh();
 
 
 		//informaci�n al shader de fuentes de iluminaci�n
