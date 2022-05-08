@@ -1,1 +1,2 @@
-﻿
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (CargaModelos.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
+  CargaModelos.vcxproj -> D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Git_Main\Debug\FinalProject.exe
