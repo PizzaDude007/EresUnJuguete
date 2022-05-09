@@ -1,6 +1,6 @@
 /*
 Semestre 2022-2
-Pr�ctica 5: Carga de Modelos
+PROYECTO FINAL
 */
 //para cargar imagen
 #define STB_IMAGE_IMPLEMENTATION
@@ -40,8 +40,8 @@ Pr�ctica 5: Carga de Modelos
 //#include "Modelos_MuchaLucha.h"
 
 float contadorDiaNoche = 0.0f;
-float posicionLedX, posicionLedZ;
-int banderaLedCama, LedCama;
+float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z;
+int banderaLedCama, banderaLedEscritorio, LedCama;
 bool  dia = false;
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -553,122 +553,6 @@ void CreatePersonaje() {
 			0.25f, -0.375f, 0.125f,		0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //7
 	};
 
-	/*
-	GLfloat verticesBrazoDer[] = {
-		//	x      y      z				u	  v				nx	  ny    nz
-			//arriba
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.5f,		0.0f, 1.0f, 0.0f, //0
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
-
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
-			0.1f, 0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 1.0f, 0.0f, //3
-
-			//izq
-			-0.1f, 0.375f, -0.125f,		0.25f, 0.4375f,		-1.0f, 0.0f, 0.0f, //0
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
-
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		-1.0f, 0.0f, 0.0f, //6
-
-			//atras
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, -1.0f, //0
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, -1.0f, //1
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
-
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, -1.0f, //0
-			-0.1f, -0.375f, -0.125f,	0.4375f, 0.25f,		-1.0f, 0.0f, -1.0f, //4
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
-
-			//der
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 1.0f, //1
-			0.1f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
-
-			0.1f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
-			0.1f, -0.375f, 0.125f,		0.625f, 0.25f,		0.0f, 0.0f, 1.0f, //7
-
-			//abajo
-			-0.1f, -0.375f, -0.125f,	0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //4
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 0.0f, 1.0f, //5
-			-0.1f, -0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //6
-
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 0.0f, 0.0f, //5
-			-0.1f, -0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 0.0f, //6
-			0.1f, -0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 0.0f, //7
-
-			//frente
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	0.0f, 0.0f, 1.0f, //2
-			0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
-
-			0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
-			0.1f, -0.375f, 0.125f,		0.4375f, 0.25f,		0.0f, 0.0f, 1.0f, //7
-	};
-
-	GLfloat verticesPiernaDer[] = {
-		//	x      y      z				u	  v			nx	  ny    nz
-			//arriba
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
-
-			//izq
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
-
-			//atras
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
-
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
-
-			//der
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
-
-			//abajo
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
-
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
-
-			//frente
-			-0.125f, 0.375f, 0.125f,	0.125f, 0.875f,		0.0f, 0.0f, 1.0f, //2
-			0.125f, 0.375f, 0.125f,		0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
-			-0.125f, -0.375f, 0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
-
-			0.125f, 0.375f, 0.125f,		0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
-			-0.125f, -0.375f, 0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
-			0.125f, -0.375f, 0.125f,	0.25f, 0.75f,		0.0f, 0.0f, 1.0f, //7
-	};
-	*/
-
 	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(verticesCabeza, indices, 288, 36);
 	meshList.push_back(obj1);
@@ -793,12 +677,13 @@ int main()
 	// TODO: agreagar doble textura para que haya uno de día y uno de noche
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+
+	skyboxFaces.push_back("Textures/Skybox_City/city_right_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_left_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_down_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_up_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_back_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_front_f.tga");
 
 	skybox = Skybox(skyboxFaces);
 
@@ -849,14 +734,24 @@ int main()
 	pointLightsCama[0] = PointLight(1.0f, 0.0f, 0.0f, //color 
 		0.6f, 1.0f, //ambiente, difusa
 		-150.0f, 20.0f, 40.0f, // posicion
-		1.0f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount1++;
+
+	//LUZ DE LEDS DEL ESCRITORIO
+	pointLightsCama[1] = PointLight(1.0f, 0.0f, 0.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 60.0f, -375.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
 	//  c,	b ,	 a
 		//sqrt(b^2 -4ac)
 	// para no dar una raiz comlejo
 	pointLightCount1++;
 
 	//LUZ DE LAMPARA DE TECHO 1
-	pointLightsCama[1] = PointLight(1.0f, 1.0f, 1.0f, //color 
+	pointLightsCama[2] = PointLight(1.0f, 1.0f, 1.0f, //color 
 		0.6f, 1.0f, //ambiente, difusa
 		0.0f, 195.0f, 4.5f, // posicion
 		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
@@ -866,7 +761,7 @@ int main()
 	pointLightCount1++;
 
 	//LUZ DE LAMPARA DE TECHO 2
-	pointLightsCama[2] = PointLight(1.0f, 1.0f, 1.0f, //color 
+	pointLightsCama[3] = PointLight(1.0f, 1.0f, 1.0f, //color 
 		0.9f, 0.1f, //ambiente, difusa
 		0.0f, 195.0f, -297.0f, // posicion
 		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
@@ -886,7 +781,12 @@ int main()
 	posicionLedX = -150.0f;
 	posicionLedZ = 40.0f;
 	banderaLedCama = 2;
+	posicionLed1X = 0.0f;
+	posicionLed1Z = -374.0f;
+	banderaLedEscritorio = 0;
+	
 	int numCam = 0;
+
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1029,9 +929,24 @@ int main()
 		else if (posicionLedZ <= 40.0f and banderaLedCama == 3) {
 			banderaLedCama = 0;
 		}
-		
-
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
+		
+		
+		//Movimiento del led deL ESCRITORIO ______________________________________________
+		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
+			posicionLed1X += deltaTime * 1.0f;
+		}
+		else if (posicionLed1X >= 150.0f and banderaLedEscritorio == 0) {
+			banderaLedEscritorio = 1;
+		}
+		else if (posicionLed1X >= 0.0f and banderaLedEscritorio == 1) {
+			posicionLed1X -= deltaTime * 1.0f;
+		}
+		else if (posicionLed1X <= 0.0f and banderaLedEscritorio == 1) {
+			banderaLedEscritorio = 0;
+		}
+
+		pointLightsCama[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
@@ -1375,7 +1290,7 @@ int main()
 		//Brazo izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
@@ -1384,7 +1299,7 @@ int main()
 		//Brazo der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
@@ -1474,7 +1389,7 @@ int main()
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
 		LedCama = mainWindow.getLedCama();
-		if (contadorDiaNoche <= 0.5f) {
+		if (contadorDiaNoche <= 0.7f) {
 			//printf("\nLedCama = %d", LedCama);
 			if(LedCama == 1)
 				shaderList[0].SetPointLights(pointLightsCama, pointLightCount1);
