@@ -773,14 +773,10 @@ int main()
 	contadorDiaNoche = 0.0f;
 	posicionLedX = -150.0f;
 	posicionLedZ = 40.0f;
-<<<<<<< HEAD
 	posicionLed1X = 0.0f;
 	posicionLed1Z = -374.0f;
 	banderaLedCama = 0;
 	banderaLedEscritorio = 0;
-=======
-	banderaLedCama = 2;
->>>>>>> 2ce842003bb630c4154bf1f26adb0c48028a9d58
 	bool isWheezyCam = false;
 
 	////Loop mientras no se cierra la ventana
