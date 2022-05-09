@@ -38,7 +38,7 @@ int Window::Initialise()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//CREAR VENTANA
-	mainWindow = glfwCreateWindow(width, height, "Primer ventana", NULL, NULL);
+	mainWindow = glfwCreateWindow(width, height, "Proyecto final", NULL, NULL);
 
 	if (!mainWindow)
 	{
@@ -129,19 +129,28 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		theWindow->camaraVal = !theWindow->camaraVal;
 	}
-
+	if (key == GLFW_KEY_P  and theWindow->LedCama == 0 and action == GLFW_PRESS)
+	{
+		//printf("\nHOLA = %d", theWindow->LedCama);
+		theWindow->LedCama = 1;
+	}
+	else if (key == GLFW_KEY_P and theWindow->LedCama == 1 and action == GLFW_PRESS)
+	{
+		//printf("\nHOLA = %d", theWindow->LedCama);
+		theWindow->LedCama = 0;
+	}
 
 	if (key >= 0 && key < 1024)
 	{
 		if (action == GLFW_PRESS)
 		{
 			theWindow->keys[key] = true;
-			printf("se presiono la tecla %d'\n", key);
+			//printf("se presiono la tecla %d'\n", key);
 		}
 		else if (action == GLFW_RELEASE)
 		{
 			theWindow->keys[key] = false;
-			printf("se solto la tecla %d'\n", key);
+			//printf("se solto la tecla %d'\n", key);
 		}
 	}
 }
