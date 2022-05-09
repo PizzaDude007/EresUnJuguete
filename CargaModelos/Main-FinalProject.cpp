@@ -87,6 +87,16 @@ Model LuzTecho_M = Model();
 Model JettCompleta = Model();
 Model Cama_M = Model();
 Model Alfombra_M = Model();
+Model Mueble_M = Model();
+
+//TOY STORY
+Model Casita_M = Model();
+Model Arbolito_M = Model();
+Model Edificio_M = Model();
+Model Edificio2_M = Model();
+Model Car_M = Model();
+Model Bus_M = Model();
+
 //Wheezy
 Model Wheezy_torso_M = Model();
 Model Wheezy_cabeza_M = Model();
@@ -159,7 +169,7 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 }
 
 
-void CreateObjects()
+void CreateStar()
 {
 	unsigned int indices[] = {
 		0, 1, 2,
@@ -231,18 +241,6 @@ void CreateObjects()
 	obj1->CreateMesh(vertices, indices, 96, 24);
 	meshList.push_back(obj1);
 
-	Mesh* obj2 = new Mesh();
-	obj2->CreateMesh(vertices, indices, 96, 24);
-	meshList.push_back(obj2);
-
-	Mesh* obj3 = new Mesh();
-	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
-	meshList.push_back(obj3);
-
-
-	Mesh* obj4 = new Mesh();
-	obj4->CreateMesh(vegetacionVertices, vegetacionIndices, 64, 12);
-	meshList.push_back(obj4);
 }
 
 void CreatePersonaje() {
@@ -552,122 +550,6 @@ void CreatePersonaje() {
 			0.25f, -0.375f, 0.125f,		0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //7
 	};
 
-	/*
-	GLfloat verticesBrazoDer[] = {
-		//	x      y      z				u	  v				nx	  ny    nz
-			//arriba
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.5f,		0.0f, 1.0f, 0.0f, //0
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
-
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
-			0.1f, 0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 1.0f, 0.0f, //3
-
-			//izq
-			-0.1f, 0.375f, -0.125f,		0.25f, 0.4375f,		-1.0f, 0.0f, 0.0f, //0
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
-
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		-1.0f, 0.0f, 0.0f, //6
-
-			//atras
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, -1.0f, //0
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, -1.0f, //1
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
-
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, -1.0f, //0
-			-0.1f, -0.375f, -0.125f,	0.4375f, 0.25f,		-1.0f, 0.0f, -1.0f, //4
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
-
-			//der
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 1.0f, //1
-			0.1f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
-
-			0.1f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
-			0.1f, -0.375f, 0.125f,		0.625f, 0.25f,		0.0f, 0.0f, 1.0f, //7
-
-			//abajo
-			-0.1f, -0.375f, -0.125f,	0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //4
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 0.0f, 1.0f, //5
-			-0.1f, -0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //6
-
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 0.0f, 0.0f, //5
-			-0.1f, -0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 0.0f, //6
-			0.1f, -0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 0.0f, //7
-
-			//frente
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	0.0f, 0.0f, 1.0f, //2
-			0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
-
-			0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
-			0.1f, -0.375f, 0.125f,		0.4375f, 0.25f,		0.0f, 0.0f, 1.0f, //7
-	};
-
-	GLfloat verticesPiernaDer[] = {
-		//	x      y      z				u	  v			nx	  ny    nz
-			//arriba
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
-
-			//izq
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
-
-			//atras
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
-
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
-
-			//der
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
-
-			//abajo
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
-
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
-
-			//frente
-			-0.125f, 0.375f, 0.125f,	0.125f, 0.875f,		0.0f, 0.0f, 1.0f, //2
-			0.125f, 0.375f, 0.125f,		0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
-			-0.125f, -0.375f, 0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
-
-			0.125f, 0.375f, 0.125f,		0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
-			-0.125f, -0.375f, 0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
-			0.125f, -0.375f, 0.125f,	0.25f, 0.75f,		0.0f, 0.0f, 1.0f, //7
-	};
-	*/
-
 	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(verticesCabeza, indices, 288, 36);
 	meshList.push_back(obj1);
@@ -714,10 +596,11 @@ int main()
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
-	//CreateObjects();
-	CreatePersonaje();
+	
+	CreatePersonaje(); //0,1,2,3,4
 	sp.init(); //inicializar esfera
 	sp.load();//enviar la esfera al shader
+	CreateStar(); // 5,6,7,8
 	CreateShaders();
 
 	cameraLibre = Camera(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
@@ -732,7 +615,7 @@ int main()
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
 
-	//WheezyTexture = Texture("Textures/wheezy_textura.png");
+
 	WheezyTexture = Texture("Textures/wheezy_textura.tga");
 	WheezyTexture.LoadTextureA();
 	FrijolitoTexture = Texture("Textures/frijolito_texture.tga");
@@ -754,16 +637,23 @@ int main()
 	Escritorio3_M.LoadModel("Models/desk_3.obj");
 	Lampara_M.LoadModel("Models/SM_Prop_DeskLamp_05_OBJ.obj");
 	Bote_basura_M.LoadModel("Models/SM_Prop_Bin_03_OBJ.obj");
-	//Silla_M.LoadModel("Models/SM_Prop_Chair_10_OBJ.obj");
 	Silla_M.LoadModel("Models/silla_desk.obj");
 	Puff_M.LoadModel("Models/SM_Prop_Chair_BeanBag_03_OBJ.obj");
 	SetUp_M.LoadModel("Models/SM_Prop_Computer_Setup_02_OBJ.obj");
-	//Gabinete_M.LoadModel("Models/SM_Prop_Computer_Tower_Modern_01_OBJ.obj");
 	HeadSet_M.LoadModel("Models/SM_Prop_Headset_02_OBJ.obj");
 	LuzTecho_M.LoadModel("Models/SM_Prop_Light_07_OBJ.obj");
 	JettCompleta.LoadModel("Models/JettCompleta.obj");
 	Cama_M.LoadModel("Models/bed_red.obj");
 	Alfombra_M.LoadModel("Models/alfombra.obj");
+	Mueble_M.LoadModel("Models/mueble.obj");
+
+	//TOY STORY
+	Casita_M.LoadModel("Models/casita.obj");
+	Arbolito_M.LoadModel("Models/arbolito.obj");
+	Edificio_M.LoadModel("Models/edificio.obj");
+	Edificio2_M.LoadModel("Models/edificio_azul.obj");
+	Car_M.LoadModel("Models/car_01.obj");
+	Bus_M.LoadModel("Models/bus.obj");
 
 	//Wheezy
 	Wheezy_torso_M.LoadModel("Models/wheezy_torso.obj");
@@ -781,12 +671,13 @@ int main()
 	// TODO: agreagar doble textura para que haya uno de día y uno de noche
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+
+	skyboxFaces.push_back("Textures/Skybox_City/city_right_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_left_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_down_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_up_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_back_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_front_f.tga");
 
 	skybox = Skybox(skyboxFaces);
 
@@ -882,10 +773,14 @@ int main()
 	contadorDiaNoche = 0.0f;
 	posicionLedX = -150.0f;
 	posicionLedZ = 40.0f;
+<<<<<<< HEAD
 	posicionLed1X = 0.0f;
 	posicionLed1Z = -374.0f;
 	banderaLedCama = 0;
 	banderaLedEscritorio = 0;
+=======
+	banderaLedCama = 2;
+>>>>>>> 2ce842003bb630c4154bf1f26adb0c48028a9d58
 	bool isWheezyCam = false;
 
 	////Loop mientras no se cierra la ventana
@@ -896,10 +791,8 @@ int main()
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 
-//	Aquí se debe modificar, para hacer una condición en donde se modifique la cámara y se cambie a la que
-//	puede ser fija o se vaya moviendo con el personaje
-//  Se puede modificar la camara o crear dos y escoger cual se le pasa al shader
 
+		// MANEJO DE CAMARA AEREA Y FIJA
 		isWheezyCam = mainWindow.getCamaraVal();
 
 		//Recibir eventos del usuario
@@ -914,6 +807,22 @@ int main()
 			camera->keyControl(mainWindow.getsKeys(), deltaTime);
 			camera->mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		}
+
+
+		//posicion de la camara Wheezy
+		glm::vec3 poscam = cameraWheezy.getCameraPosition();
+		//direccion de la camara Wheezy
+		glm::vec3 dircam = cameraWheezy.getCameraDirection();
+		float angulo_cam = atan(dircam.z / dircam.x);
+		angulo_cam += (90 * toRadians);
+		if (dircam.x > 0) {
+			angulo_cam += (180 * toRadians);
+		}
+
+		glm::vec3 poswheezy = glm::vec3(0, 0, 0);
+		poswheezy.x = poscam.x + ((0 * cos(angulo_cam)) - (40 * sin(angulo_cam)));
+		poswheezy.z = poscam.z + ((0 * sin(angulo_cam)) + (40 * cos(angulo_cam)));
+		poswheezy.y = poscam.y - 12;
 
 
 		// Clear the window
@@ -1000,6 +909,9 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
+		// -----------------------
+		// RENDERIZADO DE MODELOS
+		// ------------------------
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
 		glm::mat4 modelaux_body(1.0);
@@ -1009,7 +921,6 @@ int main()
 		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-
 		pisoTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
@@ -1023,7 +934,6 @@ int main()
 		Cuarto_M.RenderModel();
 
 		
-
 		//CAMA
 		//color = glm::vec3(0.705f, 0.705f, 0.105f);
 		model = glm::mat4(1.0);
@@ -1120,96 +1030,57 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 215.0f, -300.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		LuzTecho_M.RenderModel();
+
+		//MUEBLE
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-190.0f, 1.0f, -40.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Mueble_M.RenderModel();
 	
 	// TOY STORY
-	  //WHEEZY
 		
-		//posicion de la camara Wheezy
-		glm::vec3 poscam = cameraWheezy.getCameraPosition();
-		//direccion de la camara Wheezy
-		glm::vec3 dircam = cameraWheezy.getCameraDirection();
-		float angulo_cam = atan(dircam.z / dircam.x);
-		angulo_cam += (90 * toRadians);
-		if (dircam.x > 0) {
-			angulo_cam += (180 * toRadians);
-		}
-		//printf("\n angulo de camara: %.2f", angulo_cam / toRadians);
-		glm::vec3 poswheezy = glm::vec3(0, 0, 0);
-		poswheezy.x = poscam.x + ( ( 0*cos(angulo_cam) ) - (40*sin(angulo_cam)) );
-		poswheezy.z = poscam.z + ( ( 0*sin(angulo_cam) ) + (40*cos(angulo_cam)) );
-		poswheezy.y = poscam.y - 10;
-		//Torso
+		//Casita
 		model = glm::mat4(1.0);
-		model = glm::translate(model, poswheezy);
-		model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelaux_body = model;
+		model = glm::translate(model, glm::vec3(-50.0f, 3.0f, -80.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Wheezy_torso_M.RenderModel();
+		Casita_M.RenderModel();
 
-		//Articulacion pie der
-		model = modelaux_body;
-		model = glm::translate(model, glm::vec3(-1.7f, -5.0f, 0.0f));
-		model = glm::rotate(model, -40 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		modelaux = model;
-
-		//Pie der
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
+		//Edificio
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-70.0f, 3.0f, -150.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Wheezy_pie_der_M.RenderModel();
+		Edificio_M.RenderModel();
 
-		//articulacion pie izq
-		model = modelaux_body;
-		model = glm::translate(model, glm::vec3(1.6f, -5.0f, 0.0f));
-		model = glm::rotate(model,  10 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		modelaux = model;
-
-		//pie izq
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
+		//Edificio2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-10.0f, 3.0f, -150.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Wheezy_pie_izq_M.RenderModel();
+		Edificio2_M.RenderModel();
 
-		//articulacion brazo der
-		model = modelaux_body;
-		model = glm::translate(model, glm::vec3(-4.6f, 4.0f, 0.0f));
-		model = glm::rotate(model, 0 * var1++ * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		modelaux = model;
-
-		//brazo der
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
+		//Arbolito
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-80.0f, 3.0f, -80.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Wheezy_brazo_der_M.RenderModel();
+		Arbolito_M.RenderModel();
 
-		//articulacion brazo izq
-		model = modelaux_body;
-		model = glm::translate(model, glm::vec3(4.0f, 4.0f, 0.0f));
-		model = glm::rotate(model, 0 * var1++ * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		modelaux = model;
-
-		//brazo izq
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, -4.5f, 0.0f));
+		//Carro
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 3.0f, -80.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Wheezy_brazo_der_M.RenderModel();
+		Car_M.RenderModel();
 
-		//articulacion cabeza
-		model = modelaux_body;
-		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 0.0f));
-		model = glm::rotate(model, 0 * var1++ * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelaux = model;
-
-		//cabeza
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0.0f));
+		//Bus
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-40.0f, 3.0f, -110.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Wheezy_cabeza_M.RenderModel();
+		Bus_M.RenderModel();
 
 		//PELOTA
 		color = glm::vec3(248.0f/255.0f, 228.0f / 255.0f, 46.0f / 255.0f);
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, -20.0f));
+		model = glm::translate(model, glm::vec3(-140.0f, 12.0f, -160.0f));
+		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -1231,7 +1102,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		plainTexture.UseTexture();
-		meshList[0]->RenderMesh();
+		meshList[5]->RenderMesh();
 
 
 	//	M U C H A  L U C H A
@@ -1376,7 +1247,7 @@ int main()
 		//Brazo izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
@@ -1385,7 +1256,7 @@ int main()
 		//Brazo der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
@@ -1417,8 +1288,8 @@ int main()
 
 		//Torso (utiliza torso 2)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-15.0f, 50.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, poswheezy);
+		model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
