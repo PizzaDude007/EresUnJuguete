@@ -2,11 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-<<<<<<< HEAD
-      <FullPath>C:\Users\piete\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Git_Main\Debug\FinalProject.exe</FullPath>
-=======
       <FullPath>D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\Debug\FinalProject.exe</FullPath>
->>>>>>> a920dfb6bf46bd97319d11b7dbbccce8768d437c
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

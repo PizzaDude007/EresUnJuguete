@@ -117,6 +117,9 @@ Model Valorant_Gosth_M = Model();
 Model Valorant_Spectre_M = Model();
 Model Valorant_Banca_Madera = Model();
 Model Valorant_Balde_M = Model();
+Model Valorant_Malla_M = Model();
+Model Valorant_CajaMadera_M = Model();
+Model Valorant_CajaMadera2_M = Model();
 //Valorant
 Model Spike_base_M = Model();
 Model Spike_cilindro_M = Model();
@@ -689,6 +692,9 @@ int main()
 	Valorant_Spectre_M.LoadModel("Models/Valorant_Spectre.obj");
 	Valorant_Banca_Madera.LoadModel("Models/Valorant_BancaMadera.obj");
 	Valorant_Balde_M.LoadModel("Models/Valorant_Balde.obj");
+	Valorant_Malla_M.LoadModel("Models/Valorant_Malla.obj");
+	Valorant_CajaMadera_M.LoadModel("Models/Valorant_CajaMadera.obj");
+	Valorant_CajaMadera2_M.LoadModel("Models/Valorant_CajaMadera2.obj");
 	//Valorant
 	Spike_base_M.LoadModel("Models/spike_base_only.obj");
 	Spike_cilindro_M.LoadModel("Models/spike_center_only.obj");
@@ -1227,6 +1233,21 @@ int main()
 		model = glm::translate(model, glm::vec3(-180.0f, 70.0f, -310.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_Balde_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-140.0f, 70.0f, -315.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_Malla_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-200.0f, 70.0f, -305.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_CajaMadera_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-120.0f, 70.0f, -360.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_CajaMadera2_M.RenderModel();
 		
 		//frijolito->RenderModels(uniformColor, uniformModel);
 
