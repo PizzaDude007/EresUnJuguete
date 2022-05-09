@@ -814,7 +814,7 @@ int main()
 	banderaLedCama = 2;
 	bool isWheezyCam = false;
 	float movSpike = 0.0f;
-	glm::vec3 posSpike = glm::vec3(0.0f, 5.0f, -330.0f); //-80, 69, -330
+	glm::vec3 posSpike = glm::vec3(-80.0f, 69.0f, -330.0f); //-80, 69, -330
 	posicionLed1X = 0.0f;
 	posicionLed1Z = -374.0f;
 	banderaLedEscritorio = 0;
@@ -968,16 +968,16 @@ int main()
 //	Animación Spike
 		//glm::vec3 distance = poswheezy - posSpike;
 
-		if (distance(poswheezy, posSpike) <= 25.0f and movAroSpike <= 3.0f) {
+		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 3.0f) {
 			movAroSpike += deltaTime * 0.01f;
 			giroSpike += deltaTime * 0.8f;
 		}
-		else if (distance(poswheezy, posSpike) > 25.0f and movAroSpike > 0.0f) {
+		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
 			movAroSpike -= deltaTime * 0.01f;
 			giroSpike -= deltaTime * 0.8f;
 		}
 
-		printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(poswheezy, posSpike),movAroSpike);
+		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
 		
 		
 		
@@ -1285,17 +1285,20 @@ int main()
 		model = glm::mat4(1.0);
 		model = glm::translate(model, posSpike);
 		auxSpike = model;
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Spike_base_M.RenderModel();
 
 		model = auxSpike;
 		model = glm::rotate(model, giroSpike * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Spike_cilindro_M.RenderModel();
 
 		model = auxSpike;
 		model = glm::translate(model, glm::vec3(0.0f, movAroSpike, 0.0f));
 		model = glm::rotate(model, -giroSpike/5 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Spike_aro_M.RenderModel();
 
