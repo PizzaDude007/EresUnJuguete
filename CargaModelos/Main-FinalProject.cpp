@@ -40,8 +40,8 @@ Pr�ctica 5: Carga de Modelos
 //#include "Modelos_MuchaLucha.h"
 
 float contadorDiaNoche = 0.0f;
-float posicionLedX, posicionLedZ;
-int banderaLedCama, LedCama;
+float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z;
+int banderaLedCama, banderaLedEscritorio, LedCama;
 bool  dia = false;
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -828,7 +828,7 @@ int main()
 		0.0f, 2.0f, //AMBIENTE, DIFUSA
 		50.0f, 125.0f, -360.0f, //POSICION
 		0.0f, -1.0f, 1.0f, //DIRECCION
-		1.0f, 0.0f, 0.0f, //C,B,A: ECUACION DE SEGUNDO GRADO
+		0.7f, 0.01f, 0.0001f, //C,B,A: ECUACION DE SEGUNDO GRADO
 		15.0f); //ANGULO DE APERTURA
 	spotLightCount++;
 
@@ -837,14 +837,24 @@ int main()
 	pointLightsCama[0] = PointLight(1.0f, 0.0f, 0.0f, //color 
 		0.6f, 1.0f, //ambiente, difusa
 		-150.0f, 20.0f, 40.0f, // posicion
-		1.0f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount1++;
+
+	//LUZ DE LEDS DEL ESCRITORIO
+	pointLightsCama[1] = PointLight(1.0f, 0.0f, 0.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 60.0f, -375.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
 	//  c,	b ,	 a
 		//sqrt(b^2 -4ac)
 	// para no dar una raiz comlejo
 	pointLightCount1++;
 
 	//LUZ DE LAMPARA DE TECHO 1
-	pointLightsCama[1] = PointLight(1.0f, 1.0f, 1.0f, //color 
+	pointLightsCama[2] = PointLight(1.0f, 1.0f, 1.0f, //color 
 		0.6f, 1.0f, //ambiente, difusa
 		0.0f, 195.0f, 4.5f, // posicion
 		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
@@ -854,7 +864,7 @@ int main()
 	pointLightCount1++;
 
 	//LUZ DE LAMPARA DE TECHO 2
-	pointLightsCama[2] = PointLight(1.0f, 1.0f, 1.0f, //color 
+	pointLightsCama[3] = PointLight(1.0f, 1.0f, 1.0f, //color 
 		0.9f, 0.1f, //ambiente, difusa
 		0.0f, 195.0f, -297.0f, // posicion
 		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
@@ -872,7 +882,10 @@ int main()
 	contadorDiaNoche = 0.0f;
 	posicionLedX = -150.0f;
 	posicionLedZ = 40.0f;
+	posicionLed1X = 0.0f;
+	posicionLed1Z = -374.0f;
 	banderaLedCama = 0;
+	banderaLedEscritorio = 0;
 	bool isWheezyCam = false;
 
 	////Loop mientras no se cierra la ventana
@@ -964,9 +977,24 @@ int main()
 		else if (posicionLedZ <= 40.0f and banderaLedCama == 3) {
 			banderaLedCama = 0;
 		}
-		
-
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
+		
+		
+		//Movimiento del led deL ESCRITORIO ______________________________________________
+		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
+			posicionLed1X += deltaTime * 1.0f;
+		}
+		else if (posicionLed1X >= 150.0f and banderaLedEscritorio == 0) {
+			banderaLedEscritorio = 1;
+		}
+		else if (posicionLed1X >= 0.0f and banderaLedEscritorio == 1) {
+			posicionLed1X -= deltaTime * 1.0f;
+		}
+		else if (posicionLed1X <= 0.0f and banderaLedEscritorio == 1) {
+			banderaLedEscritorio = 0;
+		}
+
+		pointLightsCama[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
@@ -1447,7 +1475,7 @@ int main()
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
 		LedCama = mainWindow.getLedCama();
-		if (contadorDiaNoche <= 0.5f) {
+		if (contadorDiaNoche <= 0.7f) {
 			//printf("\nLedCama = %d", LedCama);
 			if(LedCama == 1)
 				shaderList[0].SetPointLights(pointLightsCama, pointLightCount1);
