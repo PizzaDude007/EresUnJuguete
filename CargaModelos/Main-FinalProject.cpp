@@ -51,8 +51,11 @@ std::vector<Shader> shaderList;
 
 //Camaras
 Camera * camera;
-Camera cameraWheezy;
 Camera cameraLibre;
+Camera cameraWheezy;
+Camera cameraJett;
+Camera cameraFrijolito;
+
 
 
 
@@ -721,6 +724,9 @@ int main()
 
 	cameraLibre = Camera(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraWheezy = Camera(glm::vec3(0.0f, 24.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
+	cameraJett = Camera(glm::vec3(-240.0f, 92.0f, -340.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 1.0f, 0.5f);
+	cameraFrijolito = Camera(glm::vec3(180.0f, 66.0f, -50.0f), glm::vec3(0.0f, 1.0f, 0.0f), 60.0f, 0.0f, 1.0f, 0.5f);
+
 
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
@@ -834,7 +840,7 @@ int main()
 		0.0f, 2.0f, //AMBIENTE, DIFUSA
 		50.0f, 125.0f, -360.0f, //POSICION
 		0.0f, -1.0f, 1.0f, //DIRECCION
-		1.0f, 0.0f, 0.0f, //C,B,A: ECUACION DE SEGUNDO GRADO
+		1.0f, 0.01f, 0.0004f, //C,B,A: ECUACION DE SEGUNDO GRADO
 		15.0f); //ANGULO DE APERTURA
 	spotLightCount++;
 
@@ -875,11 +881,12 @@ int main()
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 
 	float var1 = 0.0f;
+	float ledOffset = 30.0f;
 	contadorDiaNoche = 0.0f;
 	posicionLedX = -150.0f;
 	posicionLedZ = 40.0f;
-	banderaLedCama = 0;
-	bool isWheezyCam = false;
+	banderaLedCama = 2;
+	int numCam = 0;
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -891,21 +898,30 @@ int main()
 
 
 		// MANEJO DE CAMARA AEREA Y FIJA
-		isWheezyCam = mainWindow.getCamaraVal();
+		numCam = mainWindow.getCamaraVal();
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
-		if (isWheezyCam) {
-			camera = &cameraWheezy;
-			camera->keyControl(mainWindow.getsKeys(), deltaTime);
-			camera->mouseControl(mainWindow.getXChange(), 0.0f);
-		}
-		else {
+		if (numCam == 0) {
 			camera = &cameraLibre;
 			camera->keyControl(mainWindow.getsKeys(), deltaTime);
 			camera->mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		}
-
+		else if(numCam == 1) {
+			camera = &cameraWheezy;
+			camera->keyControl(mainWindow.getsKeys(), deltaTime);
+			camera->mouseControl(mainWindow.getXChange(), 0.0f);
+		}
+		else if (numCam == 2) {
+			camera = &cameraJett;
+			camera->keyControl(mainWindow.getsKeys(), deltaTime);
+			camera->mouseControl(mainWindow.getXChange(), 0.0f);
+		}
+		else if (numCam == 3) {
+			camera = &cameraFrijolito;
+			camera->keyControl(mainWindow.getsKeys(), deltaTime);
+			camera->mouseControl(mainWindow.getXChange(), 0.0f);
+		}
 
 		//posicion de la camara Wheezy
 		glm::vec3 poscam = cameraWheezy.getCameraPosition();
@@ -916,11 +932,40 @@ int main()
 		if (dircam.x > 0) {
 			angulo_cam += (180 * toRadians);
 		}
-
 		glm::vec3 poswheezy = glm::vec3(0, 0, 0);
 		poswheezy.x = poscam.x + ((0 * cos(angulo_cam)) - (40 * sin(angulo_cam)));
 		poswheezy.z = poscam.z + ((0 * sin(angulo_cam)) + (40 * cos(angulo_cam)));
 		poswheezy.y = poscam.y - 12;
+
+
+		//posicion de la camara Jett
+		poscam = cameraJett.getCameraPosition();
+		//direccion de la camara Jett
+		dircam = cameraJett.getCameraDirection();
+		float angulo_cam_jett = atan(dircam.z / dircam.x);
+		angulo_cam_jett += (90 * toRadians);
+		if (dircam.x > 0) {
+			angulo_cam_jett += (180 * toRadians);
+		}
+		glm::vec3 posJett = glm::vec3(0, 0, 0);
+		posJett.x = poscam.x + ((0 * cos(angulo_cam_jett)) - (40 * sin(angulo_cam_jett)));
+		posJett.z = poscam.z + ((0 * sin(angulo_cam_jett)) + (40 * cos(angulo_cam_jett)));
+		posJett.y = poscam.y - 12;
+
+
+		//posicion de la camara Frijolito
+		poscam = cameraFrijolito.getCameraPosition();
+		//direccion de la camara Frijolito
+		dircam = cameraFrijolito.getCameraDirection();
+		float angulo_cam_frijolito = atan(dircam.z / dircam.x);
+		angulo_cam_frijolito += (90 * toRadians);
+		if (dircam.x > 0) {
+			angulo_cam_frijolito += (180 * toRadians);
+		}
+		glm::vec3 posFrijolito = glm::vec3(0, 0, 0);
+		posFrijolito.x = poscam.x + ((0 * cos(angulo_cam_frijolito)) - (40 * sin(angulo_cam_frijolito)));
+		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (40 * cos(angulo_cam_frijolito)));
+		posFrijolito.y = poscam.y - 12;
 
 
 		// Clear the window
@@ -957,28 +1002,28 @@ int main()
 
 		//Movimiento del led de la cama ______________________________________________
 		if (posicionLedX >= -248.0f and banderaLedCama == 0) {
-			posicionLedX -= deltaTime * 0.5f;
+			posicionLedX -= deltaTime * ledOffset;
 			//printf("\nposicionLedX = %f", posicionLedX);
 		}
 		else if (posicionLedX <= -248.0f and banderaLedCama == 0) {
 			banderaLedCama = 1;
 		}
 		else if (posicionLedX <= -45.0f and banderaLedCama == 1) {
-			posicionLedX += deltaTime * 0.5f;
+			posicionLedX += deltaTime * ledOffset;
 			//printf("\nposicionLedX = %f", posicionLedX);
 		}
 		else if (posicionLedX >= -45.0f and banderaLedCama == 1) {
 			banderaLedCama = 2;
 		}
 		else if (posicionLedZ <= 140.0f and banderaLedCama == 2) {
-			posicionLedZ += deltaTime * 0.5f;
+			posicionLedZ += deltaTime * ledOffset;
 			//printf("\nposicionLedZ = %f", posicionLedZ);
 		}
 		else if (posicionLedZ >= 140.0f and banderaLedCama == 2) {
 			banderaLedCama = 3;
 		}
 		else if (posicionLedZ >= 40.0f and banderaLedCama == 3) {
-			posicionLedZ -= deltaTime * 0.5f;
+			posicionLedZ -= deltaTime * ledOffset;
 			//printf("\nposicionLedZ = %f", posicionLedZ);
 		}
 		else if (posicionLedZ <= 40.0f and banderaLedCama == 3) {
@@ -1116,7 +1161,7 @@ int main()
 
 		//MUEBLE
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-190.0f, 1.0f, -40.0f));
+		model = glm::translate(model, glm::vec3(-249.0f, 1.0f, -180.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Mueble_M.RenderModel();
@@ -1244,8 +1289,8 @@ int main()
  
 		//Torso
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 50.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, posFrijolito);
+		model = glm::rotate(model, -angulo_cam_frijolito, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1310,8 +1355,8 @@ int main()
 		
 		//Torso (utiliza torso 2)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(15.0f, 50.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, posJett);
+		model = glm::rotate(model, -angulo_cam_jett, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
