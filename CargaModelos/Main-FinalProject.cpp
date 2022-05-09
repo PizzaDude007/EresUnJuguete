@@ -45,6 +45,9 @@ int banderaLedCama, LedCama;
 bool  dia = false;
 const float toRadians = 3.14159265f / 180.0f;
 
+float giroSpike = 0.0f;
+float movAroSpike = 0.0f;
+
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
@@ -104,6 +107,11 @@ Model Wheezy_brazo_izq_M = Model();
 Model Wheezy_brazo_der_M = Model();
 Model Wheezy_pie_izq_M = Model();
 Model Wheezy_pie_der_M = Model();
+
+//Valorant
+Model Spike_base_M = Model();
+Model Spike_cilindro_M = Model();
+Model Spike_aro_M = Model();
 
 
 Model ML_Ring_M = Model();
@@ -663,6 +671,11 @@ int main()
 	Wheezy_pie_izq_M.LoadModel("Models/wheezy_pie_izq.obj");
 	Wheezy_pie_der_M.LoadModel("Models/wheezy_pie_der.obj");
 
+	//Valorant
+	Spike_base_M.LoadModel("Models/spike_base_only.obj");
+	Spike_cilindro_M.LoadModel("Models/spike_center_only.obj");
+	Spike_aro_M.LoadModel("Models/spike_moveable_only.obj");
+
 	ML_Ring_M.LoadModel("Models/ring_texturizado.obj");
 	Luchador_M.LoadModel("Models/Characters/SK_Character_Streetman.fbx");
 
@@ -765,6 +778,8 @@ int main()
 	posicionLedZ = 40.0f;
 	banderaLedCama = 2;
 	bool isWheezyCam = false;
+	float movSpike = 0.0f;
+	glm::vec3 posSpike = glm::vec3(0.0f, 5.0f, -330.0f); //-80, 69, -330
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -869,6 +884,20 @@ int main()
 		else if (posicionLedZ <= 40.0f and banderaLedCama == 3) {
 			banderaLedCama = 0;
 		}
+
+//	Animación Spike
+		//glm::vec3 distance = poswheezy - posSpike;
+
+		if (distance(poswheezy, posSpike) <= 25.0f and movAroSpike <= 3.0f) {
+			movAroSpike += deltaTime * 0.01f;
+			giroSpike += deltaTime * 0.8f;
+		}
+		else if (distance(poswheezy, posSpike) > 25.0f and movAroSpike > 0.0f) {
+			movAroSpike -= deltaTime * 0.01f;
+			giroSpike -= deltaTime * 0.8f;
+		}
+
+		printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(poswheezy, posSpike),movAroSpike);
 		
 
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
@@ -1087,14 +1116,6 @@ int main()
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ML_Ring_M.RenderModel();
-
-
-	//  VALORATN ----------- VALORANT
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 70.0f, -230.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		JettCompleta.RenderModel();
-		//auxML = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		
 		//frijolito->RenderModels(uniformColor, uniformModel);
 
@@ -1123,6 +1144,29 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		StreetMan3_Texture.UseTexture();
 		Luchador_M.RenderModel();
+
+
+	//  VALORANT ----------- VALORANT
+		glm::mat4 auxSpike(1.0);
+
+		//spike
+		model = glm::mat4(1.0);
+		model = glm::translate(model, posSpike);
+		auxSpike = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_base_M.RenderModel();
+
+		model = auxSpike;
+		model = glm::rotate(model, giroSpike * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_cilindro_M.RenderModel();
+
+		model = auxSpike;
+		model = glm::translate(model, glm::vec3(0.0f, movAroSpike, 0.0f));
+		model = glm::rotate(model, -giroSpike/5 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_aro_M.RenderModel();
+
 
 //	Personaje Frijolito
 		glm::mat4 auxPersonaje(1.0);
