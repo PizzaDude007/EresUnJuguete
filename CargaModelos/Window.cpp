@@ -15,7 +15,8 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	height = windowHeight;
 	muevex = 2.0f;
 	carx = 2.0f;
-	camaraVal = false;
+	camaraVal = 0;
+	LedCama = 0;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -127,8 +128,12 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 
 	if (key == GLFW_KEY_C and action== GLFW_PRESS)
 	{
-		theWindow->camaraVal = !theWindow->camaraVal;
+		theWindow->camaraVal++;
+		if (theWindow->camaraVal > 3) {
+			theWindow->camaraVal=0;
+		}
 	}
+
 	if (key == GLFW_KEY_P  and theWindow->LedCama == 0 and action == GLFW_PRESS)
 	{
 		//printf("\nHOLA = %d", theWindow->LedCama);
@@ -138,6 +143,14 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		//printf("\nHOLA = %d", theWindow->LedCama);
 		theWindow->LedCama = 0;
+	}
+	if (key == GLFW_KEY_O and theWindow->DeskLamp == 0 and action == GLFW_PRESS)
+	{
+		theWindow->DeskLamp = 1;
+	}
+	else if (key == GLFW_KEY_O and theWindow->DeskLamp == 1 and action == GLFW_PRESS)
+	{
+		theWindow->DeskLamp = 0;
 	}
 
 	if (key >= 0 && key < 1024)
