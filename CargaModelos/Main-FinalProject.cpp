@@ -73,6 +73,7 @@ Texture StreetMan1_Texture;
 Texture StreetMan2_Texture;
 Texture StreetMan3_Texture;
 
+
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
 Model Escritorio2_M = Model();
@@ -108,6 +109,11 @@ Model Wheezy_brazo_der_M = Model();
 Model Wheezy_pie_izq_M = Model();
 Model Wheezy_pie_der_M = Model();
 
+//V A L O R A N T
+Model Valorant_Gosth_M = Model();
+Model Valorant_Spectre_M = Model();
+Model Valorant_Banca_Madera = Model();
+Model Valorant_Balde_M = Model();
 
 Model ML_Ring_M = Model();
 Model Luchador_M = Model();
@@ -622,6 +628,7 @@ int main()
 	pisoTexture.LoadTextureA();
 
 
+
 	WheezyTexture = Texture("Textures/wheezy_textura.tga");
 	WheezyTexture.LoadTextureA();
 	FrijolitoTexture = Texture("Textures/frijolito_texture.tga");
@@ -668,6 +675,12 @@ int main()
 	Wheezy_brazo_der_M.LoadModel("Models/wheezy_brazo_der.obj");
 	Wheezy_pie_izq_M.LoadModel("Models/wheezy_pie_izq.obj");
 	Wheezy_pie_der_M.LoadModel("Models/wheezy_pie_der.obj");
+
+	//V A L O R A N T__________________________________________________________________________
+	Valorant_Gosth_M.LoadModel("Models/Valorant_Gosth.obj");
+	Valorant_Spectre_M.LoadModel("Models/Valorant_Spectre.obj");
+	Valorant_Banca_Madera.LoadModel("Models/Valorant_BancaMadera.obj");
+	Valorant_Balde_M.LoadModel("Models/Valorant_Balde.obj");
 
 	ML_Ring_M.LoadModel("Models/ring_texturizado.obj");
 	Luchador_M.LoadModel("Models/Characters/SK_Character_Streetman.fbx");
@@ -1164,12 +1177,26 @@ int main()
 		ML_Ring_M.RenderModel();
 
 
-	//  VALORATN ----------- VALORANT
+	//  VALORATN ----------- VALORANT-------------------------------------------------------
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(20.0f, 70.0f, -230.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		JettCompleta.RenderModel();
-		//auxML = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		Valorant_Gosth_M.RenderModel();
+		
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 80.0f, -230.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_Spectre_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-180.0f, 70.0f, -360.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_Banca_Madera.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-180.0f, 70.0f, -310.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_Balde_M.RenderModel();
 		
 		//frijolito->RenderModels(uniformColor, uniformModel);
 
