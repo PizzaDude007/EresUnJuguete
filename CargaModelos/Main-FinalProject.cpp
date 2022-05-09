@@ -550,122 +550,6 @@ void CreatePersonaje() {
 			0.25f, -0.375f, 0.125f,		0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //7
 	};
 
-	/*
-	GLfloat verticesBrazoDer[] = {
-		//	x      y      z				u	  v				nx	  ny    nz
-			//arriba
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.5f,		0.0f, 1.0f, 0.0f, //0
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
-
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 1.0f, 0.0f, //1
-			-0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, 0.0f, //2
-			0.1f, 0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 1.0f, 0.0f, //3
-
-			//izq
-			-0.1f, 0.375f, -0.125f,		0.25f, 0.4375f,		-1.0f, 0.0f, 0.0f, //0
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
-
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	-1.0f, 0.0f, 0.0f, //2
-			-0.1f, -0.375f, -0.125f,	0.25f, 0.25f,		-1.0f, 0.0f, 0.0f, //4
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		-1.0f, 0.0f, 0.0f, //6
-
-			//atras
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, -1.0f, //0
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, -1.0f, //1
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
-
-			-0.1f, 0.375f, -0.125f,		0.4375f, 0.4375f,	0.0f, 1.0f, -1.0f, //0
-			-0.1f, -0.375f, -0.125f,	0.4375f, 0.25f,		-1.0f, 0.0f, -1.0f, //4
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, -1.0f, //5
-
-			//der
-			0.1f, 0.375f, -0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 1.0f, //1
-			0.1f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
-
-			0.1f, 0.375f, 0.125f,		0.625f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.25f,		0.0f, 0.0f, 1.0f, //5
-			0.1f, -0.375f, 0.125f,		0.625f, 0.25f,		0.0f, 0.0f, 1.0f, //7
-
-			//abajo
-			-0.1f, -0.375f, -0.125f,	0.4375f, 0.5f,		0.0f, 0.0f, 1.0f, //4
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 0.0f, 1.0f, //5
-			-0.1f, -0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //6
-
-			0.1f, -0.375f, -0.125f,		0.5625f, 0.5f,		0.0f, 0.0f, 0.0f, //5
-			-0.1f, -0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 0.0f, //6
-			0.1f, -0.375f, 0.125f,		0.5625f, 0.4375f,	0.0f, 0.0f, 0.0f, //7
-
-			//frente
-			-0.1f, 0.375f, 0.125f,		0.3125f, 0.4375f,	0.0f, 0.0f, 1.0f, //2
-			0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
-
-			0.1f, 0.375f, 0.125f,		0.4375f, 0.4375f,	0.0f, 0.0f, 1.0f, //3
-			-0.1f, -0.375f, 0.125f,		0.3125f, 0.25f,		0.0f, 0.0f, 1.0f, //6
-			0.1f, -0.375f, 0.125f,		0.4375f, 0.25f,		0.0f, 0.0f, 1.0f, //7
-	};
-
-	GLfloat verticesPiernaDer[] = {
-		//	x      y      z				u	  v			nx	  ny    nz
-			//arriba
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //0
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //1
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //2
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, 0.0f, //3
-
-			//izq
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //0
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-
-			-0.125f, 0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //2
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //4
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, 0.0f, //6
-
-			//atras
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //0
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //1
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
-
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 1.0f, -1.0f, //0
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		-1.0f, 0.0f, -1.0f, //4
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, -1.0f, //5
-
-			//der
-			0.125f, 0.375f, 0.125f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //1
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-
-			-0.125f, 0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //3
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //7
-
-			//abajo
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //4
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //5
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 1.0f, //6
-
-			0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //5
-			-0.125f, -0.375f, -0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //6
-			-0.125f, -0.375f, 0.125f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, //7
-
-			//frente
-			-0.125f, 0.375f, 0.125f,	0.125f, 0.875f,		0.0f, 0.0f, 1.0f, //2
-			0.125f, 0.375f, 0.125f,		0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
-			-0.125f, -0.375f, 0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
-
-			0.125f, 0.375f, 0.125f,		0.25f, 0.875f,		0.0f, 0.0f, 1.0f, //3
-			-0.125f, -0.375f, 0.125f,	0.125f, 0.75f,		0.0f, 0.0f, 1.0f, //6
-			0.125f, -0.375f, 0.125f,	0.25f, 0.75f,		0.0f, 0.0f, 1.0f, //7
-	};
-	*/
-
 	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(verticesCabeza, indices, 288, 36);
 	meshList.push_back(obj1);
@@ -787,12 +671,13 @@ int main()
 	// TODO: agreagar doble textura para que haya uno de día y uno de noche
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+
+	skyboxFaces.push_back("Textures/Skybox_City/city_right_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_left_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_down_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_up_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_back_f.tga");
+	skyboxFaces.push_back("Textures/Skybox_City/city_front_f.tga");
 
 	skybox = Skybox(skyboxFaces);
 
@@ -878,7 +763,7 @@ int main()
 	contadorDiaNoche = 0.0f;
 	posicionLedX = -150.0f;
 	posicionLedZ = 40.0f;
-	banderaLedCama = 0;
+	banderaLedCama = 2;
 	bool isWheezyCam = false;
 
 	////Loop mientras no se cierra la ventana
@@ -1330,7 +1215,7 @@ int main()
 		//Brazo izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
@@ -1339,7 +1224,7 @@ int main()
 		//Brazo der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
