@@ -144,6 +144,14 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		//printf("\nHOLA = %d", theWindow->LedCama);
 		theWindow->LedCama = 0;
 	}
+	if (key == GLFW_KEY_O and theWindow->DeskLamp == 0 and action == GLFW_PRESS)
+	{
+		theWindow->DeskLamp = 1;
+	}
+	else if (key == GLFW_KEY_O and theWindow->DeskLamp == 1 and action == GLFW_PRESS)
+	{
+		theWindow->DeskLamp = 0;
+	}
 
 	if (key >= 0 && key < 1024)
 	{

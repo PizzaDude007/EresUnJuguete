@@ -45,6 +45,9 @@ int banderaLedCama, banderaLedEscritorio, LedCama;
 bool  dia = false;
 const float toRadians = 3.14159265f / 180.0f;
 
+float giroSpike = 0.0f;
+float movAroSpike = 0.0f;
+
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
@@ -72,6 +75,7 @@ Texture JettTexture;
 Texture StreetMan1_Texture;
 Texture StreetMan2_Texture;
 Texture StreetMan3_Texture;
+
 
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
@@ -107,6 +111,19 @@ Model Wheezy_brazo_izq_M = Model();
 Model Wheezy_brazo_der_M = Model();
 Model Wheezy_pie_izq_M = Model();
 Model Wheezy_pie_der_M = Model();
+
+//V A L O R A N T
+Model Valorant_Gosth_M = Model();
+Model Valorant_Spectre_M = Model();
+Model Valorant_Banca_Madera = Model();
+Model Valorant_Balde_M = Model();
+Model Valorant_Malla_M = Model();
+Model Valorant_CajaMadera_M = Model();
+Model Valorant_CajaMadera2_M = Model();
+//Valorant
+Model Spike_base_M = Model();
+Model Spike_cilindro_M = Model();
+Model Spike_aro_M = Model();
 
 
 Model ML_Ring_M = Model();
@@ -622,6 +639,7 @@ int main()
 	pisoTexture.LoadTextureA();
 
 
+
 	WheezyTexture = Texture("Textures/wheezy_textura.tga");
 	WheezyTexture.LoadTextureA();
 	FrijolitoTexture = Texture("Textures/frijolito_texture.tga");
@@ -668,6 +686,19 @@ int main()
 	Wheezy_brazo_der_M.LoadModel("Models/wheezy_brazo_der.obj");
 	Wheezy_pie_izq_M.LoadModel("Models/wheezy_pie_izq.obj");
 	Wheezy_pie_der_M.LoadModel("Models/wheezy_pie_der.obj");
+
+	//V A L O R A N T__________________________________________________________________________
+	Valorant_Gosth_M.LoadModel("Models/Valorant_Gosth.obj");
+	Valorant_Spectre_M.LoadModel("Models/Valorant_Spectre.obj");
+	Valorant_Banca_Madera.LoadModel("Models/Valorant_BancaMadera.obj");
+	Valorant_Balde_M.LoadModel("Models/Valorant_Balde.obj");
+	Valorant_Malla_M.LoadModel("Models/Valorant_Malla.obj");
+	Valorant_CajaMadera_M.LoadModel("Models/Valorant_CajaMadera.obj");
+	Valorant_CajaMadera2_M.LoadModel("Models/Valorant_CajaMadera2.obj");
+	//Valorant
+	Spike_base_M.LoadModel("Models/spike_base_only.obj");
+	Spike_cilindro_M.LoadModel("Models/spike_center_only.obj");
+	Spike_aro_M.LoadModel("Models/spike_moveable_only.obj");
 
 	ML_Ring_M.LoadModel("Models/ring_texturizado.obj");
 	Luchador_M.LoadModel("Models/Characters/SK_Character_Streetman.fbx");
@@ -781,6 +812,9 @@ int main()
 	posicionLedX = -150.0f;
 	posicionLedZ = 40.0f;
 	banderaLedCama = 2;
+	bool isWheezyCam = false;
+	float movSpike = 0.0f;
+	glm::vec3 posSpike = glm::vec3(-80.0f, 69.0f, -330.0f); //-80, 69, -330
 	posicionLed1X = 0.0f;
 	posicionLed1Z = -374.0f;
 	banderaLedEscritorio = 0;
@@ -930,6 +964,21 @@ int main()
 			banderaLedCama = 0;
 		}
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
+
+//	Animación Spike
+		//glm::vec3 distance = poswheezy - posSpike;
+
+		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 3.0f) {
+			movAroSpike += deltaTime * 0.01f;
+			giroSpike += deltaTime * 0.8f;
+		}
+		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
+			movAroSpike -= deltaTime * 0.01f;
+			giroSpike -= deltaTime * 0.8f;
+		}
+
+		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
+		
 		
 		
 		//Movimiento del led deL ESCRITORIO ______________________________________________
@@ -1164,12 +1213,41 @@ int main()
 		ML_Ring_M.RenderModel();
 
 
-	//  VALORATN ----------- VALORANT
+	//  VALORATN ----------- VALORANT-------------------------------------------------------
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(20.0f, 70.0f, -230.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		JettCompleta.RenderModel();
-		//auxML = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		Valorant_Gosth_M.RenderModel();
+		
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 80.0f, -230.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_Spectre_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-180.0f, 70.0f, -360.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_Banca_Madera.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-180.0f, 70.0f, -310.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_Balde_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-140.0f, 70.0f, -315.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_Malla_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-200.0f, 70.0f, -305.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_CajaMadera_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-120.0f, 70.0f, -360.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_CajaMadera2_M.RenderModel();
 		
 		//frijolito->RenderModels(uniformColor, uniformModel);
 
@@ -1198,6 +1276,32 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		StreetMan3_Texture.UseTexture();
 		Luchador_M.RenderModel();
+
+
+	//  VALORANT ----------- VALORANT
+		glm::mat4 auxSpike(1.0);
+
+		//spike
+		model = glm::mat4(1.0);
+		model = glm::translate(model, posSpike);
+		auxSpike = model;
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_base_M.RenderModel();
+
+		model = auxSpike;
+		model = glm::rotate(model, giroSpike * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_cilindro_M.RenderModel();
+
+		model = auxSpike;
+		model = glm::translate(model, glm::vec3(0.0f, movAroSpike, 0.0f));
+		model = glm::rotate(model, -giroSpike/5 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_aro_M.RenderModel();
+
 
 //	Personaje Frijolito
 		glm::mat4 auxPersonaje(1.0);
@@ -1396,7 +1500,10 @@ int main()
 			else
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount);
 
-			shaderList[0].SetSpotLights(spotLights, spotLightCount);
+			if(mainWindow.getDeskLamp() == 1)
+				shaderList[0].SetSpotLights(spotLights, spotLightCount);
+			else 
+				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
 		}
 		else {
 			if (LedCama == 1)
@@ -1404,7 +1511,10 @@ int main()
 			else
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount - 2);
 
-			shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
+			if (mainWindow.getDeskLamp() == 1)
+				shaderList[0].SetSpotLights(spotLights, spotLightCount);
+			else
+				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
 		}
 		
 
