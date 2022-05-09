@@ -776,7 +776,7 @@ int main()
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 
 	float var1 = 0.0f;
-	float ledOffset = 30.0f;
+	float ledOffset = 20.0f;
 	contadorDiaNoche = 0.0f;
 	posicionLedX = -150.0f;
 	posicionLedZ = 40.0f;
@@ -934,13 +934,13 @@ int main()
 		
 		//Movimiento del led deL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
-			posicionLed1X += deltaTime * 1.0f;
+			posicionLed1X += deltaTime * ledOffset;
 		}
 		else if (posicionLed1X >= 150.0f and banderaLedEscritorio == 0) {
 			banderaLedEscritorio = 1;
 		}
 		else if (posicionLed1X >= 0.0f and banderaLedEscritorio == 1) {
-			posicionLed1X -= deltaTime * 1.0f;
+			posicionLed1X -= deltaTime * ledOffset;
 		}
 		else if (posicionLed1X <= 0.0f and banderaLedEscritorio == 1) {
 			banderaLedEscritorio = 0;
