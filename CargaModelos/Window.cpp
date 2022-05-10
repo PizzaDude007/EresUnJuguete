@@ -17,6 +17,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	carx = 2.0f;
 	camaraVal = 0;
 	LedCama = 0;
+	direccion = 0;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -151,6 +152,27 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	else if (key == GLFW_KEY_O and theWindow->DeskLamp == 1 and action == GLFW_PRESS)
 	{
 		theWindow->DeskLamp = 0;
+	}
+
+	if (key == GLFW_KEY_W and action == GLFW_PRESS)
+	{
+		theWindow->direccion = 1;
+	}
+	else if (key == GLFW_KEY_A and action == GLFW_PRESS)
+	{
+		theWindow->direccion = 2;
+	}
+	else if (key == GLFW_KEY_S and action == GLFW_PRESS)
+	{
+		theWindow->direccion = 3;
+	}
+	else if (key == GLFW_KEY_D and action == GLFW_PRESS)
+	{
+		theWindow->direccion = 4;
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		theWindow->direccion = 0;
 	}
 
 	if (key >= 0 && key < 1024)

@@ -48,6 +48,10 @@ const float toRadians = 3.14159265f / 180.0f;
 float giroSpike = 0.0f;
 float movAroSpike = 0.0f;
 
+float rotBrazo[3] = { 0.0f,0.0f,0.0f };
+float rotPierna[3] = { 0.0f,0.0f,0.0f };
+float rotDireccion[3] = { 0.0f,0.0f,0.0f };
+
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
@@ -58,9 +62,6 @@ Camera cameraLibre;
 Camera cameraWheezy;
 Camera cameraJett;
 Camera cameraFrijolito;
-
-
-
 
 Texture brickTexture;
 Texture dirtTexture;
@@ -818,6 +819,7 @@ int main()
 	posicionLed1X = 0.0f;
 	posicionLed1Z = -374.0f;
 	banderaLedEscritorio = 0;
+	float avanzaOffset = 15.0f;
 	
 	int numCam = 0;
 
@@ -968,19 +970,64 @@ int main()
 //	Animación Spike
 		//glm::vec3 distance = poswheezy - posSpike;
 
-		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 3.0f) {
-			movAroSpike += deltaTime * 0.01f;
+		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 5.5f) {
+			movAroSpike += deltaTime * 0.02f;
 			giroSpike += deltaTime * 0.8f;
 		}
 		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
-			movAroSpike -= deltaTime * 0.01f;
+			movAroSpike -= deltaTime * 0.02f;
 			giroSpike -= deltaTime * 0.8f;
 		}
 
 		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
 		
-		
-		
+//	Animación Movimiento
+
+		if (rotBrazo[numCam - 1] >= 360.0f or rotBrazo[numCam - 1] <= -360.0f) rotBrazo[numCam - 1] = 0.0f;
+		//if (rotPierna[numCam - 1] >= 360 or rotPierna[numCam - 1] <= -360) rotPierna[numCam - 1] = 0;
+
+		if (numCam != 0) { //verifica si se está utilizando una cámara de personaje
+			switch (mainWindow.getDireccion())
+			{
+			case 1: //avanza al frente (W)
+				rotBrazo[numCam - 1] += deltaTime * avanzaOffset;
+				//rotPierna[numCam - 1] += deltaTime * avanzaOffset;
+				if (rotDireccion[numCam - 1] < 0.0f) rotDireccion[numCam - 1] += deltaTime * avanzaOffset / 2;
+				if (rotDireccion[numCam - 1] > 0.0f) rotDireccion[numCam - 1] -= deltaTime * avanzaOffset / 2;
+				break;
+			case 2: //avanza a la izquierda (A)
+				rotBrazo[numCam - 1] += deltaTime * avanzaOffset;
+				//rotPierna[numCam - 1] += deltaTime * avanzaOffset;
+				if (rotDireccion[numCam - 1] < 90.0f) rotDireccion[numCam - 1] += deltaTime * avanzaOffset / 2;
+				break;
+			case 3: //avanza hacia atrás (S)
+				rotBrazo[numCam - 1] -= deltaTime * avanzaOffset;
+				//rotPierna[numCam - 1] -= deltaTime * avanzaOffset;
+				if (rotDireccion[numCam - 1] < 0.0f) rotDireccion[numCam - 1] += deltaTime * avanzaOffset / 2;
+				if (rotDireccion[numCam - 1] > 0.0f) rotDireccion[numCam - 1] -= deltaTime * avanzaOffset / 2;
+				break;
+			case 4: //avanza a la derecha (D)
+				rotBrazo[numCam - 1] += deltaTime * avanzaOffset;
+				//rotPierna[numCam - 1] += deltaTime * avanzaOffset;
+				if (rotDireccion[numCam - 1] > -90.0f) rotDireccion[numCam - 1] -= deltaTime * avanzaOffset / 2;
+				break;
+			default:
+				for (int i = 0; i < 4; i++) {
+					if (rotBrazo[i] > 0.0f)rotBrazo[i] -= deltaTime * avanzaOffset;
+					if (rotBrazo[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset;
+					/*if (rotPierna[i] > 0)rotBrazo[i] -= deltaTime * avanzaOffset;
+					if (rotPierna[i] < 0)rotBrazo[i] += deltaTime * avanzaOffset;*/
+					if (rotDireccion[i] > 0.0f)rotBrazo[i] -= deltaTime * avanzaOffset/2;
+					if (rotDireccion[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset/2;
+
+					if (rotBrazo[i] < 10.0f and rotBrazo[i] > -10.0f) rotBrazo[i] = 0.0f;
+				}
+				break;
+			}
+		}
+		printf("\nnumCam = %d\nDireccion = %d", numCam, mainWindow.getDireccion());
+		if (numCam != 0) printf("\nRotacionBrazo = %f\nRotacionPierna = %f", rotBrazo[numCam - 1], rotPierna[numCam - 1]);
+				
 		//Movimiento del led deL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
 			posicionLed1X += deltaTime * ledOffset;
@@ -1311,6 +1358,8 @@ int main()
 		model = glm::translate(model, posFrijolito);
 		model = glm::rotate(model, -angulo_cam_frijolito, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//para animación
+		model = glm::rotate(model, rotDireccion[2] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
@@ -1319,7 +1368,7 @@ int main()
 		//Cabeza
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.0f, 0.375f, 0.0f));
-		model = glm::rotate(model, 20 * toRadians, glm::vec3(1.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, 20 * toRadians, glm::vec3(1.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(0.0f, 0.25f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
@@ -1328,6 +1377,11 @@ int main()
 		//Brazo izq
 		model = glm::mat4(1.0);
 		model = auxPersonaje;
+
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[2] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[2] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+
 		//se traslada lo necesario para el hombro
 		model = glm::translate(model, glm::vec3(-0.25f, 0.0f, 0.0f));
 		//se desplaza la distancia equivalente al cateto opuesto (distancia inferior) al realizar la rotación
@@ -1336,12 +1390,17 @@ int main()
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		//se desplaza lo necesario para llegar al centro del objeto (la mitad de su ancho)
 		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
 		//Brazo der
 		model = auxPersonaje;
+		//para animaciones
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[2] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[2] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//posicionamiento normal
 		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
 		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -1352,20 +1411,21 @@ int main()
 
 		//Pierna izq
 		model = auxPersonaje;
+		//posición
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(15 * toRadians) * 0.25f));
-		model = glm::rotate(model, 15 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//model = glm::translate(model, glm::vec3(0.0f, 0.f, -0.125f));
+		//para animaciones
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[2] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[2] * toRadians)/2, glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
 		meshList[3]->RenderMesh();
 
 		//Pierna der
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(15 * toRadians) * 0.25f));
-		model = glm::rotate(model, 15 * toRadians, glm::vec3(-1.0f, 0.0f, 0.0f));
-		//model = glm::translate(model, glm::vec3(0.0f, 0.f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));		
+		//para animaciones
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[2] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[2] * toRadians)/2, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1377,6 +1437,7 @@ int main()
 		model = glm::translate(model, posJett);
 		model = glm::rotate(model, -angulo_cam_jett, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, rotDireccion[1] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
@@ -1393,18 +1454,26 @@ int main()
 
 		//Brazo izq
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[1] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[1] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
 		//Brazo der
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[1] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[1] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -1412,8 +1481,9 @@ int main()
 		//Pierna izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[1] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[1] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1421,8 +1491,9 @@ int main()
 		//Pierna der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[1] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[1] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1438,6 +1509,7 @@ int main()
 		model = glm::translate(model, poswheezy);
 		model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
@@ -1454,18 +1526,26 @@ int main()
 
 		//Brazo izq
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
+		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
 		//Brazo der
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -1473,8 +1553,9 @@ int main()
 		//Pierna izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1482,8 +1563,9 @@ int main()
 		//Pierna der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[3]->RenderMesh();
