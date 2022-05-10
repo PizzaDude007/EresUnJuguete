@@ -17,6 +17,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	carx = 2.0f;
 	camaraVal = 0;
 	LedCama = 0;
+	saveToys = false;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -124,6 +125,10 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	if (key == GLFW_KEY_DOWN)
 	{
 		theWindow->carx += 1.0f;
+	}
+
+	if (key == GLFW_KEY_G and action == GLFW_PRESS) {
+		theWindow->saveToys = !theWindow->saveToys;
 	}
 
 	if (key == GLFW_KEY_C and action== GLFW_PRESS)

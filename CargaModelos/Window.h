@@ -18,6 +18,7 @@ public:
 	int getCamaraVal() { return camaraVal; }
 	int getLedCama() { return LedCama; }
 	int getDeskLamp() { return DeskLamp;  }
+	bool getSaveToys() { return saveToys; }
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
@@ -38,6 +39,7 @@ private:
 	GLfloat carx;
 	int DeskLamp = 0, LedCama = 0;
 	bool mouseFirstMoved;
+	bool saveToys;
 	int camaraVal;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
