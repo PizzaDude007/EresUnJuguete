@@ -97,6 +97,11 @@ Model Cama_M = Model();
 Model Alfombra_M = Model();
 Model Mueble_M = Model();
 
+Model White_Helicopter_M = Model();
+Model White_Helicopter_Rotor_M = Model();
+Model White_Helicopter_Helice_M = Model();
+Model Helipad_M = Model();
+
 //TOY STORY
 Model Casita_M = Model();
 Model Arbolito_M = Model();
@@ -610,7 +615,103 @@ void CreateShaders()
 	shaderList.push_back(*shader1);
 }
 
+///////////////////////////////KEYFRAMES/////////////////////
 
+bool animacion = false;
+
+//NEW// Keyframes
+float posXavion = 2.0, posYavion = 2.0, posZavion = 0;
+float	movAvion_x = 0.0f, movAvion_y = 0.0f;
+float giroAvion = 0;
+
+#define MAX_FRAMES 50 //se cambia de 9 a 50 para tener más
+int i_max_steps = 90;
+int i_curr_steps = 5;
+typedef struct _frame
+{
+	//Variables para GUARDAR Key Frames
+	float P_movHeli_x, J_movHeli_x, B_movHeli_x;		//Variable para PosicionX
+	float P_movHeli_y;		//Variable para PosicionY
+	float P_movHeli_xInc;		//Variable para IncrementoX
+	float P_movHeli_yInc;		//Variable para IncrementoY
+	float P_giroHeli;
+	float P_giroHeliInc;
+}FRAME;
+
+FRAME KeyFrame[MAX_FRAMES];
+int FrameIndex = 6;			//introducir datos | se cambia de 5 a 6
+bool play = false;
+int playIndex = 0;
+
+void saveFrame(void)
+{
+
+	printf("Se guardo el frameindex [%d]\n", FrameIndex);
+
+
+	KeyFrame[FrameIndex].movAvion_x = movAvion_x;
+	KeyFrame[FrameIndex].movAvion_y = movAvion_y;
+	KeyFrame[FrameIndex].giroAvion = giroAvion;
+
+	FrameIndex++;
+}
+
+void resetElements(void)
+{
+
+	movAvion_x = KeyFrame[0].movAvion_x;
+	movAvion_y = KeyFrame[0].movAvion_y;
+	giroAvion = KeyFrame[0].giroAvion;
+}
+
+void interpolation(void)
+{
+	KeyFrame[playIndex].movAvion_xInc = (KeyFrame[playIndex + 1].movAvion_x - KeyFrame[playIndex].movAvion_x) / i_max_steps;
+	KeyFrame[playIndex].movAvion_yInc = (KeyFrame[playIndex + 1].movAvion_y - KeyFrame[playIndex].movAvion_y) / i_max_steps;
+	KeyFrame[playIndex].giroAvionInc = (KeyFrame[playIndex + 1].giroAvion - KeyFrame[playIndex].giroAvion) / i_max_steps;
+
+}
+
+
+void animate(void)
+{
+	//Movimiento del objeto
+	if (play)
+	{
+		if (i_curr_steps >= i_max_steps) //end of animation between frames?
+		{
+			playIndex++;
+			printf("playindex : %d\n", playIndex);
+			if (playIndex > FrameIndex - 2)	//end of total animation?
+			{
+				printf("El indice del ultimo frame es [% d]\n", FrameIndex);
+				printf("termina animacion\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Next frame interpolations
+			{
+				//printf("entro aquí\n");
+				i_curr_steps = 0; //Reset counter
+				//Interpolation
+				interpolation();
+			}
+		}
+		else
+		{
+			//printf("se quedó aqui\n");
+			//printf("max steps: %f", i_max_steps);
+			//Draw animation
+			movAvion_x += KeyFrame[playIndex].movAvion_xInc;
+			movAvion_y += KeyFrame[playIndex].movAvion_yInc;
+			giroAvion += KeyFrame[playIndex].giroAvionInc;
+			i_curr_steps++;
+		}
+
+	}
+}
+
+/* FIN KEYFRAMES*/
 
 int main()
 {
@@ -671,6 +772,12 @@ int main()
 	Cama_M.LoadModel("Models/bed_red.obj");
 	Alfombra_M.LoadModel("Models/alfombra.obj");
 	Mueble_M.LoadModel("Models/mueble.obj");
+
+	//modelos p12 Pieter
+	White_Helicopter_M.LoadModel("Models/white_helicopter.obj");
+	White_Helicopter_Helice_M.LoadModel("Models/helice_white_helicopter.obj");
+	White_Helicopter_Rotor_M.LoadModel("Models/rotor_white_helicopter.obj");
+	Helipad_M.LoadModel("Models/helipad.obj");
 
 	//TOY STORY
 	Casita_M.LoadModel("Models/casita.obj");
@@ -1020,13 +1127,13 @@ int main()
 					if (rotDireccion[i] > 0.0f)rotBrazo[i] -= deltaTime * avanzaOffset/2;
 					if (rotDireccion[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset/2;
 
-					if (rotBrazo[i] < 10.0f and rotBrazo[i] > -10.0f) rotBrazo[i] = 0.0f;
+					if (rotBrazo[i] < 25.0f and rotBrazo[i] > -25.0f) rotBrazo[i] = 0.0f;
 				}
 				break;
 			}
 		}
-		printf("\nnumCam = %d\nDireccion = %d", numCam, mainWindow.getDireccion());
-		if (numCam != 0) printf("\nRotacionBrazo = %f\nRotacionPierna = %f", rotBrazo[numCam - 1], rotPierna[numCam - 1]);
+		//printf("\nnumCam = %d\nDireccion = %d", numCam, mainWindow.getDireccion());
+		//if (numCam != 0) printf("\nRotacionBrazo = %f\nRotacionPierna = %f", rotBrazo[numCam - 1], rotPierna[numCam - 1]);
 				
 		//Movimiento del led deL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
@@ -1569,6 +1676,30 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[3]->RenderMesh();
+
+//	Modelo helicoptero blanco (Pieter)
+		glm::mat4 auxHelicopterW(1.0);
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 0.0f, -200.0f));
+		auxHelicopterW = model;
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Helipad_M.RenderModel();
+
+		model = auxHelicopterW;
+		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 2.0f));
+		auxHelicopterW = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		White_Helicopter_M.RenderModel();
+
+		model = auxHelicopterW;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		White_Helicopter_Helice_M.RenderModel();
+
+		model = auxHelicopterW;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		White_Helicopter_Rotor_M.RenderModel();
 
 
 		//informaci�n al shader de fuentes de iluminaci�n
