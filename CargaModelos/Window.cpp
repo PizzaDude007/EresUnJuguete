@@ -193,6 +193,7 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 			//printf("se solto la tecla %d'\n", key);
 		}
 	}
+	theWindow->action = action;
 }
 
 void Window::ManejaMouse(GLFWwindow* window, double xPos, double yPos)

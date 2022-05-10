@@ -23,6 +23,7 @@ public:
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
+	int getAction() { return action; }
 	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 	
 	~Window();
@@ -30,6 +31,7 @@ private:
 	GLFWwindow *mainWindow;
 	GLint width, height;
 	bool keys[1024];
+	int action;
 	GLint bufferWidth, bufferHeight;
 	void createCallbacks();
 	GLfloat lastX;
