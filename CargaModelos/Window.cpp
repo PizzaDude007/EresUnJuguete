@@ -18,6 +18,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	camaraVal = 0;
 	LedCama = 0;
 	saveToys = false;
+	direccion = 0;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -25,10 +26,10 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 }
 int Window::Initialise()
 {
-	//Inicialización de GLFW
+	//Inicializaciï¿½n de GLFW
 	if (!glfwInit())
 	{
-		printf("Falló inicializar GLFW");
+		printf("Fallï¿½ inicializar GLFW");
 		glfwTerminate();
 		return 1;
 	}
@@ -48,7 +49,7 @@ int Window::Initialise()
 		glfwTerminate();
 		return 1;
 	}
-	//Obtener tamaño de Buffer
+	//Obtener tamaï¿½o de Buffer
 	glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
 
 	//asignar el contexto
@@ -63,7 +64,7 @@ int Window::Initialise()
 
 	if (glewInit() != GLEW_OK)
 	{
-		printf("Falló inicialización de GLEW");
+		printf("Fallï¿½ inicializaciï¿½n de GLEW");
 		glfwDestroyWindow(mainWindow);
 		glfwTerminate();
 		return 1;
@@ -74,7 +75,7 @@ int Window::Initialise()
 							 
 							 //Asignar Viewport
 	glViewport(0, 0, bufferWidth, bufferHeight);
-	//Callback para detectar que se está usando la ventana
+	//Callback para detectar que se estï¿½ usando la ventana
 	glfwSetWindowUserPointer(mainWindow, this);
 }
 
@@ -156,6 +157,27 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	else if (key == GLFW_KEY_O and theWindow->DeskLamp == 1 and action == GLFW_PRESS)
 	{
 		theWindow->DeskLamp = 0;
+	}
+
+	if (key == GLFW_KEY_W and action == GLFW_PRESS)
+	{
+		theWindow->direccion = 1;
+	}
+	else if (key == GLFW_KEY_A and action == GLFW_PRESS)
+	{
+		theWindow->direccion = 2;
+	}
+	else if (key == GLFW_KEY_S and action == GLFW_PRESS)
+	{
+		theWindow->direccion = 3;
+	}
+	else if (key == GLFW_KEY_D and action == GLFW_PRESS)
+	{
+		theWindow->direccion = 4;
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		theWindow->direccion = 0;
 	}
 
 	if (key >= 0 && key < 1024)

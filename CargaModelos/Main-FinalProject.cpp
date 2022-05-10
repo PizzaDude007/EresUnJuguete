@@ -40,13 +40,17 @@ PROYECTO FINAL
 //#include "Modelos_MuchaLucha.h"
 
 float contadorDiaNoche = 0.0f;
-float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z;
-int banderaLedCama, banderaLedEscritorio, LedCama;
-bool  dia = false;
+float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z, parpadeoSpike = 0.0f;
+int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike;
+bool  dia = false, spikeSube = false;
 const float toRadians = 3.14159265f / 180.0f;
 
 float giroSpike = 0.0f;
 float movAroSpike = 0.0f;
+
+float rotBrazo[3] = { 0.0f,0.0f,0.0f };
+float rotPierna[3] = { 0.0f,0.0f,0.0f };
+float rotDireccion[3] = { 0.0f,0.0f,0.0f };
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
@@ -58,9 +62,6 @@ Camera cameraLibre;
 Camera cameraWheezy;
 Camera cameraJett;
 Camera cameraFrijolito;
-
-
-
 
 Texture brickTexture;
 Texture dirtTexture;
@@ -145,6 +146,8 @@ DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
 PointLight pointLightsNoche[MAX_POINT_LIGHTS];
 PointLight pointLightsCama[MAX_POINT_LIGHTS];
+PointLight pointLightsSpike[MAX_POINT_LIGHTS];//Todas las pointlights
+PointLight pointLightsSpike1[MAX_POINT_LIGHTS];//Pointlights sin los leds de la cama y el escritorio
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
@@ -801,6 +804,91 @@ int main()
 	// para no dar una raiz comlejo
 	pointLightCount1++;
 
+	//ARREGLO DE PINTLIGHTS DE LA SPIKE ===================================================
+	unsigned int pointLightCount2 = 0;
+	//LUZ DE LEDS DE LA CAMA
+	pointLightsSpike[0] = PointLight(1.0f, 0.0f, 0.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-150.0f, 20.0f, 40.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LEDS DEL ESCRITORIO
+	pointLightsSpike[1] = PointLight(1.0f, 0.0f, 0.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 60.0f, -375.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LA SPIKE
+	pointLightsSpike[2] = PointLight(0.0f, 0.5f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-80.0f, 69.0f, -330.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LAMPARA DE TECHO 1
+	pointLightsSpike[3] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 195.0f, 4.5f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LAMPARA DE TECHO 2
+	pointLightsSpike[4] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.9f, 0.1f, //ambiente, difusa
+		0.0f, 195.0f, -297.0f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//ARREGLO DE PINTLIGHTS DE LA SPIKE 1 ===================================================
+	unsigned int pointLightCount3 = 0;
+
+	//LUZ DE LA SPIKE
+	pointLightsSpike1[0] = PointLight(0.0f, 0.5f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-80.0f, 69.0f, -330.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
+	//LUZ DE LAMPARA DE TECHO 1
+	pointLightsSpike1[1] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 195.0f, 4.5f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
+	//LUZ DE LAMPARA DE TECHO 2
+	pointLightsSpike1[2] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.9f, 0.1f, //ambiente, difusa
+		0.0f, 195.0f, -297.0f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
@@ -818,6 +906,9 @@ int main()
 	posicionLed1X = 0.0f;
 	posicionLed1Z = -374.0f;
 	banderaLedEscritorio = 0;
+	banderaParpadeoSpike = 0;
+	float avanzaOffset = 15.0f;
+	
 	int numCam = 0;
 
 	//Vars animacion juguetes
@@ -986,23 +1077,74 @@ int main()
 			banderaLedCama = 0;
 		}
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
+		pointLightsSpike[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
 
 //	Animación Spike
 		//glm::vec3 distance = poswheezy - posSpike;
 
-		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 3.0f) {
-			movAroSpike += deltaTime * 0.01f;
+		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 5.5f) {
+			movAroSpike += deltaTime * 0.02f;
 			giroSpike += deltaTime * 0.8f;
+			spikeSube = true;
 		}
 		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
-			movAroSpike -= deltaTime * 0.01f;
+			movAroSpike -= deltaTime * 0.02f;
 			giroSpike -= deltaTime * 0.8f;
+			spikeSube = false;
 		}
 
 		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
 		
 		
 		
+		//Movimiento del led DEL ESCRITORIO ______________________________________________
+//	Animación Movimiento
+
+		if (rotBrazo[numCam - 1] >= 360.0f or rotBrazo[numCam - 1] <= -360.0f) rotBrazo[numCam - 1] = 0.0f;
+		//if (rotPierna[numCam - 1] >= 360 or rotPierna[numCam - 1] <= -360) rotPierna[numCam - 1] = 0;
+
+		if (numCam != 0) { //verifica si se está utilizando una cámara de personaje
+			switch (mainWindow.getDireccion())
+			{
+			case 1: //avanza al frente (W)
+				rotBrazo[numCam - 1] += deltaTime * avanzaOffset;
+				//rotPierna[numCam - 1] += deltaTime * avanzaOffset;
+				if (rotDireccion[numCam - 1] < 0.0f) rotDireccion[numCam - 1] += deltaTime * avanzaOffset / 2;
+				if (rotDireccion[numCam - 1] > 0.0f) rotDireccion[numCam - 1] -= deltaTime * avanzaOffset / 2;
+				break;
+			case 2: //avanza a la izquierda (A)
+				rotBrazo[numCam - 1] += deltaTime * avanzaOffset;
+				//rotPierna[numCam - 1] += deltaTime * avanzaOffset;
+				if (rotDireccion[numCam - 1] < 90.0f) rotDireccion[numCam - 1] += deltaTime * avanzaOffset / 2;
+				break;
+			case 3: //avanza hacia atrás (S)
+				rotBrazo[numCam - 1] -= deltaTime * avanzaOffset;
+				//rotPierna[numCam - 1] -= deltaTime * avanzaOffset;
+				if (rotDireccion[numCam - 1] < 0.0f) rotDireccion[numCam - 1] += deltaTime * avanzaOffset / 2;
+				if (rotDireccion[numCam - 1] > 0.0f) rotDireccion[numCam - 1] -= deltaTime * avanzaOffset / 2;
+				break;
+			case 4: //avanza a la derecha (D)
+				rotBrazo[numCam - 1] += deltaTime * avanzaOffset;
+				//rotPierna[numCam - 1] += deltaTime * avanzaOffset;
+				if (rotDireccion[numCam - 1] > -90.0f) rotDireccion[numCam - 1] -= deltaTime * avanzaOffset / 2;
+				break;
+			default:
+				for (int i = 0; i < 4; i++) {
+					if (rotBrazo[i] > 0.0f)rotBrazo[i] -= deltaTime * avanzaOffset;
+					if (rotBrazo[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset;
+					/*if (rotPierna[i] > 0)rotBrazo[i] -= deltaTime * avanzaOffset;
+					if (rotPierna[i] < 0)rotBrazo[i] += deltaTime * avanzaOffset;*/
+					if (rotDireccion[i] > 0.0f)rotBrazo[i] -= deltaTime * avanzaOffset/2;
+					if (rotDireccion[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset/2;
+
+					if (rotBrazo[i] < 10.0f and rotBrazo[i] > -10.0f) rotBrazo[i] = 0.0f;
+				}
+				break;
+			}
+		}
+		printf("\nnumCam = %d\nDireccion = %d", numCam, mainWindow.getDireccion());
+		if (numCam != 0) printf("\nRotacionBrazo = %f\nRotacionPierna = %f", rotBrazo[numCam - 1], rotPierna[numCam - 1]);
+				
 		//Movimiento del led deL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
 			posicionLed1X += deltaTime * ledOffset*0.5;
@@ -1017,6 +1159,7 @@ int main()
 			banderaLedEscritorio = 0;
 		}
 		pointLightsCama[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
+		pointLightsSpike[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
 
 		//ANIMACION - GUARDAR JUGUETES
 		if (mainWindow.getSaveToys()) {
@@ -1512,6 +1655,11 @@ int main()
 		model = glm::translate(model, glm::vec3(-120.0f, 70.0f, -360.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -300.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_CajaMadera2_M.RenderModel();
 		
 		//frijolito->RenderModels(uniformColor, uniformModel);
 
@@ -1575,6 +1723,8 @@ int main()
 		model = glm::translate(model, posFrijolito);
 		model = glm::rotate(model, -angulo_cam_frijolito, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//para animación
+		model = glm::rotate(model, rotDireccion[2] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
@@ -1583,7 +1733,7 @@ int main()
 		//Cabeza
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.0f, 0.375f, 0.0f));
-		model = glm::rotate(model, 20 * toRadians, glm::vec3(1.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, 20 * toRadians, glm::vec3(1.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(0.0f, 0.25f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
@@ -1592,6 +1742,11 @@ int main()
 		//Brazo izq
 		model = glm::mat4(1.0);
 		model = auxPersonaje;
+
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[2] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[2] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+
 		//se traslada lo necesario para el hombro
 		model = glm::translate(model, glm::vec3(-0.25f, 0.0f, 0.0f));
 		//se desplaza la distancia equivalente al cateto opuesto (distancia inferior) al realizar la rotación
@@ -1600,12 +1755,17 @@ int main()
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		//se desplaza lo necesario para llegar al centro del objeto (la mitad de su ancho)
 		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
 		//Brazo der
 		model = auxPersonaje;
+		//para animaciones
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[2] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[2] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//posicionamiento normal
 		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
 		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -1616,20 +1776,21 @@ int main()
 
 		//Pierna izq
 		model = auxPersonaje;
+		//posición
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(15 * toRadians) * 0.25f));
-		model = glm::rotate(model, 15 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//model = glm::translate(model, glm::vec3(0.0f, 0.f, -0.125f));
+		//para animaciones
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[2] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[2] * toRadians)/2, glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
 		meshList[3]->RenderMesh();
 
 		//Pierna der
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(15 * toRadians) * 0.25f));
-		model = glm::rotate(model, 15 * toRadians, glm::vec3(-1.0f, 0.0f, 0.0f));
-		//model = glm::translate(model, glm::vec3(0.0f, 0.f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));		
+		//para animaciones
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[2] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[2] * toRadians)/2, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FrijolitoTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1641,6 +1802,7 @@ int main()
 		model = glm::translate(model, posJett);
 		model = glm::rotate(model, -angulo_cam_jett, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, rotDireccion[1] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
@@ -1657,18 +1819,26 @@ int main()
 
 		//Brazo izq
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[1] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[1] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
 		//Brazo der
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[1] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[1] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -1676,8 +1846,9 @@ int main()
 		//Pierna izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[1] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[1] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1685,8 +1856,9 @@ int main()
 		//Pierna der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[1] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[1] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		JettTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1702,6 +1874,7 @@ int main()
 		model = glm::translate(model, poswheezy);
 		model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
@@ -1718,18 +1891,26 @@ int main()
 
 		//Brazo izq
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(-0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
+		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
 		//Brazo der
 		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.35f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -1737,8 +1918,9 @@ int main()
 		//Pierna izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1746,8 +1928,9 @@ int main()
 		//Pierna der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -1759,9 +1942,53 @@ int main()
 		LedCama = mainWindow.getLedCama();
 		if (contadorDiaNoche <= 0.7f) {
 			//printf("\nLedCama = %d", LedCama);
-			if(LedCama == 1)
+			if (LedCama == 1 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsCama, pointLightCount1);
-			else
+			else if (LedCama == 1 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike[2].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+				}
+			}
+			else if (LedCama == 0 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike1[0].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+				}
+			}
+			else if (LedCama == 0 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount);
 
 			if(mainWindow.getDeskLamp() == 1)
@@ -1770,9 +1997,53 @@ int main()
 				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
 		}
 		else {
-			if (LedCama == 1)
+			if (LedCama == 1 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsCama, pointLightCount1 - 2);
-			else
+			else if (LedCama == 1 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike[2].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+				}
+			}
+			else if (LedCama == 0 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike1[0].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+				}
+			}
+			else if (LedCama == 0 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount - 2);
 
 			if (mainWindow.getDeskLamp() == 1)

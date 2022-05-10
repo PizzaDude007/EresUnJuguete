@@ -11,7 +11,7 @@ public:
 			GLfloat aIntensity, GLfloat dIntensity);
 	void setAmbienIntensity(GLfloat aIntensity) { ambientIntensity = aIntensity; }
 	void setDiffuseIntensity(GLfloat dIntensity) { diffuseIntensity = dIntensity; }
-
+	void setRGB(GLfloat red, GLfloat green, GLfloat blue);
 	~Light();
 
 protected:
