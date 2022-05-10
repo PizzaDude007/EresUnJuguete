@@ -40,9 +40,9 @@ PROYECTO FINAL
 //#include "Modelos_MuchaLucha.h"
 
 float contadorDiaNoche = 0.0f;
-float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z;
-int banderaLedCama, banderaLedEscritorio, LedCama;
-bool  dia = false;
+float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z, parpadeoSpike = 0.0f;
+int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike;
+bool  dia = false, spikeSube = false;
 const float toRadians = 3.14159265f / 180.0f;
 
 float giroSpike = 0.0f;
@@ -145,6 +145,8 @@ DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
 PointLight pointLightsNoche[MAX_POINT_LIGHTS];
 PointLight pointLightsCama[MAX_POINT_LIGHTS];
+PointLight pointLightsSpike[MAX_POINT_LIGHTS];//Todas las pointlights
+PointLight pointLightsSpike1[MAX_POINT_LIGHTS];//Pointlights sin los leds de la cama y el escritorio
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
@@ -801,6 +803,91 @@ int main()
 	// para no dar una raiz comlejo
 	pointLightCount1++;
 
+	//ARREGLO DE PINTLIGHTS DE LA SPIKE ===================================================
+	unsigned int pointLightCount2 = 0;
+	//LUZ DE LEDS DE LA CAMA
+	pointLightsSpike[0] = PointLight(1.0f, 0.0f, 0.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-150.0f, 20.0f, 40.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LEDS DEL ESCRITORIO
+	pointLightsSpike[1] = PointLight(1.0f, 0.0f, 0.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 60.0f, -375.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LA SPIKE
+	pointLightsSpike[2] = PointLight(0.0f, 0.5f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-80.0f, 69.0f, -330.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LAMPARA DE TECHO 1
+	pointLightsSpike[3] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 195.0f, 4.5f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LAMPARA DE TECHO 2
+	pointLightsSpike[4] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.9f, 0.1f, //ambiente, difusa
+		0.0f, 195.0f, -297.0f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//ARREGLO DE PINTLIGHTS DE LA SPIKE 1 ===================================================
+	unsigned int pointLightCount3 = 0;
+
+	//LUZ DE LA SPIKE
+	pointLightsSpike1[0] = PointLight(0.0f, 0.5f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-80.0f, 69.0f, -330.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
+	//LUZ DE LAMPARA DE TECHO 1
+	pointLightsSpike1[1] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 195.0f, 4.5f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
+	//LUZ DE LAMPARA DE TECHO 2
+	pointLightsSpike1[2] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.9f, 0.1f, //ambiente, difusa
+		0.0f, 195.0f, -297.0f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
@@ -818,6 +905,7 @@ int main()
 	posicionLed1X = 0.0f;
 	posicionLed1Z = -374.0f;
 	banderaLedEscritorio = 0;
+	banderaParpadeoSpike = 0;
 	
 	int numCam = 0;
 
@@ -964,24 +1052,27 @@ int main()
 			banderaLedCama = 0;
 		}
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
+		pointLightsSpike[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
 
 //	Animación Spike
 		//glm::vec3 distance = poswheezy - posSpike;
 
-		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 3.0f) {
+		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 6.0f) {
 			movAroSpike += deltaTime * 0.01f;
 			giroSpike += deltaTime * 0.8f;
+			spikeSube = true;
 		}
 		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
 			movAroSpike -= deltaTime * 0.01f;
 			giroSpike -= deltaTime * 0.8f;
+			spikeSube = false;
 		}
 
 		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
 		
 		
 		
-		//Movimiento del led deL ESCRITORIO ______________________________________________
+		//Movimiento del led DEL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
 			posicionLed1X += deltaTime * 1.0f;
 		}
@@ -996,6 +1087,7 @@ int main()
 		}
 
 		pointLightsCama[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
+		pointLightsSpike[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
@@ -1248,6 +1340,11 @@ int main()
 		model = glm::translate(model, glm::vec3(-120.0f, 70.0f, -360.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -300.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_CajaMadera2_M.RenderModel();
 		
 		//frijolito->RenderModels(uniformColor, uniformModel);
 
@@ -1495,9 +1592,53 @@ int main()
 		LedCama = mainWindow.getLedCama();
 		if (contadorDiaNoche <= 0.7f) {
 			//printf("\nLedCama = %d", LedCama);
-			if(LedCama == 1)
+			if (LedCama == 1 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsCama, pointLightCount1);
-			else
+			else if (LedCama == 1 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike[2].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+				}
+			}
+			else if (LedCama == 0 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike1[0].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+				}
+			}
+			else if (LedCama == 0 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount);
 
 			if(mainWindow.getDeskLamp() == 1)
@@ -1506,9 +1647,53 @@ int main()
 				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
 		}
 		else {
-			if (LedCama == 1)
+			if (LedCama == 1 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsCama, pointLightCount1 - 2);
-			else
+			else if (LedCama == 1 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike[2].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+				}
+			}
+			else if (LedCama == 0 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike1[0].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+				}
+			}
+			else if (LedCama == 0 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount - 2);
 
 			if (mainWindow.getDeskLamp() == 1)
