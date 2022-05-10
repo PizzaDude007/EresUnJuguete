@@ -621,8 +621,8 @@ bool animacion = false;
 
 //NEW// Keyframes
 float posXavion = 2.0, posYavion = 2.0, posZavion = 0;
-float	movAvion_x = 0.0f, movAvion_y = 0.0f;
-float giroAvion = 0;
+float	movHeli_x = 0.0f, movHeli_y = 0.0f;
+float giroHeli = 0;
 
 #define MAX_FRAMES 50 //se cambia de 9 a 50 para tener más
 int i_max_steps = 90;
@@ -630,12 +630,12 @@ int i_curr_steps = 5;
 typedef struct _frame
 {
 	//Variables para GUARDAR Key Frames
-	float P_movHeli_x, J_movHeli_x, B_movHeli_x;		//Variable para PosicionX
-	float P_movHeli_y;		//Variable para PosicionY
-	float P_movHeli_xInc;		//Variable para IncrementoX
-	float P_movHeli_yInc;		//Variable para IncrementoY
-	float P_giroHeli;
-	float P_giroHeliInc;
+	float movHeli_x;		//Variable para PosicionX
+	float movHeli_y;		//Variable para PosicionY
+	float movHeli_xInc;		//Variable para IncrementoX
+	float movHeli_yInc;		//Variable para IncrementoY
+	float giroHeli;
+	float giroHeliInc;
 }FRAME;
 
 FRAME KeyFrame[MAX_FRAMES];
@@ -649,9 +649,9 @@ void saveFrame(void)
 	printf("Se guardo el frameindex [%d]\n", FrameIndex);
 
 
-	KeyFrame[FrameIndex].movAvion_x = movAvion_x;
-	KeyFrame[FrameIndex].movAvion_y = movAvion_y;
-	KeyFrame[FrameIndex].giroAvion = giroAvion;
+	KeyFrame[FrameIndex].movHeli_x = movHeli_x;
+	KeyFrame[FrameIndex].movHeli_y = movHeli_y;
+	KeyFrame[FrameIndex].giroHeli = giroHeli;
 
 	FrameIndex++;
 }
@@ -659,16 +659,16 @@ void saveFrame(void)
 void resetElements(void)
 {
 
-	movAvion_x = KeyFrame[0].movAvion_x;
-	movAvion_y = KeyFrame[0].movAvion_y;
-	giroAvion = KeyFrame[0].giroAvion;
+	movHeli_x = KeyFrame[0].movHeli_x;
+	movHeli_y = KeyFrame[0].movHeli_y;
+	giroHeli = KeyFrame[0].giroHeli;
 }
 
 void interpolation(void)
 {
-	KeyFrame[playIndex].movAvion_xInc = (KeyFrame[playIndex + 1].movAvion_x - KeyFrame[playIndex].movAvion_x) / i_max_steps;
-	KeyFrame[playIndex].movAvion_yInc = (KeyFrame[playIndex + 1].movAvion_y - KeyFrame[playIndex].movAvion_y) / i_max_steps;
-	KeyFrame[playIndex].giroAvionInc = (KeyFrame[playIndex + 1].giroAvion - KeyFrame[playIndex].giroAvion) / i_max_steps;
+	KeyFrame[playIndex].movHeli_xInc = (KeyFrame[playIndex + 1].movHeli_x - KeyFrame[playIndex].movHeli_x) / i_max_steps;
+	KeyFrame[playIndex].movHeli_yInc = (KeyFrame[playIndex + 1].movHeli_y - KeyFrame[playIndex].movHeli_y) / i_max_steps;
+	KeyFrame[playIndex].giroHeliInc = (KeyFrame[playIndex + 1].giroHeli - KeyFrame[playIndex].giroHeli) / i_max_steps;
 
 }
 
@@ -702,9 +702,9 @@ void animate(void)
 			//printf("se quedó aqui\n");
 			//printf("max steps: %f", i_max_steps);
 			//Draw animation
-			movAvion_x += KeyFrame[playIndex].movAvion_xInc;
-			movAvion_y += KeyFrame[playIndex].movAvion_yInc;
-			giroAvion += KeyFrame[playIndex].giroAvionInc;
+			movHeli_x += KeyFrame[playIndex].movHeli_xInc;
+			movHeli_y += KeyFrame[playIndex].movHeli_yInc;
+			giroHeli += KeyFrame[playIndex].giroHeliInc;
 			i_curr_steps++;
 		}
 
