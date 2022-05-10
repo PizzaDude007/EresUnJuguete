@@ -950,6 +950,12 @@ int main()
 	float auxAngEdiy = 0.0f;
 
 
+	glm::vec3 posPelota = glm::vec3(30.0f, 12.0f, -120.0f);
+	float posPelotaX = 30.0f;
+	float posPelotaY = 12.0f;
+	float posPelotaZ = -120.0f;
+	float rotPelotaX = 0.0f;
+	float rotPelotaY = 0.0f;
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1351,6 +1357,25 @@ int main()
 		posCar = glm::vec3(posCar1X,posCar1Y,posCar1Z);
 		posEdificio = glm::vec3(posEdi1X,posEdi1Y,posEdi1Z);
 
+		// ANIMACION PELOTA
+		posPelota.y = posPelotaY + abs(15*sin(rotPelotaX * toRadians));
+		rotPelotaX += deltaTime * 5.0f;
+		if (rotPelotaX > 360) rotPelotaX = 0;
+		
+
+		float radio = 90.0f;
+		float centroX = posPelotaX - radio + 10.0f;
+		float centroZ = posPelotaZ+20;
+
+		if (rotPelotaY < 360.0f) {
+			rotPelotaY += deltaTime * 0.5f;
+			posPelota.x = centroX + (radio*1.5 * cos((0 - rotPelotaY) * toRadians));
+			posPelota.z = centroZ + (radio * sin((0 - rotPelotaY) * toRadians));
+		}
+		else {
+			rotPelotaY = 0.0f;
+		}
+
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1576,10 +1601,12 @@ int main()
 		Bus_M.RenderModel();
 
 		//PELOTA
+		float auxRotPelotax = (rotPelotaX < 180) ? rotPelotaX : -rotPelotaX;
 		color = glm::vec3(248.0f/255.0f, 228.0f / 255.0f, 46.0f / 255.0f);
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(30.0f, 12.0f, -120.0f));
-		model = glm::rotate(model, -20 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, posPelota);
+		model = glm::rotate(model, ( auxRotPelotax) * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, (-90.0f+rotPelotaY) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
