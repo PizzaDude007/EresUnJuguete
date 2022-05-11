@@ -83,7 +83,8 @@ Texture JettTexture;
 Texture StreetMan1_Texture;
 Texture StreetMan2_Texture;
 Texture StreetMan3_Texture;
-
+Texture Ricochet_Texture;
+Texture La_Pulga_Texture;
 
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
@@ -106,6 +107,11 @@ Model Mueble_M = Model();
 Model Helicoptero_M = Model();
 Model Helice_M = Model();
 
+
+Model White_Helicopter_M = Model();
+Model White_Helicopter_Rotor_M = Model();
+Model White_Helicopter_Helice_M = Model();
+Model Helipad_M = Model();
 
 //TOY STORY
 Model Casita_M = Model();
@@ -633,9 +639,6 @@ void CreateShaders()
 	shaderList.push_back(*shader1);
 }
 
-
-
-
 ///////////////////////////////KEYFRAMES/////////////////////
 
 
@@ -796,6 +799,10 @@ int main()
 	StreetMan2_Texture.LoadTexture();
 	StreetMan3_Texture = Texture("Textures/SimplePeople_StreetMan_White.png");
 	StreetMan3_Texture.LoadTexture();
+	Ricochet_Texture = Texture("Textures/ricochet.png");
+	Ricochet_Texture.LoadTextureA();
+	La_Pulga_Texture = Texture("Textures/la_pulga.png");
+	La_Pulga_Texture.LoadTextureA();
 
 	//Modelos para el proyecto
 	Cuarto_M.LoadModel("Models/cuarto_text.obj");
@@ -815,6 +822,12 @@ int main()
 	Mueble_M.LoadModel("Models/mueble.obj");
 	Helicoptero_M.LoadModel("Models/helicoptero.obj");
 	Helice_M.LoadModel("Models/helice.obj");
+
+	//modelos p12 Pieter
+	White_Helicopter_M.LoadModel("Models/white_helicopter.obj");
+	White_Helicopter_Helice_M.LoadModel("Models/helice_white_helicopter.obj");
+	White_Helicopter_Rotor_M.LoadModel("Models/rotor_white_helicopter.obj");
+	Helipad_M.LoadModel("Models/helipad.obj");
 
 	//TOY STORY
 	Casita_M.LoadModel("Models/casita.obj");
@@ -2208,6 +2221,145 @@ int main()
 		StreetMan3_Texture.UseTexture();
 		Luchador_M.RenderModel();
 
+	//	Rikochet
+		glm::mat4 auxPersonaje(1.0);
+
+		//Torso (utiliza torso 2)
+		model = auxML;
+		model = glm::translate(model, glm::vec3(-5.0f,4.0f,0.0f));
+		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
+		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		auxPersonaje = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Ricochet_Texture.UseTexture();
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[4]->RenderMesh();
+
+		//Cabeza
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.0f, 0.625f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Ricochet_Texture.UseTexture();
+		meshList[0]->RenderMesh();
+
+		//Brazo izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
+		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Ricochet_Texture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Brazo der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Ricochet_Texture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Pierna izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Ricochet_Texture.UseTexture();
+		meshList[3]->RenderMesh();
+
+		//Pierna der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Ricochet_Texture.UseTexture();
+		meshList[3]->RenderMesh();
+
+	//	La Pulga
+
+		//Torso (utiliza torso 2)
+		model = auxML;
+		model = glm::translate(model, glm::vec3(5.0f, 4.0f, 0.0f));
+		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
+		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		auxPersonaje = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		La_Pulga_Texture.UseTexture();
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[4]->RenderMesh();
+
+		//Cabeza
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.0f, 0.625f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		La_Pulga_Texture.UseTexture();
+		meshList[0]->RenderMesh();
+
+		//Brazo izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
+		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		La_Pulga_Texture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Brazo der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		La_Pulga_Texture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Pierna izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		La_Pulga_Texture.UseTexture();
+		meshList[3]->RenderMesh();
+
+		//Pierna der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
+		//rotación para la animación de caminar
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		La_Pulga_Texture.UseTexture();
+		meshList[3]->RenderMesh();
+
 
 	//  VALORANT ----------- VALORANT
 		glm::mat4 auxSpike(1.0);
@@ -2235,8 +2387,7 @@ int main()
 
 
 //	Personaje Frijolito
-		glm::mat4 auxPersonaje(1.0);
- 
+		 
 		//Torso
 		model = glm::mat4(1.0);
 		model = glm::translate(model, posFrijolito);
@@ -2454,6 +2605,30 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[3]->RenderMesh();
+
+//	Modelo helicoptero blanco (Pieter)
+		glm::mat4 auxHelicopterW(1.0);
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 0.0f, -200.0f));
+		auxHelicopterW = model;
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Helipad_M.RenderModel();
+
+		model = auxHelicopterW;
+		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 2.0f));
+		auxHelicopterW = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		White_Helicopter_M.RenderModel();
+
+		model = auxHelicopterW;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		White_Helicopter_Helice_M.RenderModel();
+
+		model = auxHelicopterW;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		White_Helicopter_Rotor_M.RenderModel();
 
 
 		//informaci�n al shader de fuentes de iluminaci�n

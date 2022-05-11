@@ -160,5 +160,7 @@ void main()
 	vec4 finalcolor = CalcDirectionalLight();
 	finalcolor += CalcPointLights();
 	finalcolor += CalcSpotLights();
-	color = finalcolor*texture(theTexture, TexCoord)*vColor;
+	//color = texture(theTexture, TexCoord)*vColor;
+	//color = finalcolor*texture(theTexture, TexCoord)*vColor; //se quito para la animacion de keyframes
+	color = finalcolor*texture(theTexture, TexCoord);
 }
