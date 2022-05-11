@@ -131,6 +131,17 @@ Model Valorant_Balde_M = Model();
 Model Valorant_Malla_M = Model();
 Model Valorant_CajaMadera_M = Model();
 Model Valorant_CajaMadera2_M = Model();
+Model Valorant_KillJC = Model(); //Carad torso de KillJoy
+Model Valorant_KillJBI = Model();// Brazo Izq
+Model Valorant_KillJBD = Model();//Brazo Derecho
+Model Valorant_KillJPI = Model();//Pie Izq
+Model Valorant_KillJPD = Model();//Pie Derecho
+Model Valorant_FenixC = Model(); //Carad torso de Fenix
+Model Valorant_FenixBI = Model();// Brazo Izq
+Model Valorant_FenixBD = Model();//Brazo Derecho
+Model Valorant_FenixPI = Model();//Pie Izq
+Model Valorant_FenixPD = Model();//Pie Derecho
+
 //Valorant
 Model Spike_base_M = Model();
 Model Spike_cilindro_M = Model();
@@ -829,6 +840,17 @@ int main()
 	Valorant_Malla_M.LoadModel("Models/Valorant_Malla.obj");
 	Valorant_CajaMadera_M.LoadModel("Models/Valorant_CajaMadera.obj");
 	Valorant_CajaMadera2_M.LoadModel("Models/Valorant_CajaMadera2.obj");
+	Valorant_FenixC.LoadModel("Models/FenixCaraTorso.obj");
+	Valorant_FenixBD.LoadModel("Models/FenixBrazoDer.obj");
+	Valorant_FenixBI.LoadModel("Models/FenixBrazoIzq.obj");
+	Valorant_FenixPD.LoadModel("Models/FenixPieDer.obj");
+	Valorant_FenixPI.LoadModel("Models/FenixPieIzq.obj");
+
+	Valorant_KillJC.LoadModel("Models/KillJoyCaraTorso.obj");
+	Valorant_KillJBD.LoadModel("Models/KillJoyBrazoDer.obj");
+	Valorant_KillJBI.LoadModel("Models/KillJoyBrazoIzq.obj");
+	Valorant_KillJPD.LoadModel("Models/KillJoyPieDer.obj");
+	Valorant_KillJPI.LoadModel("Models/KillJoyPieIzq.obj");
 	//Valorant
 	Spike_base_M.LoadModel("Models/spike_base_only.obj");
 	Spike_cilindro_M.LoadModel("Models/spike_center_only.obj");
@@ -2090,6 +2112,73 @@ int main()
 		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -300.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
+
+		//////////////////////////////// F E N I X ///////////////////////////////
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -340.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixC.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.35f, 1.6f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixBD.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.35f, 1.6f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixBI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.125f, 0.8f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixPI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.125f, 0.8f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixPD.RenderModel();
+
+
+		//////////////////////////////// K I L L  J O Y ///////////////////////////////
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-220.0f, 82.0f, -340.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJC.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.35f, 0.2f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJBD.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.35f, 0.2f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJBI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.125f, -0.5f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJPI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.125f, -0.5f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJPD.RenderModel();
 		
 		//frijolito->RenderModels(uniformColor, uniformModel);
 

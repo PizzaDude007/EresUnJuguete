@@ -2,7 +2,17 @@
   Main-FinalProject.cpp
 D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
 D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(918,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(920,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1025,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1345,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1347,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1460,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1560,42): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1566,42): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1649,51): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1776,26): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+          with
+          [
+              T=float
+          ]
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1077,7): warning C4101: 'anguloBusListo': variable local sin referencia
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1078,7): warning C4101: 'posBusListo': variable local sin referencia
   CargaModelos.vcxproj -> D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\Debug\FinalProject.exe
