@@ -1,36 +1,28 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (CargaModelos.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
   Main-FinalProject.cpp
-<<<<<<< HEAD
 D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
 D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1345,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1347,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1460,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1560,42): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1566,42): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1649,51): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1776,26): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
-=======
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1336,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1338,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1451,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1551,42): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1557,42): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1640,51): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1767,26): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
->>>>>>> a7478217718139698754e64510578da5521d89c4
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1358,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1360,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1473,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1514,33): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1524,36): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1525,37): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1574,33): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1581,27): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1590,36): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1591,37): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1645,27): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1646,33): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1724,42): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1730,42): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1813,51): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1940,26): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
           with
           [
               T=float
           ]
-<<<<<<< HEAD
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1077,7): warning C4101: 'anguloBusListo': variable local sin referencia
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1078,7): warning C4101: 'posBusListo': variable local sin referencia
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1080,7): warning C4101: 'anguloBusListo': variable local sin referencia
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1081,7): warning C4101: 'posBusListo': variable local sin referencia
+LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
   CargaModelos.vcxproj -> D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\Debug\FinalProject.exe
-=======
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1068,7): warning C4101: 'anguloBusListo': variable local sin referencia
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1069,7): warning C4101: 'posBusListo': variable local sin referencia
-  CargaModelos.vcxproj -> D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\Debug\FinalProject.exe
->>>>>>> a7478217718139698754e64510578da5521d89c4

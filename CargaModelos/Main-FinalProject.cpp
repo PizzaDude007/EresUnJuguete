@@ -43,7 +43,10 @@ PROYECTO FINAL
 
 float contadorDiaNoche = 0.0f;
 float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z, parpadeoSpike = 0.0f;
-int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike;
+float SpectreRotX, SpectreRotY, SpectreMovX, SpectreMovY, SpectreMovZ, AuxSpectreRotX;
+float FenixBIrotX, FenixRot;
+float KillJBrazosRotX, KillJRotY, KillJRotX, KillJPIrotX, KillJPDrotX, KillJMovZ;
+int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike, AnimacionVal, DisparoSpectre, KillJCamina;
 bool  dia = false, spikeSube = false;
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -83,8 +86,7 @@ Texture JettTexture;
 Texture StreetMan1_Texture;
 Texture StreetMan2_Texture;
 Texture StreetMan3_Texture;
-Texture Ricochet_Texture;
-Texture La_Pulga_Texture;
+
 
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
@@ -107,11 +109,6 @@ Model Mueble_M = Model();
 Model Helicoptero_M = Model();
 Model Helice_M = Model();
 
-
-Model White_Helicopter_M = Model();
-Model White_Helicopter_Rotor_M = Model();
-Model White_Helicopter_Helice_M = Model();
-Model Helipad_M = Model();
 
 //TOY STORY
 Model Casita_M = Model();
@@ -639,6 +636,9 @@ void CreateShaders()
 	shaderList.push_back(*shader1);
 }
 
+
+
+
 ///////////////////////////////KEYFRAMES/////////////////////
 
 
@@ -799,10 +799,6 @@ int main()
 	StreetMan2_Texture.LoadTexture();
 	StreetMan3_Texture = Texture("Textures/SimplePeople_StreetMan_White.png");
 	StreetMan3_Texture.LoadTexture();
-	Ricochet_Texture = Texture("Textures/ricochet.png");
-	Ricochet_Texture.LoadTextureA();
-	La_Pulga_Texture = Texture("Textures/la_pulga.png");
-	La_Pulga_Texture.LoadTextureA();
 
 	//Modelos para el proyecto
 	Cuarto_M.LoadModel("Models/cuarto_text.obj");
@@ -822,12 +818,6 @@ int main()
 	Mueble_M.LoadModel("Models/mueble.obj");
 	Helicoptero_M.LoadModel("Models/helicoptero.obj");
 	Helice_M.LoadModel("Models/helice.obj");
-
-	//modelos p12 Pieter
-	White_Helicopter_M.LoadModel("Models/white_helicopter.obj");
-	White_Helicopter_Helice_M.LoadModel("Models/helice_white_helicopter.obj");
-	White_Helicopter_Rotor_M.LoadModel("Models/rotor_white_helicopter.obj");
-	Helipad_M.LoadModel("Models/helipad.obj");
 
 	//TOY STORY
 	Casita_M.LoadModel("Models/casita.obj");
@@ -1349,8 +1339,18 @@ int main()
 	//Helice
 	float rotYHelice = 0.0f;
 	float rotYHeliceOffset=0.01f;
-
-
+	SpectreRotX = 90.0f;
+	SpectreRotY = 0.0f;
+	AnimacionVal = 0;
+	DisparoSpectre = 0;
+	SpectreMovX = 0.0f;
+	SpectreMovY = 0.0f;
+	SpectreMovZ = 0.0f;
+	KillJMovZ = 0.0f;
+	KillJBrazosRotX = 0.0f;
+	KillJPDrotX = 0.0f;
+	KillJPIrotX = 0.0f;
+	KillJCamina = 0;
 
 	////Loop mientras no se cierra la ventana ############# INICIA CICLO WHILE ################
 	while (!mainWindow.getShouldClose())
@@ -1503,6 +1503,157 @@ int main()
 		}
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
 		pointLightsSpike[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
+
+//		-----------------------------ANIMACION VALORANT-----------------------------------
+		if (SpectreRotX >= 0.0f and AnimacionVal == 0) {
+			SpectreRotX -= deltaTime * 0.1f;
+			FenixBIrotX -= deltaTime * 0.1f;
+			SpectreMovY += deltaTime * 0.004f;
+			SpectreMovX -= deltaTime * 0.003f;
+			KillJRotY -= deltaTime * 0.1f;
+			KillJBrazosRotX -= deltaTime * 0.05;
+		}
+		else if (SpectreRotX <= 0.0f and AnimacionVal == 0) {
+			AnimacionVal = 1;
+			AuxSpectreRotX = SpectreRotX;
+		}
+		else if (KillJMovZ <= 40.0f and AnimacionVal == 1) {
+			KillJMovZ += deltaTime * 0.06f;
+			FenixRot += deltaTime * 0.04f;
+			SpectreRotY += deltaTime * 0.04f;
+			SpectreMovZ += deltaTime * 0.04 * sin(SpectreMovY * toRadians);
+			SpectreMovX += deltaTime * 0.002 * cos(SpectreMovY * toRadians);
+
+			if (DisparoSpectre == 0 and SpectreRotX <= 5.0f) { //Animacion de disparo
+				SpectreRotX += deltaTime * 0.5f;
+			}
+			else if (DisparoSpectre == 0 and SpectreRotX >= 5.0f) {
+				DisparoSpectre = 1;
+			}
+			else if (DisparoSpectre == 1 and SpectreRotX >= 0.0f) {
+				SpectreRotX -= deltaTime * 0.5f;
+			}
+			else if (DisparoSpectre == 1 and SpectreRotX <= 0.0f) {
+				DisparoSpectre = 0;
+			}
+
+			if (KillJCamina == 0 and KillJPDrotX <= 30.0f) { //Animacion de caminado de Kill Joy
+				KillJPDrotX += deltaTime * 2.5f;			//Pie Derecho
+			}
+			else if (KillJCamina == 0 and KillJPDrotX >= 30.0f) {
+				KillJCamina = 1;
+			}
+			else if (KillJCamina == 1 and KillJPDrotX >= 0.0f) {
+				KillJPDrotX -= deltaTime * 2.5f;
+			}
+			else if (KillJCamina == 1 and KillJPDrotX <= 0.0f) {
+				KillJCamina = 2;
+			}
+			if (KillJCamina == 2 and KillJPIrotX <= 30.0f) { //Animacion de caminado de Kill Joy
+				KillJPIrotX += deltaTime * 2.5f;			//Pie Izquierdo
+			}
+			else if (KillJCamina == 2 and KillJPIrotX >= 30.0f) {
+				KillJCamina = 3;
+			}
+			else if (KillJCamina == 3 and KillJPIrotX >= 0.0f) {
+				KillJPIrotX -= deltaTime * 2.5f;
+			}
+			else if (KillJCamina == 3 and KillJPIrotX <= 0.0f) {
+				KillJCamina = 0;
+			}
+		}
+		else if (KillJMovZ >= 40.0f and AnimacionVal == 1) {
+			AnimacionVal = 2;
+			SpectreRotX = AuxSpectreRotX;
+			DisparoSpectre = 0;
+			KillJPDrotX = 0.0f;
+			KillJPIrotX = 0.0f;
+		}
+		else if (KillJRotY <= 0.0f and AnimacionVal == 2) {
+			KillJRotY += deltaTime * 0.5f;
+			KillJBrazosRotX += deltaTime * 0.5;
+		}
+		else if (KillJRotY >= 0.0f and AnimacionVal == 2) {
+			AnimacionVal = 3;
+		}
+		else if (KillJRotY <= 90.0f and AnimacionVal == 3) {//Giro para correr como naruto
+			KillJRotY += deltaTime * 0.5f;
+			KillJRotX += deltaTime * 0.1;
+		}
+		else if (KillJRotY >= 90.0f and AnimacionVal == 3) {
+			AnimacionVal = 4;
+		}
+		else if (KillJMovZ >= 0.0f and AnimacionVal == 4) {
+			KillJMovZ -= deltaTime * 0.06f;
+			FenixRot -= deltaTime * 0.04f;
+			SpectreRotY -= deltaTime * 0.04f;
+			SpectreMovZ -= deltaTime * 0.04 * sin(SpectreMovY * toRadians);
+			SpectreMovX -= deltaTime * 0.002 * cos(SpectreMovY * toRadians);
+
+			if (DisparoSpectre == 0 and SpectreRotX <= 5.0f) { //Animacion de disparo
+				SpectreRotX += deltaTime * 0.5f;
+			}
+			else if (DisparoSpectre == 0 and SpectreRotX >= 5.0f) {
+				DisparoSpectre = 1;
+			}
+			else if (DisparoSpectre == 1 and SpectreRotX >= 0.0f) {
+				SpectreRotX -= deltaTime * 0.5f;
+			}
+			else if (DisparoSpectre == 1 and SpectreRotX <= 0.0f) {
+				DisparoSpectre = 0;
+			}
+
+			if (KillJCamina == 0 and KillJPDrotX <= 45.0f) { //Animacion de caminado de Kill Joy
+				KillJPDrotX += deltaTime * 8.0f;			//Pie Derecho
+			}
+			else if (KillJCamina == 0 and KillJPDrotX >= 45.0f) {
+				KillJCamina = 1;
+			}
+			else if (KillJCamina == 1 and KillJPDrotX >= -10.0f) {
+				KillJPDrotX -= deltaTime * 8.0f;
+			}
+			else if (KillJCamina == 1 and KillJPDrotX <= -10.0f) {
+				KillJCamina = 2;
+			}
+			if (KillJCamina == 2 and KillJPIrotX <= 45.0f) { //Animacion de caminado de Kill Joy
+				KillJPIrotX += deltaTime * 8.0f;			//Pie Izquierdo
+			}
+			else if (KillJCamina == 2 and KillJPIrotX >= 45.0f) {
+				KillJCamina = 3;
+			}
+			else if (KillJCamina == 3 and KillJPIrotX >= -10.0f) {
+				KillJPIrotX -= deltaTime * 8.0f;
+			}
+			else if (KillJCamina == 3 and KillJPIrotX <= -10.0f) {
+				KillJCamina = 0;
+			}
+		}
+		else if (KillJMovZ <= 0.0f and AnimacionVal == 4) {
+			AnimacionVal = 5;
+			SpectreRotX = AuxSpectreRotX;
+			DisparoSpectre = 0;
+			KillJPDrotX = 0.0f;
+			KillJPIrotX = 0.0f;
+		}
+		else if (KillJRotY >= 0.0f and AnimacionVal == 5) {
+			SpectreRotX += deltaTime * 0.5f;
+			FenixBIrotX += deltaTime * 0.5f;
+			SpectreMovY -= deltaTime * 0.0225f;
+			SpectreMovX += deltaTime * 0.0125f;
+
+			KillJRotY -= deltaTime * 0.5f;
+			KillJRotX -= deltaTime * 0.1;
+			KillJBrazosRotX -= deltaTime * 0.27;
+
+		}
+		else if (KillJRotY <= 0.0f and AnimacionVal == 5) {
+			AnimacionVal = 0;
+			SpectreMovX = 0.0f;
+			SpectreMovY = 0.0f;
+			SpectreMovZ = 0.0f;
+		}
+
+
 
 //	Animación Spike
 		//glm::vec3 distance = poswheezy - posSpike;
@@ -2087,12 +2238,19 @@ int main()
 
 	//  VALORATN ----------- VALORANT-------------------------------------------------------
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 70.0f, -230.0f));
+		model = glm::translate(model, glm::vec3(-200.0f, 70.0f, -360.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_Gosth_M.RenderModel();
 		
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 80.0f, -230.0f));
+		model = glm::translate(model, glm::vec3(-91.0f, 80.0f, -337.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::translate(model, glm::vec3(SpectreMovX, SpectreMovY, SpectreMovZ));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, SpectreRotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, SpectreRotY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_Spectre_M.RenderModel();
 
@@ -2131,6 +2289,7 @@ int main()
 		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -340.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, FenixRot * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_FenixC.RenderModel();
@@ -2138,6 +2297,7 @@ int main()
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.35f, 1.6f, 0.0f));
 		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, FenixBIrotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_FenixBD.RenderModel();
 
@@ -2163,33 +2323,36 @@ int main()
 		//////////////////////////////// K I L L  J O Y ///////////////////////////////
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-220.0f, 82.0f, -340.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, KillJMovZ));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, KillJRotY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, KillJRotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_KillJC.RenderModel();
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.35f, 0.2f, 0.0f));
-		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, KillJBrazosRotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_KillJBD.RenderModel();
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-0.35f, 0.2f, 0.0f));
-		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, KillJBrazosRotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_KillJBI.RenderModel();
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-0.125f, -0.5f, 0.0f));
-		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -KillJPIrotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_KillJPI.RenderModel();
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.125f, -0.5f, 0.0f));
-		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -KillJPDrotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_KillJPD.RenderModel();
 		
@@ -2221,145 +2384,6 @@ int main()
 		StreetMan3_Texture.UseTexture();
 		Luchador_M.RenderModel();
 
-	//	Rikochet
-		glm::mat4 auxPersonaje(1.0);
-
-		//Torso (utiliza torso 2)
-		model = auxML;
-		model = glm::translate(model, glm::vec3(-5.0f,4.0f,0.0f));
-		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		auxPersonaje = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Ricochet_Texture.UseTexture();
-		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		meshList[4]->RenderMesh();
-
-		//Cabeza
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.0f, 0.625f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Ricochet_Texture.UseTexture();
-		meshList[0]->RenderMesh();
-
-		//Brazo izq
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
-		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
-		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
-		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
-		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Ricochet_Texture.UseTexture();
-		meshList[2]->RenderMesh();
-
-		//Brazo der
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
-		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
-		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
-		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Ricochet_Texture.UseTexture();
-		meshList[2]->RenderMesh();
-
-		//Pierna izq
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
-		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Ricochet_Texture.UseTexture();
-		meshList[3]->RenderMesh();
-
-		//Pierna der
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
-		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Ricochet_Texture.UseTexture();
-		meshList[3]->RenderMesh();
-
-	//	La Pulga
-
-		//Torso (utiliza torso 2)
-		model = auxML;
-		model = glm::translate(model, glm::vec3(5.0f, 4.0f, 0.0f));
-		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		auxPersonaje = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		La_Pulga_Texture.UseTexture();
-		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		meshList[4]->RenderMesh();
-
-		//Cabeza
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.0f, 0.625f, 0.0f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		La_Pulga_Texture.UseTexture();
-		meshList[0]->RenderMesh();
-
-		//Brazo izq
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
-		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
-		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
-		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
-		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		La_Pulga_Texture.UseTexture();
-		meshList[2]->RenderMesh();
-
-		//Brazo der
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
-		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
-		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
-		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		La_Pulga_Texture.UseTexture();
-		meshList[2]->RenderMesh();
-
-		//Pierna izq
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
-		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		La_Pulga_Texture.UseTexture();
-		meshList[3]->RenderMesh();
-
-		//Pierna der
-		model = auxPersonaje;
-		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
-		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		La_Pulga_Texture.UseTexture();
-		meshList[3]->RenderMesh();
-
 
 	//  VALORANT ----------- VALORANT
 		glm::mat4 auxSpike(1.0);
@@ -2387,7 +2411,8 @@ int main()
 
 
 //	Personaje Frijolito
-		 
+		glm::mat4 auxPersonaje(1.0);
+ 
 		//Torso
 		model = glm::mat4(1.0);
 		model = glm::translate(model, posFrijolito);
@@ -2605,30 +2630,6 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
 		meshList[3]->RenderMesh();
-
-//	Modelo helicoptero blanco (Pieter)
-		glm::mat4 auxHelicopterW(1.0);
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 0.0f, -200.0f));
-		auxHelicopterW = model;
-		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Helipad_M.RenderModel();
-
-		model = auxHelicopterW;
-		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 2.0f));
-		auxHelicopterW = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		White_Helicopter_M.RenderModel();
-
-		model = auxHelicopterW;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		White_Helicopter_Helice_M.RenderModel();
-
-		model = auxHelicopterW;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		White_Helicopter_Rotor_M.RenderModel();
 
 
 		//informaci�n al shader de fuentes de iluminaci�n
