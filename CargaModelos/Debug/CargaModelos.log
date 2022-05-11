@@ -5,21 +5,4 @@ D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Wind
 D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(918,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
 D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(920,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
 D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1025,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
-  Window.cpp
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.cpp(199,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.cpp(200,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.cpp(204,28): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.cpp(205,40): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.cpp(207,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.cpp(208,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-  Generando código...
-D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.cpp(79): warning C4715: 'Window::Initialise': no todas las rutas de acceso de control devuelven un valor
-LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
-Model.obj : warning LNK4020: un registro de tipo de 'd:\programfileslaptop\compugrafica\proyectofinal\eresunjuguete\cargamodelos\debug\vc143.pdb' está dañado; puede que algunos símbolos y tipos no sean accesibles desde el depurador
-Main-FinalProject.obj : warning LNK4020: un registro de tipo de 'd:\programfileslaptop\compugrafica\proyectofinal\eresunjuguete\cargamodelos\debug\vc143.pdb' está dañado; puede que algunos símbolos y tipos no sean accesibles desde el depurador
-assimp-vc140-mt.lib(assimp-vc140-mt.dll) : warning LNK4020: un registro de tipo de 'd:\programfileslaptop\compugrafica\proyectofinal\eresunjuguete\cargamodelos\debug\vc143.pdb' está dañado; puede que algunos símbolos y tipos no sean accesibles desde el depurador
-glfw3.lib(wgl_context.c.obj) : warning LNK4020: un registro de tipo de 'd:\programfileslaptop\compugrafica\proyectofinal\eresunjuguete\cargamodelos\debug\vc143.pdb' está dañado; puede que algunos símbolos y tipos no sean accesibles desde el depurador
-LINK : warning LNK4020: un registro de tipo de 'd:\programfileslaptop\compugrafica\proyectofinal\eresunjuguete\cargamodelos\debug\vc143.pdb' está dañado; puede que algunos símbolos y tipos no sean accesibles desde el depurador
-LINK : fatal error LNK1103: información de depuración dañada; compile de nuevo el módulo
+  CargaModelos.vcxproj -> D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\Debug\FinalProject.exe

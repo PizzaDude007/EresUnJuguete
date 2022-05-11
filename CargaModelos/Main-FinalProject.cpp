@@ -1073,8 +1073,6 @@ int main()
 		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
 		
 		
-		
-		//Movimiento del led DEL ESCRITORIO ______________________________________________
 //	Animación Movimiento
 
 		if (rotBrazo[numCam - 1] >= 360.0f or rotBrazo[numCam - 1] <= -360.0f) rotBrazo[numCam - 1] = 0.0f;
@@ -1114,13 +1112,13 @@ int main()
 					if (rotDireccion[i] > 0.0f)rotBrazo[i] -= deltaTime * avanzaOffset/2;
 					if (rotDireccion[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset/2;
 
-					if (rotBrazo[i] < 10.0f and rotBrazo[i] > -10.0f) rotBrazo[i] = 0.0f;
+					if (rotBrazo[i] < 25.0f and rotBrazo[i] > -25.0f) rotBrazo[i] = 0.0f;
 				}
 				break;
 			}
 		}
-		printf("\nnumCam = %d\nDireccion = %d", numCam, mainWindow.getDireccion());
-		if (numCam != 0) printf("\nRotacionBrazo = %f\nRotacionPierna = %f", rotBrazo[numCam - 1], rotPierna[numCam - 1]);
+		//printf("\nnumCam = %d\nDireccion = %d", numCam, mainWindow.getDireccion());
+		//if (numCam != 0) printf("\nRotacionBrazo = %f\nRotacionPierna = %f", rotBrazo[numCam - 1], rotPierna[numCam - 1]);
 				
 		//Movimiento del led deL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
