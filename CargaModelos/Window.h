@@ -18,10 +18,12 @@ public:
 	int getCamaraVal() { return camaraVal; }
 	int getLedCama() { return LedCama; }
 	int getDeskLamp() { return DeskLamp;  }
+	bool getSaveToys() { return saveToys; }
 	int getDireccion() { return direccion; }
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
+	int getAction() { return action; }
 	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 	
 	~Window();
@@ -29,6 +31,7 @@ private:
 	GLFWwindow *mainWindow;
 	GLint width, height;
 	bool keys[1024];
+	int action;
 	GLint bufferWidth, bufferHeight;
 	void createCallbacks();
 	GLfloat lastX;
@@ -39,6 +42,7 @@ private:
 	GLfloat carx;
 	int DeskLamp = 0, LedCama = 0, direccion;
 	bool mouseFirstMoved;
+	bool saveToys;
 	int camaraVal;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);

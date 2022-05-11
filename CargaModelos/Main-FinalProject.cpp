@@ -37,6 +37,8 @@ PROYECTO FINAL
 #include "SpotLight.h"
 #include "Material.h"
 
+
+
 //#include "Modelos_MuchaLucha.h"
 
 float contadorDiaNoche = 0.0f;
@@ -51,6 +53,11 @@ float movAroSpike = 0.0f;
 float rotBrazo[3] = { 0.0f,0.0f,0.0f };
 float rotPierna[3] = { 0.0f,0.0f,0.0f };
 float rotDireccion[3] = { 0.0f,0.0f,0.0f };
+
+
+float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, ciclo_x, ciclo_x2, ciclo_d, ciclo_d2, ciclo_g, ciclo_g2, ciclo_y, ciclo_y2, contador = 0;
+void inputKeyframes(bool* keys,int action);
+
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
@@ -96,6 +103,9 @@ Model JettCompleta = Model();
 Model Cama_M = Model();
 Model Alfombra_M = Model();
 Model Mueble_M = Model();
+Model Helicoptero_M = Model();
+Model Helice_M = Model();
+
 
 //TOY STORY
 Model Casita_M = Model();
@@ -614,6 +624,125 @@ void CreateShaders()
 
 
 
+
+///////////////////////////////KEYFRAMES/////////////////////
+
+
+bool animacion = false;
+
+//NEW// Keyframes
+
+float posXavion = -120.0f, posYavion = 30.0f, posZavion = -130.0f;
+float	movAvion_x = 0.0f, movAvion_y = 0.0f, movAvion_z = 0.0f;
+float giroAvionY = 0;
+float giroAvionX = 0;
+
+#define MAX_FRAMES 41
+int i_max_steps = 50;
+int i_curr_steps = 36; //frames ya iniciados 
+typedef struct _frame
+{
+	//Variables para GUARDAR Key Frames
+	float movAvion_x;		//Variable para PosicionX
+	float movAvion_y;		//Variable para PosicionY
+	float movAvion_z;		//Variable para PosicionZ
+	
+	float movAvion_xInc;		//Variable para IncrementoX
+	float movAvion_yInc;		//Variable para IncrementoY
+	float movAvion_zInc;		//Variable para IncrementoZ
+
+	float giroAvionY;
+	float giroAvionYInc;
+	float giroAvionX;
+	float giroAvionXInc;
+}FRAME;
+
+FRAME KeyFrame[MAX_FRAMES];
+int FrameIndex = 36;			//introducir datos
+bool play = false;  //var animacion para iniciar por teclado
+int playIndex = 0;
+
+void saveFrame(void)
+{
+
+	printf("Se guard� el frame[ %d ]\n", FrameIndex);
+
+
+	KeyFrame[FrameIndex].movAvion_x = movAvion_x;
+	KeyFrame[FrameIndex].movAvion_y = movAvion_y;
+	KeyFrame[FrameIndex].movAvion_z = movAvion_z;
+	KeyFrame[FrameIndex].giroAvionY = giroAvionY;
+	KeyFrame[FrameIndex].giroAvionX = giroAvionX;
+	FrameIndex++;
+}
+
+void resetElements(void)
+{
+
+	movAvion_x = KeyFrame[0].movAvion_x;
+	movAvion_y = KeyFrame[0].movAvion_y;
+	movAvion_z = KeyFrame[0].movAvion_z;
+	giroAvionY = KeyFrame[0].giroAvionY;
+	giroAvionX = KeyFrame[0].giroAvionX;
+}
+
+void interpolation(void)
+{
+	KeyFrame[playIndex].movAvion_xInc = (KeyFrame[playIndex + 1].movAvion_x - KeyFrame[playIndex].movAvion_x) / i_max_steps;
+	KeyFrame[playIndex].movAvion_yInc = (KeyFrame[playIndex + 1].movAvion_y - KeyFrame[playIndex].movAvion_y) / i_max_steps;
+	KeyFrame[playIndex].movAvion_zInc = (KeyFrame[playIndex + 1].movAvion_z - KeyFrame[playIndex].movAvion_z) / i_max_steps;
+	KeyFrame[playIndex].giroAvionYInc = (KeyFrame[playIndex + 1].giroAvionY - KeyFrame[playIndex].giroAvionY) / i_max_steps;
+	KeyFrame[playIndex].giroAvionXInc = (KeyFrame[playIndex + 1].giroAvionX - KeyFrame[playIndex].giroAvionX) / i_max_steps;
+
+}
+
+
+void animate(void)
+{
+	//Movimiento del objeto
+	if (play)
+	{
+		if (i_curr_steps >= i_max_steps) //end of animation between frames?
+		{
+			playIndex++;
+			printf("frame reproducido playindex : %d\n", playIndex - 1);
+			if (playIndex > FrameIndex - 2)	//end of total animation?
+			{
+				printf("ultimo Frame index= %d\n", FrameIndex - 1);
+				printf("termina animacion\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Next frame interpolations
+			{
+				//printf("entro aqu�\n");
+				i_curr_steps = 0; //Reset counter
+				//Interpolation
+				interpolation();
+			}
+		}
+		else
+		{
+			//printf("se qued� aqui\n");
+			//printf("max steps: %f", i_max_steps);
+			//Draw animation
+			movAvion_x += KeyFrame[playIndex].movAvion_xInc;
+			movAvion_y += KeyFrame[playIndex].movAvion_yInc;
+			movAvion_z += KeyFrame[playIndex].movAvion_zInc;
+			giroAvionY += KeyFrame[playIndex].giroAvionYInc;
+			giroAvionX += KeyFrame[playIndex].giroAvionXInc;
+			i_curr_steps++;
+		}
+
+	}
+}
+
+/* FIN KEYFRAMES*/
+
+
+
+
+
 int main()
 {
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
@@ -673,6 +802,8 @@ int main()
 	Cama_M.LoadModel("Models/bed_red.obj");
 	Alfombra_M.LoadModel("Models/alfombra.obj");
 	Mueble_M.LoadModel("Models/mueble.obj");
+	Helicoptero_M.LoadModel("Models/helicoptero.obj");
+	Helice_M.LoadModel("Models/helice.obj");
 
 	//TOY STORY
 	Casita_M.LoadModel("Models/casita.obj");
@@ -911,21 +1042,319 @@ int main()
 	
 	int numCam = 0;
 
+	//Vars animacion juguetes
+	std::string estado_bus = "PARAR_BUS";
+	glm::vec3 posBus1 = glm::vec3(-140.0f, 7.0f, -90.0f);
+	float angulo_busZ = -90;
+	float angulo_busZ_offset = 1.5f;
+	float angulo_busY = 30;
+	float angulo_busY_offset = 1.0f;
+	float posBus1X = 0.0f;
+	float posBus1Y = 0.0f;
+	float posBus1Z = 0.0f;
+	bool anguloBusListo;
+	bool posBusListo;
+	float auxposx = 0.0f;
+	float auxposz = 0.0f;
 
-	////Loop mientras no se cierra la ventana
+	std::string estado_car = "VUELTA_CAR";
+	glm::vec3 posCar = glm::vec3(-70.0f, 3.0f, -120.0f);
+	float angulo_carY = 0.0f;
+	float angulo_carY_offset = 0.8f;
+	float posCar1X = 0.0f;
+	float posCar1Y = 0.0f;
+	float posCar1Z = 0.0f;
+	float auxPosCarx = 0.0f;
+	float auxPosCarz = 0.0f;
+
+	std::string estado_edificio = "PARAR_EDIFICIO";
+	glm::vec3 posEdificio = glm::vec3(-10.0f, 10.0f, -150.0f);
+	float angulo_EdiY = 0.0f;
+	float angulo_EdiY_offset = 1.0f;
+	float angulo_EdiX = 90.0f;
+	float angulo_EdiX_offset = 0.6f;
+	float posEdi1X = 0.0f;
+	float posEdi1Y = 0.0f;
+	float posEdi1Z = 0.0f;
+	float auxPosEdix = 0.0f;
+	float auxPosEdiz = 0.0f;
+	float auxAngEdiy = 0.0f;
+
+
+	glm::vec3 posPelota = glm::vec3(30.0f, 12.0f, -120.0f);
+	float posPelotaX = 30.0f;
+	float posPelotaY = 12.0f;
+	float posPelotaZ = -120.0f;
+	float rotPelotaX = 0.0f;
+	float rotPelotaY = 0.0f;
+
+
+	//KEYFRAMES DECLARADOS INICIALES
+
+	KeyFrame[0].movAvion_x = 0.0f;
+	KeyFrame[0].movAvion_y = 0.0f;
+	KeyFrame[0].movAvion_z = 0.0f;
+	KeyFrame[0].giroAvionY = 0;
+	KeyFrame[0].giroAvionX = 0;
+
+
+	KeyFrame[1].movAvion_x =-3.0f;
+	KeyFrame[1].movAvion_y = 3.0f;
+	KeyFrame[1].movAvion_z = 0.0f;
+	KeyFrame[1].giroAvionY = 0;
+	KeyFrame[1].giroAvionX = 0;
+
+	KeyFrame[2].movAvion_x = -7.0f;
+	KeyFrame[2].movAvion_y = 7.0f;
+	KeyFrame[2].movAvion_z = 0.0f;
+	KeyFrame[2].giroAvionY = 0;
+	KeyFrame[2].giroAvionX = 0;
+
+
+	KeyFrame[3].movAvion_x = -12.0f;
+	KeyFrame[3].movAvion_y = 11.0f;
+	KeyFrame[3].movAvion_z = 0.0f;
+	KeyFrame[3].giroAvionY = 10.0f;
+	KeyFrame[3].giroAvionX = 0;
+
+	KeyFrame[4].movAvion_x = -21.0f;
+	KeyFrame[4].movAvion_y = 15.0f;
+	KeyFrame[4].movAvion_z = 4.0f;
+	KeyFrame[4].giroAvionY = 31.0f;
+	KeyFrame[4].giroAvionX = 0.0f;
+
+	KeyFrame[5].movAvion_x = -26.0f;
+	KeyFrame[5].movAvion_y = 15.0f;
+	KeyFrame[5].movAvion_z = 13.0f;
+	KeyFrame[5].giroAvionY = 64.0f;
+	KeyFrame[5].giroAvionX = 10.0f;
+
+	KeyFrame[6].movAvion_x = -32.0f;
+	KeyFrame[6].movAvion_y = 14.0f;
+	KeyFrame[6].movAvion_z = 27.0f;
+	KeyFrame[6].giroAvionY = 91.0f;
+	KeyFrame[6].giroAvionX = 10.0f;
+
+	KeyFrame[7].movAvion_x = -23.0f;
+	KeyFrame[7].movAvion_y = 14.0f;
+	KeyFrame[7].movAvion_z = 54.0f;
+	KeyFrame[7].giroAvionY = 130.0f;
+	KeyFrame[7].giroAvionX = -12.0f;
+
+	KeyFrame[8].movAvion_x = -6.0f;
+	KeyFrame[8].movAvion_y = 14.0f;
+	KeyFrame[8].movAvion_z = 81.0f;
+	KeyFrame[8].giroAvionY = 170.0f;
+	KeyFrame[8].giroAvionX = -12.0f;
+
+	KeyFrame[9].movAvion_x = 38.0f;
+	KeyFrame[9].movAvion_y = 14.0f;
+	KeyFrame[9].movAvion_z = 81.0f;
+	KeyFrame[9].giroAvionY = 181.0f;
+	KeyFrame[9].giroAvionX = 0.0f;
+
+	KeyFrame[10].movAvion_x = 69.0f;
+	KeyFrame[10].movAvion_y = 14.0f;
+	KeyFrame[10].movAvion_z = 81.0f;
+	KeyFrame[10].giroAvionY = 181.0f;
+	KeyFrame[10].giroAvionX = 0.0f;
+
+	KeyFrame[11].movAvion_x = 88.0f;
+	KeyFrame[11].movAvion_y = 23.0f;
+	KeyFrame[11].movAvion_z = 81.0f;
+	KeyFrame[11].giroAvionY = 190.0f;
+	KeyFrame[11].giroAvionX = 0.0f;
+
+	KeyFrame[12].movAvion_x = 115.0f;
+	KeyFrame[12].movAvion_y = 25.0f;
+	KeyFrame[12].movAvion_z = 70.0f;
+	KeyFrame[12].giroAvionY = 215.0f;
+	KeyFrame[12].giroAvionX = 0.0f;
+
+	KeyFrame[13].movAvion_x = 129.0f;
+	KeyFrame[13].movAvion_y = 25.0f;
+	KeyFrame[13].movAvion_z = 60.0f;
+	KeyFrame[13].giroAvionY = 251.0f;
+	KeyFrame[13].giroAvionX = 0.0f;
+
+	KeyFrame[14].movAvion_x = 141.0f;
+	KeyFrame[14].movAvion_y = 25.0f;
+	KeyFrame[14].movAvion_z = 46.0f;
+	KeyFrame[14].giroAvionY = 273.0f;
+	KeyFrame[14].giroAvionX = 0.0f;
+
+	KeyFrame[15].movAvion_x = 155.0f;
+	KeyFrame[15].movAvion_y = 25.0f;
+	KeyFrame[15].movAvion_z = -7.0f;
+	KeyFrame[15].giroAvionY = 273.0f;
+	KeyFrame[15].giroAvionX = 0.0f;
+
+	KeyFrame[16].movAvion_x = 155.0f;
+	KeyFrame[16].movAvion_y = 31.0f;
+	KeyFrame[16].movAvion_z = -20.0f;
+	KeyFrame[16].giroAvionY = 273.0f;
+	KeyFrame[16].giroAvionX = 9.0f;
+
+	KeyFrame[17].movAvion_x = 155.0f;
+	KeyFrame[17].movAvion_y = 37.0f;
+	KeyFrame[17].movAvion_z = -30.0f;
+	KeyFrame[17].giroAvionY = 273.0f;
+	KeyFrame[17].giroAvionX = 19.0f;
+
+	KeyFrame[18].movAvion_x = 155.0f;
+	KeyFrame[18].movAvion_y = 46.0f;
+	KeyFrame[18].movAvion_z = -49.0f;
+	KeyFrame[18].giroAvionY = 273.0f;
+	KeyFrame[18].giroAvionX = 19.0f;
+
+	KeyFrame[19].movAvion_x = 155.0f;
+	KeyFrame[19].movAvion_y = 50.0f;
+	KeyFrame[19].movAvion_z = -67.0f;
+	KeyFrame[19].giroAvionY = 273.0f;
+	KeyFrame[19].giroAvionX = 9.0f;
+
+	KeyFrame[20].movAvion_x = 155.0f;
+	KeyFrame[20].movAvion_y = 50.0f;
+	KeyFrame[20].movAvion_z = -90.0f;
+	KeyFrame[20].giroAvionY = 273.0f;
+	KeyFrame[20].giroAvionX = 0.0f;
+
+	KeyFrame[21].movAvion_x = 155.0f;
+	KeyFrame[21].movAvion_y = 50.0f;
+	KeyFrame[21].movAvion_z = -120.0f;
+	KeyFrame[21].giroAvionY = 273.0f;
+	KeyFrame[21].giroAvionX = 0.0f;
+
+	KeyFrame[22].movAvion_x = 150.0f;
+	KeyFrame[22].movAvion_y = 50.0f;
+	KeyFrame[22].movAvion_z = -135.0f;
+	KeyFrame[22].giroAvionY = 301.0f;
+	KeyFrame[22].giroAvionX = 0.0f;
+
+	KeyFrame[23].movAvion_x = 140.0f;
+	KeyFrame[23].movAvion_y = 50.0f;
+	KeyFrame[23].movAvion_z = -147.0f;
+	KeyFrame[23].giroAvionY = 356.0f;
+	KeyFrame[23].giroAvionX = 0.0f;
+
+	KeyFrame[24].movAvion_x = 122.0f;
+	KeyFrame[24].movAvion_y = 50.0f;
+	KeyFrame[24].movAvion_z = -147.0f;
+	KeyFrame[24].giroAvionY = 362.0f;
+	KeyFrame[24].giroAvionX = 0.0f;
+
+	KeyFrame[25].movAvion_x = 104.0f;
+	KeyFrame[25].movAvion_y = 50.0f;
+	KeyFrame[25].movAvion_z = -147.0f;
+	KeyFrame[25].giroAvionY = 362.0f;
+	KeyFrame[25].giroAvionX = 0.0f;
+
+	KeyFrame[26].movAvion_x = 91.0f;
+	KeyFrame[26].movAvion_y = 50.0f;
+	KeyFrame[26].movAvion_z = -147.0f;
+	KeyFrame[26].giroAvionY = 371.0f;
+	KeyFrame[26].giroAvionX = 10.0f;
+
+	KeyFrame[27].movAvion_x = 81.0f;
+	KeyFrame[27].movAvion_y = 45.0f;
+	KeyFrame[27].movAvion_z = -135.0f;
+	KeyFrame[27].giroAvionY = 397.0f;
+	KeyFrame[27].giroAvionX = 24.0f;
+
+	KeyFrame[28].movAvion_x = 75.0f;
+	KeyFrame[28].movAvion_y = 35.0f;
+	KeyFrame[28].movAvion_z = -117.0f;
+	KeyFrame[28].giroAvionY = 425.0f;
+	KeyFrame[28].giroAvionX = 28.0f;
+
+	KeyFrame[29].movAvion_x = 75.0f;
+	KeyFrame[29].movAvion_y = 20.0f;
+	KeyFrame[29].movAvion_z = -84.0f;
+	KeyFrame[29].giroAvionY = 427.0f;
+	KeyFrame[29].giroAvionX = 17.0f;
+
+	KeyFrame[30].movAvion_x = 75.0f;
+	KeyFrame[30].movAvion_y = 12.0f;
+	KeyFrame[30].movAvion_z = -57.0f;
+	KeyFrame[30].giroAvionY = 436.0f;
+	KeyFrame[30].giroAvionX = 12.0f;
+
+	KeyFrame[31].movAvion_x = 70.0f;
+	KeyFrame[31].movAvion_y = 3.0f;
+	KeyFrame[31].movAvion_z = -13.0f;
+	KeyFrame[31].giroAvionY = 426.0f;
+	KeyFrame[31].giroAvionX = 0.0f;
+
+	KeyFrame[32].movAvion_x = 58.0f;
+	KeyFrame[32].movAvion_y = 3.0f;
+	KeyFrame[32].movAvion_z = -4.0f;
+	KeyFrame[32].giroAvionY = 380.0f;
+	KeyFrame[32].giroAvionX = 0.0f;
+
+	KeyFrame[33].movAvion_x = 42.0f;
+	KeyFrame[33].movAvion_y = 3.0f;
+	KeyFrame[33].movAvion_z = 0.0f;
+	KeyFrame[33].giroAvionY = 360.0f;
+	KeyFrame[33].giroAvionX = 0.0f;
+	
+	KeyFrame[34].movAvion_x = 25.0f;
+	KeyFrame[34].movAvion_y = 3.0f;
+	KeyFrame[34].movAvion_z = 0.0f;
+	KeyFrame[34].giroAvionY = 360.0f;
+	KeyFrame[34].giroAvionX = 0.0f;
+
+	KeyFrame[35].movAvion_x = 0.0f;
+	KeyFrame[35].movAvion_y = 0.0f;
+	KeyFrame[35].movAvion_z = 0.0f;
+	KeyFrame[35].giroAvionY = 361.0f;
+	KeyFrame[35].giroAvionX = 0.0f;
+
+	glm::vec3 posblackhawk = glm::vec3(-120.0f, 30.0f, -130.0f);
+
+	//Helice
+	float rotYHelice = 0.0f;
+	float rotYHeliceOffset=0.01f;
+
+
+
+	////Loop mientras no se cierra la ventana ############# INICIA CICLO WHILE ################
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
 		deltaTime = now - lastTime;
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
+		//Recibir eventos del usuario
+		glfwPollEvents();
+
+		//para keyframes
+		//inputKeyframes(mainWindow.getsKeys(),mainWindow.getAction());
+		if (play == false) {
+			resetElements();
+			interpolation();
+			play = true;
+			playIndex = 0;
+			i_curr_steps = 0;
+			rotYHeliceOffset = 0.01f;
+			rotYHelice = 0.0f;
+		}
+		animate();
+
+		//ANIMACION HELICE
+		rotYHelice += rotYHeliceOffset * deltaTime;
+		if (playIndex < 4) {	
+			rotYHeliceOffset += 0.1f;
+		}
+		else if (playIndex > 32) {
+			rotYHeliceOffset -= 0.2f;
+			if (rotYHeliceOffset < 0) rotYHeliceOffset = 0;
+		}
+
 
 
 		// MANEJO DE CAMARA AEREA Y FIJA
 		numCam = mainWindow.getCamaraVal();
 
-		//Recibir eventos del usuario
-		glfwPollEvents();
 		if (numCam == 0) {
 			camera = &cameraLibre;
 			camera->keyControl(mainWindow.getsKeys(), deltaTime);
@@ -990,22 +1419,6 @@ int main()
 		posFrijolito.x = poscam.x + ((0 * cos(angulo_cam_frijolito)) - (40 * sin(angulo_cam_frijolito)));
 		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (40 * cos(angulo_cam_frijolito)));
 		posFrijolito.y = poscam.y - 12;
-
-
-		// Clear the window
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera->calculateViewMatrix(), projection);
-		shaderList[0].UseShader();
-		uniformModel = shaderList[0].GetModelLocation();
-		uniformProjection = shaderList[0].GetProjectionLocation();
-		uniformView = shaderList[0].GetViewLocation();
-		uniformEyePosition = shaderList[0].GetEyePositionLocation();
-		uniformColor = shaderList[0].getColorLocation();
-		
-		//informaci�n en el shader de intensidad especular y brillo
-		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
-		uniformShininess = shaderList[0].GetShininessLocation();
 
 		//Cambio del ciclo de luz de dia y noche_____________________________________
 		
@@ -1122,20 +1535,244 @@ int main()
 				
 		//Movimiento del led deL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
-			posicionLed1X += deltaTime * ledOffset;
+			posicionLed1X += deltaTime * ledOffset*0.5;
 		}
 		else if (posicionLed1X >= 150.0f and banderaLedEscritorio == 0) {
 			banderaLedEscritorio = 1;
 		}
 		else if (posicionLed1X >= 0.0f and banderaLedEscritorio == 1) {
-			posicionLed1X -= deltaTime * ledOffset;
+			posicionLed1X -= deltaTime * ledOffset*0.5;
 		}
 		else if (posicionLed1X <= 0.0f and banderaLedEscritorio == 1) {
 			banderaLedEscritorio = 0;
 		}
-
 		pointLightsCama[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
 		pointLightsSpike[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
+
+		//ANIMACION - GUARDAR JUGUETES
+		if (mainWindow.getSaveToys()) {
+			// ANIMACION BUS
+			if(estado_bus == "PARAR_BUS")
+			{
+				if (posBus1Y > 3.0f || angulo_busZ < 0) {
+					if (angulo_busZ < 0) {
+						angulo_busZ += deltaTime * angulo_busZ_offset;
+					}
+					if (posBus1Y > 3.0f) {
+						posBus1Y -= deltaTime * 0.1f;
+					}
+				}
+				else {
+					estado_bus = "GIRAR_BUS";
+				}
+			}
+			else if(estado_bus=="GIRAR_BUS"){
+				if (angulo_busY > 0.0f) {
+					angulo_busY -= deltaTime * angulo_busY_offset;
+					
+				}
+				else {
+					estado_bus = "VUELTA_BUS";
+					auxposx = posBus1X;
+					auxposz = posBus1Z;
+				}
+			}
+			else if (estado_bus == "VUELTA_BUS") {
+				float radio = 80.0f; 
+				float centroX = auxposx - radio; 
+				float centroZ = auxposz;
+
+				if (angulo_busY < 90.0f) {
+					angulo_busY += deltaTime * angulo_busY_offset*0.8f;
+					posBus1X = centroX + (radio * cos((0 - angulo_busY) * toRadians)); 
+					posBus1Z = centroZ + (radio * sin((0 - angulo_busY) * toRadians));
+				}
+				else {
+					estado_bus = "SUBE_BUS";
+				}
+			}
+			else if (estado_bus == "SUBE_BUS") {
+
+				if (posBus1Y < 14.0f) {
+					posBus1Y += deltaTime * 0.2f;
+				}
+				else {
+					estado_bus = "ACOMODA_BUS";
+					auxposx = posBus1X;
+					auxposz = posBus1Z;
+				}
+			}
+			else if (estado_bus == "ACOMODA_BUS") {
+				float radio = 25.0f;
+				float centroX = auxposx;
+				float centroZ = auxposz - radio;
+
+				if (angulo_busY >20.0f) {
+					angulo_busY -= deltaTime * angulo_busY_offset * 0.8f;
+					posBus1X = centroX + (radio * cos((-180 - angulo_busY) * toRadians));
+					posBus1Z = centroZ + (radio * sin((-180 - angulo_busY) * toRadians));
+				}
+				else {
+					estado_bus = "BUS_LISTO";
+				}
+			}
+
+			// ANIMACION CAR
+			if (estado_car == "VUELTA_CAR") {
+				float radio = 46.0f;
+				float centroX = auxPosCarx - radio;
+				float centroZ = auxPosCarz;
+
+				if (angulo_carY < 90.0f) {
+					angulo_carY += deltaTime * angulo_carY_offset*0.7;
+					posCar1X = centroX + (radio * cos((0 - angulo_carY) * toRadians));
+					posCar1Z = centroZ + (radio * sin((0 - angulo_carY) * toRadians));
+				}
+				else {
+					estado_car = "AVANZA_CAR";
+					auxPosCarx = posCar1X;
+				}
+			}
+			else if (estado_car == "AVANZA_CAR") {
+				if (posCar1X > auxPosCarx - 112) {
+					posCar1X -= deltaTime * 0.5f;
+				}
+				else {
+					estado_car = "SUBE_CAR";
+				}
+			}
+			else if( estado_car == "SUBE_CAR")
+			{
+				if (posCar1Y < 14.0f) {
+					posCar1Y += deltaTime * 0.3f;
+				}
+				else {
+					estado_car = "ACOMODA_CAR";
+					auxPosCarx = posCar1X;
+				}
+			}
+			else if (estado_car == "ACOMODA_CAR") {
+				if (posCar1X > auxPosCarx - 15) {
+					posCar1X -= deltaTime * 0.6f;
+				}
+				else {
+					estado_car = "CAR_LISTO";
+				}
+			}
+
+			//ANIMACION EDIFICIO
+			if (estado_edificio == "PARAR_EDIFICIO") {
+				if (posEdi1Y > 3.0f || angulo_EdiX > 0) {
+					
+
+					if (angulo_EdiX > 0) {
+						angulo_EdiX -= deltaTime * angulo_EdiX_offset;
+					}
+					if (posEdi1Y > 3.0f) {
+						posEdi1Y -= deltaTime * 0.1f;
+					}
+				}
+				else {
+					estado_edificio = "VUELTA_EDIFICIO";
+					auxAngEdiy = angulo_EdiY;
+					auxPosEdix = posEdi1X;
+					auxPosEdiz = posEdi1Z;
+				}
+			}
+			else if (estado_edificio == "VUELTA_EDIFICIO") {
+				float radio = 120.0f;
+				float centroX = auxPosEdix - radio;
+				float centroZ = auxPosEdiz;
+
+				if (auxAngEdiy < 90.0f) {
+					auxAngEdiy += deltaTime * angulo_EdiY_offset * 0.6f;
+					posEdi1X = centroX + (radio * cos((0 - auxAngEdiy) * toRadians));
+					posEdi1Z = centroZ + (radio * sin((0 - auxAngEdiy) * toRadians));
+					angulo_EdiY = auxAngEdiy * 2;
+				}
+				else {
+					estado_edificio = "DESPLAZA_EDIFICIO";
+					auxPosEdiz = posEdi1Z;
+				}
+			}
+			else if (estado_edificio == "DESPLAZA_EDIFICIO") {
+				if (posEdi1Z > auxPosEdiz-40) {
+					posEdi1Z -= deltaTime * 0.5f;
+				}
+				else
+				{
+					estado_edificio = "EDIFICIO_LISTO";
+				}
+
+			}
+
+
+		}
+		else {
+			//variables bus
+			posBus1X = -140.0f;
+			posBus1Y = 7.0f;
+			posBus1Z = -90.0f;
+			angulo_busY = 30.0f;
+			angulo_busZ = -90;
+			estado_bus = "PARAR_BUS";
+
+			//variables car
+			angulo_carY = 0.0f;
+			posCar1X = -70.0f;
+			posCar1Y = 3.0f;
+			posCar1Z = -120.0f;
+			estado_car = "VUELTA_CAR";
+			auxPosCarx = posCar1X;
+			auxPosCarz = posCar1Z;
+
+			//variables Edificio
+			angulo_EdiY = 0.0f;
+			angulo_EdiX = 90.0f;
+			posEdi1X = -10.0f;
+			posEdi1Y = 10.0f;
+			posEdi1Z = -150.0f;
+			estado_edificio = "PARAR_EDIFICIO";
+
+		}
+		posBus1= glm::vec3(posBus1X, posBus1Y, posBus1Z);
+		posCar = glm::vec3(posCar1X,posCar1Y,posCar1Z);
+		posEdificio = glm::vec3(posEdi1X,posEdi1Y,posEdi1Z);
+
+		// ANIMACION PELOTA
+		posPelota.y = posPelotaY + abs(15*sin(rotPelotaX * toRadians));
+		rotPelotaX += deltaTime * 5.0f;
+		if (rotPelotaX > 360) rotPelotaX = 0;
+		
+
+		float radio = 90.0f;
+		float centroX = posPelotaX - radio + 10.0f;
+		float centroZ = posPelotaZ+20;
+
+		if (rotPelotaY < 360.0f) {
+			rotPelotaY += deltaTime * 0.5f;
+			posPelota.x = centroX + (radio*1.5 * cos((0 - rotPelotaY) * toRadians));
+			posPelota.z = centroZ + (radio * sin((0 - rotPelotaY) * toRadians));
+		}
+		else {
+			rotPelotaY = 0.0f;
+		}
+
+		// Clear the window
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		skybox.DrawSkybox(camera->calculateViewMatrix(), projection);
+		shaderList[0].UseShader();
+		uniformModel = shaderList[0].GetModelLocation();
+		uniformProjection = shaderList[0].GetProjectionLocation();
+		uniformView = shaderList[0].GetViewLocation();
+		uniformEyePosition = shaderList[0].GetEyePositionLocation();
+		uniformColor = shaderList[0].getColorLocation();
+
+		//informaci�n en el shader de intensidad especular y brillo
+		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
+		uniformShininess = shaderList[0].GetShininessLocation();
+
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
@@ -1164,6 +1801,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Cuarto_M.RenderModel();
+
+
 
 		
 		//CAMA
@@ -1278,41 +1917,99 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Casita_M.RenderModel();
 
+		//Casita
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-100.0f, 3.0f, -80.0f));
+		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Casita_M.RenderModel();
+
+
+
 		//Edificio
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-70.0f, 3.0f, -150.0f));
+		model = glm::translate(model, glm::vec3(-40.0f, 3.0f, -150.0f));
+		model = glm::rotate(model, -120 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Edificio_M.RenderModel();
 
-		//Edificio2
+
+
+		//Edificio Largo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.0f, 3.0f, -150.0f));
+		model = glm::translate(model, posEdificio);
+		model = glm::rotate(model, angulo_EdiY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, angulo_EdiX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Edificio2_M.RenderModel();
 
-		//Arbolito
+		//Edificio Largo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-80.0f, 3.0f, -80.0f));
+		model = glm::translate(model, glm::vec3(-120.0f, 3.0f, -130.0f));
+		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Arbolito_M.RenderModel();
+		Edificio2_M.RenderModel();
+
+
+		//Helicoptero
+		model = glm::mat4(1.0);
+		posblackhawk = glm::vec3(posXavion + movAvion_x, posYavion + movAvion_y, posZavion + movAvion_z);
+		model = glm::translate(model, posblackhawk);
+		model = glm::scale(model, glm::vec3(0.04f, 0.04f, 0.04f));
+		model = glm::rotate(model, giroAvionX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, giroAvionY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Helicoptero_M.RenderModel();
+		
+		//Helice
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f,-15.0f,0.0f));
+		model = glm::rotate(model, rotYHelice * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Helice_M.RenderModel();
+
 
 		//Carro
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 3.0f, -80.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Car_M.RenderModel();
+
+		//Carro
+		model = glm::mat4(1.0);
+		model = glm::translate(model, posCar);
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, angulo_carY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Car_M.RenderModel();
 
 		//Bus
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-40.0f, 3.0f, -110.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bus_M.RenderModel();
+
+		//Bus
+		model = glm::mat4(1.0);
+		model = glm::translate(model, posBus1);
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		model = glm::rotate(model, angulo_busY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, angulo_busZ * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Bus_M.RenderModel();
 
 		//PELOTA
+		float auxRotPelotax = (rotPelotaX < 180) ? rotPelotaX : -rotPelotaX;
 		color = glm::vec3(248.0f/255.0f, 228.0f / 255.0f, 46.0f / 255.0f);
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-140.0f, 12.0f, -160.0f));
-		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, posPelota);
+		model = glm::rotate(model, ( auxRotPelotax) * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, (-90.0f+rotPelotaY) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -1611,6 +2308,7 @@ int main()
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		WheezyTexture.UseTexture();
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[4]->RenderMesh();
 
 		//Cabeza
@@ -1792,3 +2490,225 @@ int main()
 
 	return 0;
 }
+
+
+
+void inputKeyframes(bool* keys, int action)
+{
+	if (keys[GLFW_KEY_SPACE] && action == GLFW_PRESS) // Empezar animacion
+	{
+		//if (reproduciranimacion < 1)
+		//{
+			if (play == false && (FrameIndex > 1))
+			{
+				resetElements();
+				//First Interpolation				
+				interpolation();
+				play = true;
+				playIndex = 0;
+				i_curr_steps = 0;
+				//reproduciranimacion++;
+				//printf("presiona 0 para habilitar reproducir de nuevo la animaci�n'\n");
+				//habilitaranimacion = 0;
+
+			}
+			else
+			{
+				play = false;
+			}
+		//}
+	}
+	/*if (keys[GLFW_KEY_0])
+	{
+		if (habilitaranimacion < 1)
+		{
+			reproduciranimacion = 0;
+		}
+	}*/
+
+	if (keys[GLFW_KEY_L] && action == GLFW_PRESS) //Guardar
+	{
+		if (guardoFrame < 1)
+		{
+			saveFrame();
+			printf("\n--------- SE GUARDA -----------\n");
+			printf("movAvion_x es: %f\n", movAvion_x);
+			printf("movAvion_y es: %f\n", movAvion_y);
+			printf("movAvion_z es: %f\n", movAvion_z);
+			printf("giroAvionY es: %f\n", giroAvionY);
+			printf("giroAvionX es: %f\n", giroAvionX);
+			printf("presiona R para habilitar guardar otro frame'\n");
+			printf("\n-----------------------------\n");
+			guardoFrame++;
+			reinicioFrame = 0;
+		}
+	}
+	if (keys[GLFW_KEY_R])
+	{
+		if (reinicioFrame < 1)
+		{
+			guardoFrame = 0;
+		}
+	}
+
+	if (keys[GLFW_KEY_UP] && action == GLFW_PRESS) // DECREMENTA X
+	{
+		//if (ciclo_x < 1)
+		//{
+			movAvion_x -= 1.0f;
+			printf("movAvion_x es: %f\n", movAvion_x);
+			//ciclo_x++;
+			//ciclo_x2 = 0;
+			//printf("reinicia con C\n");
+		//}
+
+	}
+	/*if (keys[GLFW_KEY_V] )
+	{
+		if (ciclo_x2 < 1)
+		{
+			ciclo_x = 0;
+		}
+	}*/
+	if (keys[GLFW_KEY_DOWN] && action == GLFW_PRESS) // INCREMENTA X
+	{
+		//if (ciclo < 1)
+		//{
+			movAvion_x += 1.0f;
+			printf("movAvion_x es: %f\n", movAvion_x);
+			//ciclo++;
+			//ciclo2 = 0;
+			//printf("reinicia con 2\n");
+		//}
+
+	}
+	/*if (keys[GLFW_KEY_B] )
+	{
+		if (ciclo2 < 1)
+		{
+			ciclo = 0;
+		}
+	}*/
+	if (keys[GLFW_KEY_RIGHT] && action == GLFW_PRESS) // DECREMENTA Z
+	{
+		movAvion_z -= 1.0f;
+		printf("movAvion_z es: %f\n", movAvion_z);
+		//ciclo_x++;
+		//ciclo_x2 = 0;
+		//printf("reinicia con C\n");
+
+	}
+	/*if (keys[GLFW_KEY_V] )
+	{
+		if (ciclo_x2 < 1)
+		{
+			ciclo_x = 0;
+		}
+	}*/
+	if (keys[GLFW_KEY_LEFT] && action == GLFW_PRESS) // INCREMENTA Z
+	{
+		//if (ciclo < 1)
+		//{
+		movAvion_z += 1.0f;
+		printf("movAvion_x es: %f\n", movAvion_z);
+		//ciclo++;
+		//ciclo2 = 0;
+		//printf("reinicia con 2\n");
+		//}
+
+	}
+	/*if (keys[GLFW_KEY_B] )
+	{
+		if (ciclo2 < 1)
+		{
+			ciclo = 0;
+		}
+	}*/
+	if (keys[GLFW_KEY_K] && action == GLFW_PRESS) // INCREMENTA Y
+	{
+		//if (ciclo_d < 1)
+		//{
+			movAvion_y += 1.0f;
+			printf("movAvion_y es: %f\n", movAvion_y);
+			//ciclo_d++;
+			//ciclo_d2 = 0;
+			//printf("reinicia con 4\n");
+		//}
+
+	}
+	/*if (keys[GLFW_KEY_N] )
+	{
+		if (ciclo_d2 < 1)
+		{
+			ciclo_d = 0;
+		}
+	}*/
+	if (keys[GLFW_KEY_M] && action == GLFW_PRESS) // DECREMENTA Y
+	{
+		//if (ciclo_y < 1)
+		//{
+			movAvion_y -= 1.0f;
+			printf("giroAvionY es: %f\n", giroAvionY);
+			//ciclo_y++;
+			//ciclo_y2 = 0;
+			//printf("reinicia con 6\n");
+		//}
+
+	}
+	/*if (keys[GLFW_KEY_6])
+	{
+		if (ciclo_y2 < 1)
+		{
+			ciclo_y = 0;
+		}
+	}*/
+	if (keys[GLFW_KEY_1] && action == GLFW_PRESS) // INCREMENTA ROTY
+	{
+		//if (ciclo_g < 1)
+		//{
+			giroAvionY += 1.0f;
+			printf("giroAvionY es: %f\n", giroAvionY);
+			//ciclo_g++;
+			//ciclo_g2 = 0;
+			//printf("reinicia con 8\n");
+		//}
+
+	}
+	if (keys[GLFW_KEY_2] && action == GLFW_PRESS) // DECREMENTA ROTY
+	{
+		//if (ciclo_g < 1)
+		//{
+		giroAvionY -= 1.0f;
+		printf("giroAvionY es: %f\n", giroAvionY);
+		//ciclo_g++;
+		//ciclo_g2 = 0;
+		//printf("reinicia con 8\n");
+	//}
+
+	}
+	if (keys[GLFW_KEY_3] && action == GLFW_PRESS) // INCREMENTA ROTX
+	{
+		//if (ciclo_g < 1)
+		//{
+		giroAvionX += 1.0f;
+		printf("giroAvionX es: %f\n", giroAvionX);
+		//ciclo_g++;
+		//ciclo_g2 = 0;
+		//printf("reinicia con 8\n");
+	//}
+
+	}
+	if (keys[GLFW_KEY_4] && action == GLFW_PRESS) // DECREMENTA ROTX
+	{
+		//if (ciclo_g < 1)
+		//{
+		giroAvionX -= 1.0f;
+		printf("giroAvionX es: %f\n", giroAvionX);
+		//ciclo_g++;
+		//ciclo_g2 = 0;
+		//printf("reinicia con 8\n");
+	//}
+
+	}
+}
+
