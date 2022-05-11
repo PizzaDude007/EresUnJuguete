@@ -40,9 +40,9 @@ PROYECTO FINAL
 //#include "Modelos_MuchaLucha.h"
 
 float contadorDiaNoche = 0.0f;
-float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z;
-int banderaLedCama, banderaLedEscritorio, LedCama;
-bool  dia = false;
+float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z, parpadeoSpike = 0.0f;
+int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike;
+bool  dia = false, spikeSube = false;
 const float toRadians = 3.14159265f / 180.0f;
 
 float giroSpike = 0.0f;
@@ -151,6 +151,8 @@ DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
 PointLight pointLightsNoche[MAX_POINT_LIGHTS];
 PointLight pointLightsCama[MAX_POINT_LIGHTS];
+PointLight pointLightsSpike[MAX_POINT_LIGHTS];//Todas las pointlights
+PointLight pointLightsSpike1[MAX_POINT_LIGHTS];//Pointlights sin los leds de la cama y el escritorio
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
@@ -909,6 +911,91 @@ int main()
 	// para no dar una raiz comlejo
 	pointLightCount1++;
 
+	//ARREGLO DE PINTLIGHTS DE LA SPIKE ===================================================
+	unsigned int pointLightCount2 = 0;
+	//LUZ DE LEDS DE LA CAMA
+	pointLightsSpike[0] = PointLight(1.0f, 0.0f, 0.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-150.0f, 20.0f, 40.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LEDS DEL ESCRITORIO
+	pointLightsSpike[1] = PointLight(1.0f, 0.0f, 0.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 60.0f, -375.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LA SPIKE
+	pointLightsSpike[2] = PointLight(0.0f, 0.5f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-80.0f, 69.0f, -330.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LAMPARA DE TECHO 1
+	pointLightsSpike[3] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 195.0f, 4.5f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//LUZ DE LAMPARA DE TECHO 2
+	pointLightsSpike[4] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.9f, 0.1f, //ambiente, difusa
+		0.0f, 195.0f, -297.0f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount2++;
+
+	//ARREGLO DE PINTLIGHTS DE LA SPIKE 1 ===================================================
+	unsigned int pointLightCount3 = 0;
+
+	//LUZ DE LA SPIKE
+	pointLightsSpike1[0] = PointLight(0.0f, 0.5f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		-80.0f, 69.0f, -330.0f, // posicion
+		0.5f, 0.01f, 0.001f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
+	//LUZ DE LAMPARA DE TECHO 1
+	pointLightsSpike1[1] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.6f, 1.0f, //ambiente, difusa
+		0.0f, 195.0f, 4.5f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
+	//LUZ DE LAMPARA DE TECHO 2
+	pointLightsSpike1[2] = PointLight(1.0f, 1.0f, 1.0f, //color 
+		0.9f, 0.1f, //ambiente, difusa
+		0.0f, 195.0f, -297.0f, // posicion
+		0.1f, 0.01f, 0.0f); // ecuaci�n de segundo grado 
+	//  c,	b ,	 a
+		//sqrt(b^2 -4ac)
+	// para no dar una raiz comlejo
+	pointLightCount3++;
+
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
@@ -926,10 +1013,56 @@ int main()
 	posicionLed1X = 0.0f;
 	posicionLed1Z = -374.0f;
 	banderaLedEscritorio = 0;
+	banderaParpadeoSpike = 0;
 	float avanzaOffset = 15.0f;
 	
 	int numCam = 0;
 
+	//Vars animacion juguetes
+	std::string estado_bus = "PARAR_BUS";
+	glm::vec3 posBus1 = glm::vec3(-140.0f, 7.0f, -90.0f);
+	float angulo_busZ = -90;
+	float angulo_busZ_offset = 1.5f;
+	float angulo_busY = 30;
+	float angulo_busY_offset = 1.0f;
+	float posBus1X = 0.0f;
+	float posBus1Y = 0.0f;
+	float posBus1Z = 0.0f;
+	bool anguloBusListo;
+	bool posBusListo;
+	float auxposx = 0.0f;
+	float auxposz = 0.0f;
+
+	std::string estado_car = "VUELTA_CAR";
+	glm::vec3 posCar = glm::vec3(-70.0f, 3.0f, -120.0f);
+	float angulo_carY = 0.0f;
+	float angulo_carY_offset = 0.8f;
+	float posCar1X = 0.0f;
+	float posCar1Y = 0.0f;
+	float posCar1Z = 0.0f;
+	float auxPosCarx = 0.0f;
+	float auxPosCarz = 0.0f;
+
+	std::string estado_edificio = "PARAR_EDIFICIO";
+	glm::vec3 posEdificio = glm::vec3(-10.0f, 10.0f, -150.0f);
+	float angulo_EdiY = 0.0f;
+	float angulo_EdiY_offset = 1.0f;
+	float angulo_EdiX = 90.0f;
+	float angulo_EdiX_offset = 0.6f;
+	float posEdi1X = 0.0f;
+	float posEdi1Y = 0.0f;
+	float posEdi1Z = 0.0f;
+	float auxPosEdix = 0.0f;
+	float auxPosEdiz = 0.0f;
+	float auxAngEdiy = 0.0f;
+
+
+	glm::vec3 posPelota = glm::vec3(30.0f, 12.0f, -120.0f);
+	float posPelotaX = 30.0f;
+	float posPelotaY = 12.0f;
+	float posPelotaZ = -120.0f;
+	float rotPelotaX = 0.0f;
+	float rotPelotaY = 0.0f;
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1010,22 +1143,6 @@ int main()
 		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (40 * cos(angulo_cam_frijolito)));
 		posFrijolito.y = poscam.y - 12;
 
-
-		// Clear the window
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera->calculateViewMatrix(), projection);
-		shaderList[0].UseShader();
-		uniformModel = shaderList[0].GetModelLocation();
-		uniformProjection = shaderList[0].GetProjectionLocation();
-		uniformView = shaderList[0].GetViewLocation();
-		uniformEyePosition = shaderList[0].GetEyePositionLocation();
-		uniformColor = shaderList[0].getColorLocation();
-		
-		//informaci�n en el shader de intensidad especular y brillo
-		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
-		uniformShininess = shaderList[0].GetShininessLocation();
-
 		//Cambio del ciclo de luz de dia y noche_____________________________________
 		
 		if (contadorDiaNoche <= 1.0f and dia) {
@@ -1073,6 +1190,7 @@ int main()
 			banderaLedCama = 0;
 		}
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
+		pointLightsSpike[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
 
 //	Animación Spike
 		//glm::vec3 distance = poswheezy - posSpike;
@@ -1080,14 +1198,19 @@ int main()
 		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 5.5f) {
 			movAroSpike += deltaTime * 0.02f;
 			giroSpike += deltaTime * 0.8f;
+			spikeSube = true;
 		}
 		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
 			movAroSpike -= deltaTime * 0.02f;
 			giroSpike -= deltaTime * 0.8f;
+			spikeSube = false;
 		}
 
 		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
 		
+		
+		
+		//Movimiento del led DEL ESCRITORIO ______________________________________________
 //	Animación Movimiento
 
 		if (rotBrazo[numCam - 1] >= 360.0f or rotBrazo[numCam - 1] <= -360.0f) rotBrazo[numCam - 1] = 0.0f;
@@ -1137,19 +1260,244 @@ int main()
 				
 		//Movimiento del led deL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
-			posicionLed1X += deltaTime * ledOffset;
+			posicionLed1X += deltaTime * ledOffset*0.5;
 		}
 		else if (posicionLed1X >= 150.0f and banderaLedEscritorio == 0) {
 			banderaLedEscritorio = 1;
 		}
 		else if (posicionLed1X >= 0.0f and banderaLedEscritorio == 1) {
-			posicionLed1X -= deltaTime * ledOffset;
+			posicionLed1X -= deltaTime * ledOffset*0.5;
 		}
 		else if (posicionLed1X <= 0.0f and banderaLedEscritorio == 1) {
 			banderaLedEscritorio = 0;
 		}
-
 		pointLightsCama[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
+		pointLightsSpike[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
+
+		//ANIMACION - GUARDAR JUGUETES
+		if (mainWindow.getSaveToys()) {
+			// ANIMACION BUS
+			if(estado_bus == "PARAR_BUS")
+			{
+				if (posBus1Y > 3.0f || angulo_busZ < 0) {
+					if (angulo_busZ < 0) {
+						angulo_busZ += deltaTime * angulo_busZ_offset;
+					}
+					if (posBus1Y > 3.0f) {
+						posBus1Y -= deltaTime * 0.1f;
+					}
+				}
+				else {
+					estado_bus = "GIRAR_BUS";
+				}
+			}
+			else if(estado_bus=="GIRAR_BUS"){
+				if (angulo_busY > 0.0f) {
+					angulo_busY -= deltaTime * angulo_busY_offset;
+					
+				}
+				else {
+					estado_bus = "VUELTA_BUS";
+					auxposx = posBus1X;
+					auxposz = posBus1Z;
+				}
+			}
+			else if (estado_bus == "VUELTA_BUS") {
+				float radio = 80.0f; 
+				float centroX = auxposx - radio; 
+				float centroZ = auxposz;
+
+				if (angulo_busY < 90.0f) {
+					angulo_busY += deltaTime * angulo_busY_offset*0.8f;
+					posBus1X = centroX + (radio * cos((0 - angulo_busY) * toRadians)); 
+					posBus1Z = centroZ + (radio * sin((0 - angulo_busY) * toRadians));
+				}
+				else {
+					estado_bus = "SUBE_BUS";
+				}
+			}
+			else if (estado_bus == "SUBE_BUS") {
+
+				if (posBus1Y < 14.0f) {
+					posBus1Y += deltaTime * 0.2f;
+				}
+				else {
+					estado_bus = "ACOMODA_BUS";
+					auxposx = posBus1X;
+					auxposz = posBus1Z;
+				}
+			}
+			else if (estado_bus == "ACOMODA_BUS") {
+				float radio = 25.0f;
+				float centroX = auxposx;
+				float centroZ = auxposz - radio;
+
+				if (angulo_busY >20.0f) {
+					angulo_busY -= deltaTime * angulo_busY_offset * 0.8f;
+					posBus1X = centroX + (radio * cos((-180 - angulo_busY) * toRadians));
+					posBus1Z = centroZ + (radio * sin((-180 - angulo_busY) * toRadians));
+				}
+				else {
+					estado_bus = "BUS_LISTO";
+				}
+			}
+
+			// ANIMACION CAR
+			if (estado_car == "VUELTA_CAR") {
+				float radio = 46.0f;
+				float centroX = auxPosCarx - radio;
+				float centroZ = auxPosCarz;
+
+				if (angulo_carY < 90.0f) {
+					angulo_carY += deltaTime * angulo_carY_offset*0.7;
+					posCar1X = centroX + (radio * cos((0 - angulo_carY) * toRadians));
+					posCar1Z = centroZ + (radio * sin((0 - angulo_carY) * toRadians));
+				}
+				else {
+					estado_car = "AVANZA_CAR";
+					auxPosCarx = posCar1X;
+				}
+			}
+			else if (estado_car == "AVANZA_CAR") {
+				if (posCar1X > auxPosCarx - 112) {
+					posCar1X -= deltaTime * 0.5f;
+				}
+				else {
+					estado_car = "SUBE_CAR";
+				}
+			}
+			else if( estado_car == "SUBE_CAR")
+			{
+				if (posCar1Y < 14.0f) {
+					posCar1Y += deltaTime * 0.3f;
+				}
+				else {
+					estado_car = "ACOMODA_CAR";
+					auxPosCarx = posCar1X;
+				}
+			}
+			else if (estado_car == "ACOMODA_CAR") {
+				if (posCar1X > auxPosCarx - 15) {
+					posCar1X -= deltaTime * 0.6f;
+				}
+				else {
+					estado_car = "CAR_LISTO";
+				}
+			}
+
+			//ANIMACION EDIFICIO
+			if (estado_edificio == "PARAR_EDIFICIO") {
+				if (posEdi1Y > 3.0f || angulo_EdiX > 0) {
+					
+
+					if (angulo_EdiX > 0) {
+						angulo_EdiX -= deltaTime * angulo_EdiX_offset;
+					}
+					if (posEdi1Y > 3.0f) {
+						posEdi1Y -= deltaTime * 0.1f;
+					}
+				}
+				else {
+					estado_edificio = "VUELTA_EDIFICIO";
+					auxAngEdiy = angulo_EdiY;
+					auxPosEdix = posEdi1X;
+					auxPosEdiz = posEdi1Z;
+				}
+			}
+			else if (estado_edificio == "VUELTA_EDIFICIO") {
+				float radio = 120.0f;
+				float centroX = auxPosEdix - radio;
+				float centroZ = auxPosEdiz;
+
+				if (auxAngEdiy < 90.0f) {
+					auxAngEdiy += deltaTime * angulo_EdiY_offset * 0.6f;
+					posEdi1X = centroX + (radio * cos((0 - auxAngEdiy) * toRadians));
+					posEdi1Z = centroZ + (radio * sin((0 - auxAngEdiy) * toRadians));
+					angulo_EdiY = auxAngEdiy * 2;
+				}
+				else {
+					estado_edificio = "DESPLAZA_EDIFICIO";
+					auxPosEdiz = posEdi1Z;
+				}
+			}
+			else if (estado_edificio == "DESPLAZA_EDIFICIO") {
+				if (posEdi1Z > auxPosEdiz-40) {
+					posEdi1Z -= deltaTime * 0.5f;
+				}
+				else
+				{
+					estado_edificio = "EDIFICIO_LISTO";
+				}
+
+			}
+
+
+		}
+		else {
+			//variables bus
+			posBus1X = -140.0f;
+			posBus1Y = 7.0f;
+			posBus1Z = -90.0f;
+			angulo_busY = 30.0f;
+			angulo_busZ = -90;
+			estado_bus = "PARAR_BUS";
+
+			//variables car
+			angulo_carY = 0.0f;
+			posCar1X = -70.0f;
+			posCar1Y = 3.0f;
+			posCar1Z = -120.0f;
+			estado_car = "VUELTA_CAR";
+			auxPosCarx = posCar1X;
+			auxPosCarz = posCar1Z;
+
+			//variables Edificio
+			angulo_EdiY = 0.0f;
+			angulo_EdiX = 90.0f;
+			posEdi1X = -10.0f;
+			posEdi1Y = 10.0f;
+			posEdi1Z = -150.0f;
+			estado_edificio = "PARAR_EDIFICIO";
+
+		}
+		posBus1= glm::vec3(posBus1X, posBus1Y, posBus1Z);
+		posCar = glm::vec3(posCar1X,posCar1Y,posCar1Z);
+		posEdificio = glm::vec3(posEdi1X,posEdi1Y,posEdi1Z);
+
+		// ANIMACION PELOTA
+		posPelota.y = posPelotaY + abs(15*sin(rotPelotaX * toRadians));
+		rotPelotaX += deltaTime * 5.0f;
+		if (rotPelotaX > 360) rotPelotaX = 0;
+		
+
+		float radio = 90.0f;
+		float centroX = posPelotaX - radio + 10.0f;
+		float centroZ = posPelotaZ+20;
+
+		if (rotPelotaY < 360.0f) {
+			rotPelotaY += deltaTime * 0.5f;
+			posPelota.x = centroX + (radio*1.5 * cos((0 - rotPelotaY) * toRadians));
+			posPelota.z = centroZ + (radio * sin((0 - rotPelotaY) * toRadians));
+		}
+		else {
+			rotPelotaY = 0.0f;
+		}
+
+		// Clear the window
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		skybox.DrawSkybox(camera->calculateViewMatrix(), projection);
+		shaderList[0].UseShader();
+		uniformModel = shaderList[0].GetModelLocation();
+		uniformProjection = shaderList[0].GetProjectionLocation();
+		uniformView = shaderList[0].GetViewLocation();
+		uniformEyePosition = shaderList[0].GetEyePositionLocation();
+		uniformColor = shaderList[0].getColorLocation();
+
+		//informaci�n en el shader de intensidad especular y brillo
+		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
+		uniformShininess = shaderList[0].GetShininessLocation();
+
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
@@ -1292,41 +1640,80 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Casita_M.RenderModel();
 
+		//Casita
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-100.0f, 3.0f, -80.0f));
+		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Casita_M.RenderModel();
+
+
+
 		//Edificio
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-70.0f, 3.0f, -150.0f));
+		model = glm::translate(model, glm::vec3(-40.0f, 3.0f, -150.0f));
+		model = glm::rotate(model, -120 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Edificio_M.RenderModel();
 
-		//Edificio2
+
+
+		//Edificio Largo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.0f, 3.0f, -150.0f));
+		model = glm::translate(model, posEdificio);
+		model = glm::rotate(model, angulo_EdiY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, angulo_EdiX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Edificio2_M.RenderModel();
 
-		//Arbolito
+
+
+		//Edificio Largo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-80.0f, 3.0f, -80.0f));
+		model = glm::translate(model, glm::vec3(-120.0f, 3.0f, -130.0f));
+		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Arbolito_M.RenderModel();
+		Edificio2_M.RenderModel();
 
 		//Carro
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 3.0f, -80.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Car_M.RenderModel();
+
+		//Carro
+		model = glm::mat4(1.0);
+		model = glm::translate(model, posCar);
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, angulo_carY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Car_M.RenderModel();
 
 		//Bus
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-40.0f, 3.0f, -110.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bus_M.RenderModel();
+
+		//Bus
+		model = glm::mat4(1.0);
+		model = glm::translate(model, posBus1);
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		model = glm::rotate(model, angulo_busY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, angulo_busZ * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Bus_M.RenderModel();
 
 		//PELOTA
+		float auxRotPelotax = (rotPelotaX < 180) ? rotPelotaX : -rotPelotaX;
 		color = glm::vec3(248.0f/255.0f, 228.0f / 255.0f, 46.0f / 255.0f);
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-140.0f, 12.0f, -160.0f));
-		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, posPelota);
+		model = glm::rotate(model, ( auxRotPelotax) * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, (-90.0f+rotPelotaY) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -1400,6 +1787,11 @@ int main()
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-120.0f, 70.0f, -360.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_CajaMadera2_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -300.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
 		
@@ -1708,9 +2100,53 @@ int main()
 		LedCama = mainWindow.getLedCama();
 		if (contadorDiaNoche <= 0.7f) {
 			//printf("\nLedCama = %d", LedCama);
-			if(LedCama == 1)
+			if (LedCama == 1 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsCama, pointLightCount1);
-			else
+			else if (LedCama == 1 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike[2].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2);
+				}
+			}
+			else if (LedCama == 0 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike1[0].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3);
+				}
+			}
+			else if (LedCama == 0 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount);
 
 			if(mainWindow.getDeskLamp() == 1)
@@ -1719,9 +2155,53 @@ int main()
 				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
 		}
 		else {
-			if (LedCama == 1)
+			if (LedCama == 1 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsCama, pointLightCount1 - 2);
-			else
+			else if (LedCama == 1 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike[2].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike[2].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike, pointLightCount2 - 2);
+				}
+			}
+			else if (LedCama == 0 and spikeSube) {
+				//CONDICIONALES PARA EL PARPADEO
+				if (movAroSpike <= 6.0f and parpadeoSpike <= 5.0f and banderaParpadeoSpike == 0) { //Parpadeo Encendido, luz en azul
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 0.1f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+					parpadeoSpike += deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 5.0f and banderaParpadeoSpike == 0) {//Parpadeo apagado, luz en 0
+					banderaParpadeoSpike = 1;
+					pointLightsSpike1[0].setRGB(0.0f, 0.0f, 0.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike >= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo apagado, luz en 0
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+					parpadeoSpike -= deltaTime * 0.1f;
+				}
+				else if (movAroSpike <= 6.0f and parpadeoSpike <= 0.0f and banderaParpadeoSpike == 1) {//Parpadeo Encendido, luz en azul
+					banderaParpadeoSpike = 0;
+					pointLightsSpike1[0].setRGB(0.0f, 0.5f, 1.0f);
+					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
+				}
+			}
+			else if (LedCama == 0 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount - 2);
 
 			if (mainWindow.getDeskLamp() == 1)
