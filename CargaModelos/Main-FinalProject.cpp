@@ -85,6 +85,7 @@ Texture StreetMan2_Texture;
 Texture StreetMan3_Texture;
 Texture Ricochet_Texture;
 Texture La_Pulga_Texture;
+Texture Buena_Girl_Texture;
 
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
@@ -777,7 +778,7 @@ int main()
 
 	WheezyTexture = Texture("Textures/wheezy_textura.tga");
 	WheezyTexture.LoadTextureA();
-	FrijolitoTexture = Texture("Textures/frijolito_texture.tga");
+	FrijolitoTexture = Texture("Textures/frijolito_texture.png");
 	FrijolitoTexture.LoadTextureA();
 	JettTexture = Texture("Textures/jett_texture.jpg");
 	JettTexture.LoadTextureA();
@@ -788,10 +789,12 @@ int main()
 	StreetMan2_Texture.LoadTexture();
 	StreetMan3_Texture = Texture("Textures/SimplePeople_StreetMan_White.png");
 	StreetMan3_Texture.LoadTexture();
-	Ricochet_Texture = Texture("Textures/ricochet.png");
+	Ricochet_Texture = Texture("Textures/ricochet_hd.png");
 	Ricochet_Texture.LoadTextureA();
-	La_Pulga_Texture = Texture("Textures/la_pulga.png");
+	La_Pulga_Texture = Texture("Textures/la_pulga_hd.png");
 	La_Pulga_Texture.LoadTextureA();
+	Buena_Girl_Texture = Texture("Textures/buena_girl_hd.png");
+	Buena_Girl_Texture.LoadTextureA();
 
 	//Modelos para el proyecto
 	Cuarto_M.LoadModel("Models/cuarto_text.obj");
@@ -1355,7 +1358,7 @@ int main()
 
 		//ANIMACION HELICE
 		rotYHelice += rotYHeliceOffset * deltaTime;
-		if (playIndex < 4) {	
+		if (playIndex < 4) {
 			rotYHeliceOffset += 0.1f;
 		}
 		else if (playIndex > 32) {
@@ -1373,7 +1376,7 @@ int main()
 			camera->keyControl(mainWindow.getsKeys(), deltaTime);
 			camera->mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		}
-		else if(numCam == 1) {
+		else if (numCam == 1) {
 			camera = &cameraWheezy;
 			camera->keyControl(mainWindow.getsKeys(), deltaTime);
 			camera->mouseControl(mainWindow.getXChange(), 0.0f);
@@ -1429,12 +1432,12 @@ int main()
 			angulo_cam_frijolito += (180 * toRadians);
 		}
 		glm::vec3 posFrijolito = glm::vec3(0, 0, 0);
-		posFrijolito.x = poscam.x + ((0 * cos(angulo_cam_frijolito)) - (40 * sin(angulo_cam_frijolito)));
-		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (40 * cos(angulo_cam_frijolito)));
-		posFrijolito.y = poscam.y - 12;
+		posFrijolito.x = poscam.x + ((0 * cos(angulo_cam_frijolito)) - (50 * sin(angulo_cam_frijolito)));
+		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (50 * cos(angulo_cam_frijolito)));
+		posFrijolito.y = poscam.y - 20;
 
 		//Cambio del ciclo de luz de dia y noche_____________________________________
-		
+
 		if (contadorDiaNoche <= 1.0f and dia) {
 			contadorDiaNoche += deltaTime * 0.0001f;
 		}
@@ -1482,8 +1485,8 @@ int main()
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
 		pointLightsSpike[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
 
-//	Animación Spike
-		//glm::vec3 distance = poswheezy - posSpike;
+		//	Animación Spike
+				//glm::vec3 distance = poswheezy - posSpike;
 
 		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 5.5f) {
 			movAroSpike += deltaTime * 0.02f;
@@ -1497,8 +1500,8 @@ int main()
 		}
 
 		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
-		
-		
+
+
 //	Animación Movimiento
 
 		if (rotBrazo[numCam - 1] >= 360.0f or rotBrazo[numCam - 1] <= -360.0f) rotBrazo[numCam - 1] = 0.0f;
@@ -1535,8 +1538,8 @@ int main()
 					if (rotBrazo[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset;
 					/*if (rotPierna[i] > 0)rotBrazo[i] -= deltaTime * avanzaOffset;
 					if (rotPierna[i] < 0)rotBrazo[i] += deltaTime * avanzaOffset;*/
-					if (rotDireccion[i] > 0.0f)rotBrazo[i] -= deltaTime * avanzaOffset/2;
-					if (rotDireccion[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset/2;
+					if (rotDireccion[i] > 0.0f)rotBrazo[i] -= deltaTime * avanzaOffset / 2;
+					if (rotDireccion[i] < 0.0f)rotBrazo[i] += deltaTime * avanzaOffset / 2;
 
 					if (rotBrazo[i] < 25.0f and rotBrazo[i] > -25.0f) rotBrazo[i] = 0.0f;
 				}
@@ -1545,16 +1548,16 @@ int main()
 		}
 		//printf("\nnumCam = %d\nDireccion = %d", numCam, mainWindow.getDireccion());
 		//if (numCam != 0) printf("\nRotacionBrazo = %f\nRotacionPierna = %f", rotBrazo[numCam - 1], rotPierna[numCam - 1]);
-				
+
 		//Movimiento del led deL ESCRITORIO ______________________________________________
 		if (posicionLed1X <= 150.0f and banderaLedEscritorio == 0) {
-			posicionLed1X += deltaTime * ledOffset*0.5;
+			posicionLed1X += deltaTime * ledOffset * 0.5;
 		}
 		else if (posicionLed1X >= 150.0f and banderaLedEscritorio == 0) {
 			banderaLedEscritorio = 1;
 		}
 		else if (posicionLed1X >= 0.0f and banderaLedEscritorio == 1) {
-			posicionLed1X -= deltaTime * ledOffset*0.5;
+			posicionLed1X -= deltaTime * ledOffset * 0.5;
 		}
 		else if (posicionLed1X <= 0.0f and banderaLedEscritorio == 1) {
 			banderaLedEscritorio = 0;
@@ -1565,7 +1568,7 @@ int main()
 		//ANIMACION - GUARDAR JUGUETES
 		if (mainWindow.getSaveToys()) {
 			// ANIMACION BUS
-			if(estado_bus == "PARAR_BUS")
+			if (estado_bus == "PARAR_BUS")
 			{
 				if (posBus1Y > 3.0f || angulo_busZ < 0) {
 					if (angulo_busZ < 0) {
@@ -1579,10 +1582,10 @@ int main()
 					estado_bus = "GIRAR_BUS";
 				}
 			}
-			else if(estado_bus=="GIRAR_BUS"){
+			else if (estado_bus == "GIRAR_BUS") {
 				if (angulo_busY > 0.0f) {
 					angulo_busY -= deltaTime * angulo_busY_offset;
-					
+
 				}
 				else {
 					estado_bus = "VUELTA_BUS";
@@ -1591,13 +1594,13 @@ int main()
 				}
 			}
 			else if (estado_bus == "VUELTA_BUS") {
-				float radio = 80.0f; 
-				float centroX = auxposx - radio; 
+				float radio = 80.0f;
+				float centroX = auxposx - radio;
 				float centroZ = auxposz;
 
 				if (angulo_busY < 90.0f) {
-					angulo_busY += deltaTime * angulo_busY_offset*0.8f;
-					posBus1X = centroX + (radio * cos((0 - angulo_busY) * toRadians)); 
+					angulo_busY += deltaTime * angulo_busY_offset * 0.8f;
+					posBus1X = centroX + (radio * cos((0 - angulo_busY) * toRadians));
 					posBus1Z = centroZ + (radio * sin((0 - angulo_busY) * toRadians));
 				}
 				else {
@@ -1620,7 +1623,7 @@ int main()
 				float centroX = auxposx;
 				float centroZ = auxposz - radio;
 
-				if (angulo_busY >20.0f) {
+				if (angulo_busY > 20.0f) {
 					angulo_busY -= deltaTime * angulo_busY_offset * 0.8f;
 					posBus1X = centroX + (radio * cos((-180 - angulo_busY) * toRadians));
 					posBus1Z = centroZ + (radio * sin((-180 - angulo_busY) * toRadians));
@@ -1637,7 +1640,7 @@ int main()
 				float centroZ = auxPosCarz;
 
 				if (angulo_carY < 90.0f) {
-					angulo_carY += deltaTime * angulo_carY_offset*0.7;
+					angulo_carY += deltaTime * angulo_carY_offset * 0.7;
 					posCar1X = centroX + (radio * cos((0 - angulo_carY) * toRadians));
 					posCar1Z = centroZ + (radio * sin((0 - angulo_carY) * toRadians));
 				}
@@ -1654,7 +1657,7 @@ int main()
 					estado_car = "SUBE_CAR";
 				}
 			}
-			else if( estado_car == "SUBE_CAR")
+			else if (estado_car == "SUBE_CAR")
 			{
 				if (posCar1Y < 14.0f) {
 					posCar1Y += deltaTime * 0.3f;
@@ -1676,7 +1679,7 @@ int main()
 			//ANIMACION EDIFICIO
 			if (estado_edificio == "PARAR_EDIFICIO") {
 				if (posEdi1Y > 3.0f || angulo_EdiX > 0) {
-					
+
 
 					if (angulo_EdiX > 0) {
 						angulo_EdiX -= deltaTime * angulo_EdiX_offset;
@@ -1709,7 +1712,7 @@ int main()
 				}
 			}
 			else if (estado_edificio == "DESPLAZA_EDIFICIO") {
-				if (posEdi1Z > auxPosEdiz-40) {
+				if (posEdi1Z > auxPosEdiz - 40) {
 					posEdi1Z -= deltaTime * 0.5f;
 				}
 				else
@@ -1748,23 +1751,23 @@ int main()
 			estado_edificio = "PARAR_EDIFICIO";
 
 		}
-		posBus1= glm::vec3(posBus1X, posBus1Y, posBus1Z);
-		posCar = glm::vec3(posCar1X,posCar1Y,posCar1Z);
-		posEdificio = glm::vec3(posEdi1X,posEdi1Y,posEdi1Z);
+		posBus1 = glm::vec3(posBus1X, posBus1Y, posBus1Z);
+		posCar = glm::vec3(posCar1X, posCar1Y, posCar1Z);
+		posEdificio = glm::vec3(posEdi1X, posEdi1Y, posEdi1Z);
 
 		// ANIMACION PELOTA
-		posPelota.y = posPelotaY + abs(15*sin(rotPelotaX * toRadians));
+		posPelota.y = posPelotaY + abs(15 * sin(rotPelotaX * toRadians));
 		rotPelotaX += deltaTime * 5.0f;
 		if (rotPelotaX > 360) rotPelotaX = 0;
-		
+
 
 		float radio = 90.0f;
 		float centroX = posPelotaX - radio + 10.0f;
-		float centroZ = posPelotaZ+20;
+		float centroZ = posPelotaZ + 20;
 
 		if (rotPelotaY < 360.0f) {
 			rotPelotaY += deltaTime * 0.5f;
-			posPelota.x = centroX + (radio*1.5 * cos((0 - rotPelotaY) * toRadians));
+			posPelota.x = centroX + (radio * 1.5 * cos((0 - rotPelotaY) * toRadians));
 			posPelota.z = centroZ + (radio * sin((0 - rotPelotaY) * toRadians));
 		}
 		else {
@@ -1817,7 +1820,7 @@ int main()
 
 
 
-		
+
 		//CAMA
 		//color = glm::vec3(0.705f, 0.705f, 0.105f);
 		model = glm::mat4(1.0);
@@ -1921,10 +1924,10 @@ int main()
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Mueble_M.RenderModel();
-	
-	// TOY STORY
-		
-		//Casita
+
+		// TOY STORY
+
+			//Casita
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-50.0f, 3.0f, -80.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1975,10 +1978,10 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Helicoptero_M.RenderModel();
-		
+
 		//Helice
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f,-15.0f,0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, -15.0f, 0.0f));
 		model = glm::rotate(model, rotYHelice * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Helice_M.RenderModel();
@@ -2018,11 +2021,11 @@ int main()
 
 		//PELOTA
 		float auxRotPelotax = (rotPelotaX < 180) ? rotPelotaX : -rotPelotaX;
-		color = glm::vec3(248.0f/255.0f, 228.0f / 255.0f, 46.0f / 255.0f);
+		color = glm::vec3(248.0f / 255.0f, 228.0f / 255.0f, 46.0f / 255.0f);
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, posPelota);
-		model = glm::rotate(model, ( auxRotPelotax) * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, (-90.0f+rotPelotaY) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, (auxRotPelotax)*toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, (-90.0f + rotPelotaY) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -2046,29 +2049,15 @@ int main()
 		plainTexture.UseTexture();
 		meshList[5]->RenderMesh();
 
-
-	//	M U C H A  L U C H A
-		color = glm::vec3(1.0f,1.0f,1.0f);
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 
-		glm::mat4 auxML(1.0);
-
-			//ring
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 63.5f, -230.0f));
-		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		auxML = model;
-		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		ML_Ring_M.RenderModel();
-
-
-	//  VALORATN ----------- VALORANT-------------------------------------------------------
+		//  VALORANT ----------- VALORANT-------------------------------------------------------
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(20.0f, 70.0f, -230.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_Gosth_M.RenderModel();
-		
+
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(20.0f, 80.0f, -230.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -2103,14 +2092,32 @@ int main()
 		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -300.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
-		
-		//frijolito->RenderModels(uniformColor, uniformModel);
+
+		//	M U C H A  L U C H A
+
+		glm::mat4 auxML(1.0);
+
+		//ring
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(220.0f, 42.75f, 40.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		auxML = model;
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ML_Ring_M.RenderModel();
+
+		//ring 2
+		model = auxML;
+		model = glm::translate(model, glm::vec3(50.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ML_Ring_M.RenderModel();
 
 		//Luchador 1
 		model = auxML;
 		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, -20.0f));
+		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
-		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		//model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		StreetMan1_Texture.UseTexture();
@@ -2119,6 +2126,7 @@ int main()
 		//Luchador 2
 		model = auxML;
 		model = glm::translate(model, glm::vec3(20.0f, 0.0f, 20.0f));
+		model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		StreetMan2_Texture.UseTexture();
@@ -2127,9 +2135,28 @@ int main()
 		//Luchador 3
 		model = auxML;
 		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 20.0f));
+		model = glm::rotate(model, 150 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		StreetMan3_Texture.UseTexture();
+		Luchador_M.RenderModel();
+
+		//Luchador 4 (animado)
+		model = auxML;
+		model = glm::translate(model, glm::vec3(45.0f, 1.25f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		StreetMan3_Texture.UseTexture();
+		Luchador_M.RenderModel();
+
+		//Luchador 5 (animado)
+		model = auxML;
+		model = glm::translate(model, glm::vec3(55.0f, 1.25f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		StreetMan1_Texture.UseTexture();
 		Luchador_M.RenderModel();
 
 	//	Rikochet
@@ -2137,10 +2164,10 @@ int main()
 
 		//Torso (utiliza torso 2)
 		model = auxML;
-		model = glm::translate(model, glm::vec3(-5.0f,4.0f,0.0f));
-		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-5.0f,4.0f,5.0f));
+		model = glm::rotate(model, 150 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
@@ -2163,8 +2190,8 @@ int main()
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -2176,8 +2203,8 @@ int main()
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -2186,8 +2213,8 @@ int main()
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		/*model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));*/
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -2206,10 +2233,10 @@ int main()
 
 		//Torso (utiliza torso 2)
 		model = auxML;
-		model = glm::translate(model, glm::vec3(5.0f, 4.0f, 0.0f));
-		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-7.0f, 4.0f, 0.0f));
+		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		La_Pulga_Texture.UseTexture();
@@ -2232,8 +2259,8 @@ int main()
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		La_Pulga_Texture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -2255,8 +2282,8 @@ int main()
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		La_Pulga_Texture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -2265,10 +2292,79 @@ int main()
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		La_Pulga_Texture.UseTexture();
+		meshList[3]->RenderMesh();
+
+	//	Buena Girl
+
+			//Torso (utiliza torso 2)
+		model = auxML;
+		model = glm::translate(model, glm::vec3(5.0f, 4.0f, 5.0f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
+		//model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		auxPersonaje = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Buena_Girl_Texture.UseTexture();
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[4]->RenderMesh();
+
+		//Cabeza
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.0f, 0.625f, 0.0f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Buena_Girl_Texture.UseTexture();
+		meshList[0]->RenderMesh();
+
+		//Brazo izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
+		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Buena_Girl_Texture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Brazo der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
+		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
+		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
+		//rotación para la animación de caminar
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Buena_Girl_Texture.UseTexture();
+		meshList[2]->RenderMesh();
+
+		//Pierna izq
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
+		//rotación para la animación de caminar
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Buena_Girl_Texture.UseTexture();
+		meshList[3]->RenderMesh();
+
+		//Pierna der
+		model = auxPersonaje;
+		model = glm::translate(model, glm::vec3(0.125f, -0.75f, 0.0f));
+		//rotación para la animación de caminar
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Buena_Girl_Texture.UseTexture();
 		meshList[3]->RenderMesh();
 
 
@@ -2303,7 +2399,7 @@ int main()
 		model = glm::mat4(1.0);
 		model = glm::translate(model, posFrijolito);
 		model = glm::rotate(model, -angulo_cam_frijolito, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
 		//para animación
 		model = glm::rotate(model, rotDireccion[2] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;

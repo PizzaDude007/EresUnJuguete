@@ -161,6 +161,6 @@ void main()
 	finalcolor += CalcPointLights();
 	finalcolor += CalcSpotLights();
 	//color = texture(theTexture, TexCoord)*vColor;
-	//color = finalcolor*texture(theTexture, TexCoord)*vColor; //se quito para la animacion de keyframes
-	color = finalcolor*texture(theTexture, TexCoord);
+	color = finalcolor*texture(theTexture, TexCoord)*vColor; //se quito para la animacion de keyframes
+	//color = finalcolor*texture(theTexture, TexCoord);
 }

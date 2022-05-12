@@ -2,17 +2,17 @@
   Main-FinalProject.cpp
 D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
 D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1336,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1338,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1451,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1551,42): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1557,42): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1640,51): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1767,26): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1339,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1341,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1454,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1554,43): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1560,43): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1643,52): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1770,26): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
           with
           [
               T=float
           ]
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1068,7): warning C4101: 'anguloBusListo': variable local sin referencia
-D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1069,7): warning C4101: 'posBusListo': variable local sin referencia
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1071,7): warning C4101: 'anguloBusListo': variable local sin referencia
+D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\CargaModelos\Main-FinalProject.cpp(1072,7): warning C4101: 'posBusListo': variable local sin referencia
   CargaModelos.vcxproj -> D:\OneDrive UNAM\OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO\Escuelisha\8° Semestre\Compu Gráfica\Proyecto\Nuevo_git_main\Debug\FinalProject.exe
