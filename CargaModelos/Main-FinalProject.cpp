@@ -43,7 +43,10 @@ PROYECTO FINAL
 
 float contadorDiaNoche = 0.0f;
 float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z, parpadeoSpike = 0.0f;
-int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike;
+float SpectreRotX, SpectreRotY, SpectreMovX, SpectreMovY, SpectreMovZ, AuxSpectreRotX;
+float FenixBIrotX, FenixRot;
+float KillJBrazosRotX, KillJRotY, KillJRotX, KillJPIrotX, KillJPDrotX, KillJMovZ;
+int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike, AnimacionVal, DisparoSpectre, KillJCamina;
 bool  dia = false, spikeSube = false;
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -87,6 +90,7 @@ Texture Ricochet_Texture;
 Texture La_Pulga_Texture;
 Texture Buena_Girl_Texture;
 
+
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
 Model Escritorio2_M = Model();
@@ -108,10 +112,9 @@ Model Mueble_M = Model();
 Model Helicoptero_M = Model();
 Model Helice_M = Model();
 
-
 Model White_Helicopter_M = Model();
-Model White_Helicopter_Rotor_M = Model();
 Model White_Helicopter_Helice_M = Model();
+Model White_Helicopter_Rotor_M = Model();
 Model Helipad_M = Model();
 
 //TOY STORY
@@ -138,6 +141,16 @@ Model Valorant_Balde_M = Model();
 Model Valorant_Malla_M = Model();
 Model Valorant_CajaMadera_M = Model();
 Model Valorant_CajaMadera2_M = Model();
+Model Valorant_KillJC = Model(); //Carad torso de KillJoy
+Model Valorant_KillJBI = Model();// Brazo Izq
+Model Valorant_KillJBD = Model();//Brazo Derecho
+Model Valorant_KillJPI = Model();//Pie Izq
+Model Valorant_KillJPD = Model();//Pie Derecho
+Model Valorant_FenixC = Model(); //Carad torso de Fenix
+Model Valorant_FenixBI = Model();// Brazo Izq
+Model Valorant_FenixBD = Model();//Brazo Derecho
+Model Valorant_FenixPI = Model();//Pie Izq
+Model Valorant_FenixPD = Model();//Pie Derecho
 //Valorant
 Model Spike_base_M = Model();
 Model Spike_cilindro_M = Model();
@@ -629,6 +642,9 @@ void CreateShaders()
 	shaderList.push_back(*shader1);
 }
 
+
+
+
 ///////////////////////////////KEYFRAMES/////////////////////
 
 
@@ -845,6 +861,17 @@ int main()
 	Valorant_Malla_M.LoadModel("Models/Valorant_Malla.obj");
 	Valorant_CajaMadera_M.LoadModel("Models/Valorant_CajaMadera.obj");
 	Valorant_CajaMadera2_M.LoadModel("Models/Valorant_CajaMadera2.obj");
+	Valorant_FenixC.LoadModel("Models/FenixCaraTorso.obj");
+	Valorant_FenixBD.LoadModel("Models/FenixBrazoDer.obj");
+	Valorant_FenixBI.LoadModel("Models/FenixBrazoIzq.obj");
+	Valorant_FenixPD.LoadModel("Models/FenixPieDer.obj");
+	Valorant_FenixPI.LoadModel("Models/FenixPieIzq.obj");
+
+	Valorant_KillJC.LoadModel("Models/KillJoyCaraTorso.obj");
+	Valorant_KillJBD.LoadModel("Models/KillJoyBrazoDer.obj");
+	Valorant_KillJBI.LoadModel("Models/KillJoyBrazoIzq.obj");
+	Valorant_KillJPD.LoadModel("Models/KillJoyPieDer.obj");
+	Valorant_KillJPI.LoadModel("Models/KillJoyPieIzq.obj");
 	//Valorant
 	Spike_base_M.LoadModel("Models/spike_base_only.obj");
 	Spike_cilindro_M.LoadModel("Models/spike_center_only.obj");
@@ -1330,8 +1357,18 @@ int main()
 	//Helice
 	float rotYHelice = 0.0f;
 	float rotYHeliceOffset=0.01f;
-
-
+	SpectreRotX = 90.0f;
+	SpectreRotY = 0.0f;
+	AnimacionVal = 0;
+	DisparoSpectre = 0;
+	SpectreMovX = 0.0f;
+	SpectreMovY = 0.0f;
+	SpectreMovZ = 0.0f;
+	KillJMovZ = 0.0f;
+	KillJBrazosRotX = 0.0f;
+	KillJPDrotX = 0.0f;
+	KillJPIrotX = 0.0f;
+	KillJCamina = 0;
 
 	////Loop mientras no se cierra la ventana ############# INICIA CICLO WHILE ################
 	while (!mainWindow.getShouldClose())
@@ -1485,8 +1522,159 @@ int main()
 		pointLightsCama[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
 		pointLightsSpike[0].SetPos(glm::vec3(posicionLedX, 20.0f, posicionLedZ));
 
-		//	Animación Spike
-				//glm::vec3 distance = poswheezy - posSpike;
+//		-----------------------------ANIMACION VALORANT-----------------------------------
+		if (SpectreRotX >= 0.0f and AnimacionVal == 0) {
+			SpectreRotX -= deltaTime * 0.1f;
+			FenixBIrotX -= deltaTime * 0.1f;
+			SpectreMovY += deltaTime * 0.004f;
+			SpectreMovX -= deltaTime * 0.003f;
+			KillJRotY -= deltaTime * 0.1f;
+			KillJBrazosRotX -= deltaTime * 0.05;
+		}
+		else if (SpectreRotX <= 0.0f and AnimacionVal == 0) {
+			AnimacionVal = 1;
+			AuxSpectreRotX = SpectreRotX;
+		}
+		else if (KillJMovZ <= 40.0f and AnimacionVal == 1) {
+			KillJMovZ += deltaTime * 0.06f;
+			FenixRot += deltaTime * 0.04f;
+			SpectreRotY += deltaTime * 0.04f;
+			SpectreMovZ += deltaTime * 0.04 * sin(SpectreMovY * toRadians);
+			SpectreMovX += deltaTime * 0.002 * cos(SpectreMovY * toRadians);
+
+			if (DisparoSpectre == 0 and SpectreRotX <= 5.0f) { //Animacion de disparo
+				SpectreRotX += deltaTime * 0.5f;
+			}
+			else if (DisparoSpectre == 0 and SpectreRotX >= 5.0f) {
+				DisparoSpectre = 1;
+			}
+			else if (DisparoSpectre == 1 and SpectreRotX >= 0.0f) {
+				SpectreRotX -= deltaTime * 0.5f;
+			}
+			else if (DisparoSpectre == 1 and SpectreRotX <= 0.0f) {
+				DisparoSpectre = 0;
+			}
+
+			if (KillJCamina == 0 and KillJPDrotX <= 30.0f) { //Animacion de caminado de Kill Joy
+				KillJPDrotX += deltaTime * 2.5f;			//Pie Derecho
+			}
+			else if (KillJCamina == 0 and KillJPDrotX >= 30.0f) {
+				KillJCamina = 1;
+			}
+			else if (KillJCamina == 1 and KillJPDrotX >= 0.0f) {
+				KillJPDrotX -= deltaTime * 2.5f;
+			}
+			else if (KillJCamina == 1 and KillJPDrotX <= 0.0f) {
+				KillJCamina = 2;
+			}
+			if (KillJCamina == 2 and KillJPIrotX <= 30.0f) { //Animacion de caminado de Kill Joy
+				KillJPIrotX += deltaTime * 2.5f;			//Pie Izquierdo
+			}
+			else if (KillJCamina == 2 and KillJPIrotX >= 30.0f) {
+				KillJCamina = 3;
+			}
+			else if (KillJCamina == 3 and KillJPIrotX >= 0.0f) {
+				KillJPIrotX -= deltaTime * 2.5f;
+			}
+			else if (KillJCamina == 3 and KillJPIrotX <= 0.0f) {
+				KillJCamina = 0;
+			}
+		}
+		else if (KillJMovZ >= 40.0f and AnimacionVal == 1) {
+			AnimacionVal = 2;
+			SpectreRotX = AuxSpectreRotX;
+			DisparoSpectre = 0;
+			KillJPDrotX = 0.0f;
+			KillJPIrotX = 0.0f;
+		}
+		else if (KillJRotY <= 0.0f and AnimacionVal == 2) {
+			KillJRotY += deltaTime * 0.5f;
+			KillJBrazosRotX += deltaTime * 0.5;
+		}
+		else if (KillJRotY >= 0.0f and AnimacionVal == 2) {
+			AnimacionVal = 3;
+		}
+		else if (KillJRotY <= 90.0f and AnimacionVal == 3) {//Giro para correr como naruto
+			KillJRotY += deltaTime * 0.5f;
+			KillJRotX += deltaTime * 0.1;
+		}
+		else if (KillJRotY >= 90.0f and AnimacionVal == 3) {
+			AnimacionVal = 4;
+		}
+		else if (KillJMovZ >= 0.0f and AnimacionVal == 4) {
+			KillJMovZ -= deltaTime * 0.06f;
+			FenixRot -= deltaTime * 0.04f;
+			SpectreRotY -= deltaTime * 0.04f;
+			SpectreMovZ -= deltaTime * 0.04 * sin(SpectreMovY * toRadians);
+			SpectreMovX -= deltaTime * 0.002 * cos(SpectreMovY * toRadians);
+
+			if (DisparoSpectre == 0 and SpectreRotX <= 5.0f) { //Animacion de disparo
+				SpectreRotX += deltaTime * 0.5f;
+			}
+			else if (DisparoSpectre == 0 and SpectreRotX >= 5.0f) {
+				DisparoSpectre = 1;
+			}
+			else if (DisparoSpectre == 1 and SpectreRotX >= 0.0f) {
+				SpectreRotX -= deltaTime * 0.5f;
+			}
+			else if (DisparoSpectre == 1 and SpectreRotX <= 0.0f) {
+				DisparoSpectre = 0;
+			}
+
+			if (KillJCamina == 0 and KillJPDrotX <= 45.0f) { //Animacion de caminado de Kill Joy
+				KillJPDrotX += deltaTime * 8.0f;			//Pie Derecho
+			}
+			else if (KillJCamina == 0 and KillJPDrotX >= 45.0f) {
+				KillJCamina = 1;
+			}
+			else if (KillJCamina == 1 and KillJPDrotX >= -10.0f) {
+				KillJPDrotX -= deltaTime * 8.0f;
+			}
+			else if (KillJCamina == 1 and KillJPDrotX <= -10.0f) {
+				KillJCamina = 2;
+			}
+			if (KillJCamina == 2 and KillJPIrotX <= 45.0f) { //Animacion de caminado de Kill Joy
+				KillJPIrotX += deltaTime * 8.0f;			//Pie Izquierdo
+			}
+			else if (KillJCamina == 2 and KillJPIrotX >= 45.0f) {
+				KillJCamina = 3;
+			}
+			else if (KillJCamina == 3 and KillJPIrotX >= -10.0f) {
+				KillJPIrotX -= deltaTime * 8.0f;
+			}
+			else if (KillJCamina == 3 and KillJPIrotX <= -10.0f) {
+				KillJCamina = 0;
+			}
+		}
+		else if (KillJMovZ <= 0.0f and AnimacionVal == 4) {
+			AnimacionVal = 5;
+			SpectreRotX = AuxSpectreRotX;
+			DisparoSpectre = 0;
+			KillJPDrotX = 0.0f;
+			KillJPIrotX = 0.0f;
+		}
+		else if (KillJRotY >= 0.0f and AnimacionVal == 5) {
+			SpectreRotX += deltaTime * 0.5f;
+			FenixBIrotX += deltaTime * 0.5f;
+			SpectreMovY -= deltaTime * 0.0225f;
+			SpectreMovX += deltaTime * 0.0125f;
+
+			KillJRotY -= deltaTime * 0.5f;
+			KillJRotX -= deltaTime * 0.1;
+			KillJBrazosRotX -= deltaTime * 0.27;
+
+		}
+		else if (KillJRotY <= 0.0f and AnimacionVal == 5) {
+			AnimacionVal = 0;
+			SpectreMovX = 0.0f;
+			SpectreMovY = 0.0f;
+			SpectreMovZ = 0.0f;
+		}
+
+
+
+//	Animación Spike
+		//glm::vec3 distance = poswheezy - posSpike;
 
 		if (distance(posJett, posSpike) <= 25.0f and movAroSpike <= 5.5f) {
 			movAroSpike += deltaTime * 0.02f;
@@ -2049,17 +2237,25 @@ int main()
 		plainTexture.UseTexture();
 		meshList[5]->RenderMesh();
 
+		//	M U C H A  L U C H A
 		color = glm::vec3(1.0f, 1.0f, 1.0f);
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 
 		//  VALORANT ----------- VALORANT-------------------------------------------------------
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 70.0f, -230.0f));
+		model = glm::translate(model, glm::vec3(-200.0f, 70.0f, -360.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_Gosth_M.RenderModel();
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 80.0f, -230.0f));
+		model = glm::translate(model, glm::vec3(-91.0f, 80.0f, -337.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::translate(model, glm::vec3(SpectreMovX, SpectreMovY, SpectreMovZ));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, SpectreRotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, SpectreRotY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_Spectre_M.RenderModel();
 
@@ -2093,7 +2289,104 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
 
-		//	M U C H A  L U C H A
+		//////////////////////////////// F E N I X ///////////////////////////////
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -340.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, FenixRot * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixC.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.35f, 1.6f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, FenixBIrotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixBD.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.35f, 1.6f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixBI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.125f, 0.8f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixPI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.125f, 0.8f, 0.0f));
+		model = glm::rotate(model, 0.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_FenixPD.RenderModel();
+
+
+		//////////////////////////////// K I L L  J O Y ///////////////////////////////
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-220.0f, 82.0f, -340.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, KillJMovZ));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, KillJRotY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, KillJRotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJC.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.35f, 0.2f, 0.0f));
+		model = glm::rotate(model, KillJBrazosRotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJBD.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.35f, 0.2f, 0.0f));
+		model = glm::rotate(model, KillJBrazosRotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJBI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.125f, -0.5f, 0.0f));
+		model = glm::rotate(model, -KillJPIrotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJPI.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.125f, -0.5f, 0.0f));
+		model = glm::rotate(model, -KillJPDrotX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Valorant_KillJPD.RenderModel();
+
+	//  VALORANT ----------- VALORANT
+		glm::mat4 auxSpike(1.0);
+
+		//spike
+		model = glm::mat4(1.0);
+		model = glm::translate(model, posSpike);
+		auxSpike = model;
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_base_M.RenderModel();
+
+		model = auxSpike;
+		model = glm::rotate(model, giroSpike * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_cilindro_M.RenderModel();
+
+		model = auxSpike;
+		model = glm::translate(model, glm::vec3(0.0f, movAroSpike, 0.0f));
+		model = glm::rotate(model, -giroSpike/5 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Spike_aro_M.RenderModel();
+
+
+//	M U C H A  L U C H A
 
 		glm::mat4 auxML(1.0);
 
@@ -2112,11 +2405,11 @@ int main()
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ML_Ring_M.RenderModel();
-
+		
 		//Luchador 1
 		model = auxML;
 		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, -20.0f));
-		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 150 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		//model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -2126,7 +2419,7 @@ int main()
 		//Luchador 2
 		model = auxML;
 		model = glm::translate(model, glm::vec3(20.0f, 0.0f, 20.0f));
-		model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -30 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		StreetMan2_Texture.UseTexture();
@@ -2135,7 +2428,7 @@ int main()
 		//Luchador 3
 		model = auxML;
 		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 20.0f));
-		model = glm::rotate(model, 150 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		StreetMan3_Texture.UseTexture();
@@ -2147,16 +2440,16 @@ int main()
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		StreetMan3_Texture.UseTexture();
+		StreetMan2_Texture.UseTexture();
 		Luchador_M.RenderModel();
 
 		//Luchador 5 (animado)
 		model = auxML;
 		model = glm::translate(model, glm::vec3(55.0f, 1.25f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, - 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.025f, 0.025f, 0.025f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		StreetMan1_Texture.UseTexture();
+		StreetMan3_Texture.UseTexture();
 		Luchador_M.RenderModel();
 
 	//	Rikochet
@@ -2164,10 +2457,10 @@ int main()
 
 		//Torso (utiliza torso 2)
 		model = auxML;
-		model = glm::translate(model, glm::vec3(-5.0f,4.0f,5.0f));
-		model = glm::rotate(model, 150 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-5.0f,4.0f,0.0f));
+		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		//model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
@@ -2190,8 +2483,8 @@ int main()
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -2203,8 +2496,8 @@ int main()
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		//model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -2213,8 +2506,8 @@ int main()
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.125f, -0.75f, 0.0f));
 		//rotación para la animación de caminar
-		/*model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));*/
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotBrazo[0] * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotBrazo[0] * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
 		meshList[3]->RenderMesh();
@@ -2233,10 +2526,10 @@ int main()
 
 		//Torso (utiliza torso 2)
 		model = auxML;
-		model = glm::translate(model, glm::vec3(-7.0f, 4.0f, 0.0f));
-		model = glm::rotate(model, 30 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(5.0f, 4.0f, 0.0f));
+		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		//model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotDireccion[0] * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		La_Pulga_Texture.UseTexture();
@@ -2368,33 +2661,10 @@ int main()
 		meshList[3]->RenderMesh();
 
 
-	//  VALORANT ----------- VALORANT
-		glm::mat4 auxSpike(1.0);
-
-		//spike
-		model = glm::mat4(1.0);
-		model = glm::translate(model, posSpike);
-		auxSpike = model;
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Spike_base_M.RenderModel();
-
-		model = auxSpike;
-		model = glm::rotate(model, giroSpike * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Spike_cilindro_M.RenderModel();
-
-		model = auxSpike;
-		model = glm::translate(model, glm::vec3(0.0f, movAroSpike, 0.0f));
-		model = glm::rotate(model, -giroSpike/5 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Spike_aro_M.RenderModel();
-
 
 //	Personaje Frijolito
-		 
+		//glm::mat4 auxPersonaje(1.0);
+ 
 		//Torso
 		model = glm::mat4(1.0);
 		model = glm::translate(model, posFrijolito);
@@ -2613,7 +2883,7 @@ int main()
 		WheezyTexture.UseTexture();
 		meshList[3]->RenderMesh();
 
-//	Modelo helicoptero blanco (Pieter)
+		//	Modelo helicoptero blanco (Pieter)
 		glm::mat4 auxHelicopterW(1.0);
 
 		model = glm::mat4(1.0);
