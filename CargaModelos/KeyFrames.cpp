@@ -3,9 +3,11 @@
 KeyFrames::KeyFrames(){
 	i_max_steps = 50;
 	i_curr_steps = 36; //frames ya iniciados 
-	FrameIndex = 36;			//introducir datos
+	FrameIndex = 36;	//introducir datos
 	play = false;  //var animacion para iniciar por teclado
 	playIndex = 0;
+	guardoFrame = 0;
+	reinicioFrame = 0;
 }
 
 KeyFrames::KeyFrames(int max_steps, int curr_steps, int FrameIndex, int play, int playIndex) {
@@ -14,6 +16,8 @@ KeyFrames::KeyFrames(int max_steps, int curr_steps, int FrameIndex, int play, in
 	this->FrameIndex = FrameIndex;			//introducir datos
 	this->play = play;  //var animacion para iniciar por teclado
 	this->playIndex = playIndex;
+	guardoFrame = 0;
+	reinicioFrame = 0;
 }
 
 void KeyFrames::saveFrame(void) {
@@ -44,6 +48,16 @@ void KeyFrames::interpolation(void) {
 	arreglo[playIndex].giroXInc = (arreglo[playIndex + 1].giroX - arreglo[playIndex].giroX) / i_max_steps;
 
 }
+void KeyFrames::iniciaAutomatico(void) {
+	if (play == false) {
+		resetElements();
+		interpolation();
+		play = true;
+		playIndex = 0;
+		i_curr_steps = 0;
+	}
+}
+
 void KeyFrames::animate(void) {
 	//Movimiento del objeto
 	if (play)
@@ -125,6 +139,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 			printf("mov_x es: %f\n", mov_x_p);
 			printf("mov_y_p es: %f\n", mov_y_p);
 			printf("mov_z_p es: %f\n", mov_z_p);
+			printf("giroX_p es: %f\n", giroX_p);
 			printf("giroY es: %f\n", giroY_p);
 			printf("giroX_p es: %f\n", giroX_p);
 			printf("giroZ_p es: %f\n", giroZ_p);
@@ -146,7 +161,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_x < 1)
 		//{
-		mov_x_p -= 1.0f;
+		mov_x_p -= 0.25f;
 		//printf("mov_x_p es: %f\n", mov_x_p);
 		//ciclo_x++;
 		//ciclo_x2 = 0;
@@ -165,7 +180,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo < 1)
 		//{
-		mov_x_p += 1.0f;
+		mov_x_p += 0.25f;
 		//printf("mov_x_p es: %f\n", mov_x_p);
 		//ciclo++;
 		//ciclo2 = 0;
@@ -182,7 +197,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	}*/
 	if (keys[GLFW_KEY_RIGHT] && action == GLFW_PRESS) // DECREMENTA Z
 	{
-		mov_z_p -= 1.0f;
+		mov_z_p -= 0.25f;
 		//printf("mov_z_p es: %f\n", mov_z_p);
 		//ciclo_x++;
 		//ciclo_x2 = 0;
@@ -200,7 +215,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo < 1)
 		//{
-		mov_z_p += 1.0f;
+		mov_z_p += 0.25f;
 		//printf("mov_x_p es: %f\n", mov_z_p);
 		//ciclo++;
 		//ciclo2 = 0;
@@ -219,7 +234,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_d < 1)
 		//{
-		mov_y_p += 1.0f;
+		mov_y_p += 0.25f;
 		//printf("mov_y_p es: %f\n", mov_y_p);
 		//ciclo_d++;
 		//ciclo_d2 = 0;
@@ -238,7 +253,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_y < 1)
 		//{
-		mov_y_p -= 1.0f;
+		mov_y_p -= 0.25f;
 		//printf("giroY_p es: %f\n", giroY_p);
 		//ciclo_y++;
 		//ciclo_y2 = 0;
@@ -257,7 +272,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_g < 1)
 		//{
-		giroY_p += 1.0f;
+		giroY_p += 0.25f;
 		//printf("giroY_p es: %f\n", giroY_p);
 		//ciclo_g++;
 		//ciclo_g2 = 0;
@@ -269,7 +284,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_g < 1)
 		//{
-		giroY_p -= 1.0f;
+		giroY_p -= 0.25f;
 		//printf("giroY_p es: %f\n", giroY_p);
 		//ciclo_g++;
 		//ciclo_g2 = 0;
@@ -281,7 +296,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_g < 1)
 		//{
-		giroX_p += 1.0f;
+		giroX_p += 0.25f;
 		//printf("giroX_p es: %f\n", giroX_p);
 		//ciclo_g++;
 		//ciclo_g2 = 0;
@@ -293,7 +308,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_g < 1)
 		//{
-		giroX_p -= 1.0f;
+		giroX_p -= 0.25f;
 		//printf("giroX_p es: %f\n", giroX_p);
 		//ciclo_g++;
 		//ciclo_g2 = 0;
@@ -305,7 +320,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_g < 1)
 		//{
-		giroZ_p += 1.0f;
+		giroZ_p += 0.25f;
 		//printf("giroZ_p es: %f\n", giroZ_p);
 		//ciclo_g++;
 		//ciclo_g2 = 0;
@@ -317,7 +332,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 	{
 		//if (ciclo_g < 1)
 		//{
-		giroZ_p -= 1.0f;
+		giroZ_p -= 0.25f;
 		//printf("giroZ_p es: %f\n", giroZ_p);
 		//ciclo_g++;
 		//ciclo_g2 = 0;

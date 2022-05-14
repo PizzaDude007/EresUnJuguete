@@ -40,6 +40,7 @@ public:
 	void interpolation(void);
 	void animate(void);
 	void inputKeyframes(bool* keys, int action);
+	void iniciaAutomatico(void);
 
 private:
 	bool animacion = false;

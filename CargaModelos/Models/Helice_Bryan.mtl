@@ -1,0 +1,13 @@
+# Blender 3.1.0 MTL File: 'None'
+# www.blender.org
+
+newmtl wire_224198087
+Ns 32.000008
+Ka 1.000000 1.000000 1.000000
+Kd 0.878400 0.776500 0.341200
+Ks 0.350000 0.350000 0.350000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd  D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Textures\Helicoptero_textures\Mineways2Skfb-RGBA.png
