@@ -29,6 +29,8 @@ PROYECTO FINAL
 #include"Model.h"
 #include "Skybox.h"
 
+#include "KeyFrames.h"
+
 
 //para iluminaci�n
 #include "CommonValues.h"
@@ -116,6 +118,11 @@ Model White_Helicopter_M = Model();
 Model White_Helicopter_Helice_M = Model();
 Model White_Helicopter_Rotor_M = Model();
 Model Helipad_M = Model();
+
+Model Helipuerto_M = Model();
+Model Helicoptero_Bryan = Model();
+Model Rotor_Bryan = Model();
+Model Helice_Bryan = Model();
 
 //TOY STORY
 Model Casita_M = Model();
@@ -660,7 +667,7 @@ float giroAvionX = 0;
 #define MAX_FRAMES 41
 int i_max_steps = 50;
 int i_curr_steps = 36; //frames ya iniciados 
-typedef struct _frame
+typedef struct _Kframe
 {
 	//Variables para GUARDAR Key Frames
 	float movAvion_x;		//Variable para PosicionX
@@ -675,9 +682,10 @@ typedef struct _frame
 	float giroAvionYInc;
 	float giroAvionX;
 	float giroAvionXInc;
-}FRAME;
+}KFRAME;
 
-FRAME KeyFrame[MAX_FRAMES];
+KFRAME KeyFrame[MAX_FRAMES];
+
 int FrameIndex = 36;			//introducir datos
 bool play = false;  //var animacion para iniciar por teclado
 int playIndex = 0;
@@ -725,11 +733,11 @@ void animate(void)
 		if (i_curr_steps >= i_max_steps) //end of animation between frames?
 		{
 			playIndex++;
-			printf("frame reproducido playindex : %d\n", playIndex - 1);
+			//printf("frame reproducido playindex : %d\n", playIndex - 1);
 			if (playIndex > FrameIndex - 2)	//end of total animation?
 			{
-				printf("ultimo Frame index= %d\n", FrameIndex - 1);
-				printf("termina animacion\n");
+				//printf("ultimo Frame index= %d\n", FrameIndex - 1);
+				//printf("termina animacion\n");
 				playIndex = 0;
 				play = false;
 			}
@@ -836,7 +844,13 @@ int main()
 	White_Helicopter_Helice_M.LoadModel("Models/helice_white_helicopter.obj");
 	White_Helicopter_Rotor_M.LoadModel("Models/rotor_white_helicopter.obj");
 	Helipad_M.LoadModel("Models/helipad.obj");
-
+	
+	//MODELOS KEYFRAMES Jesus Bryan
+	Helipuerto_M.LoadModel("Models/helipad.obj");
+	Helice_Bryan.LoadModel("Models/Helice_Bryan.obj");
+	Rotor_Bryan.LoadModel("Models/Rotor_Bryan.obj");
+	Helicoptero_Bryan.LoadModel("Models/Helicoptero_Bryan.obj");
+	
 	//TOY STORY
 	Casita_M.LoadModel("Models/casita.obj");
 	Arbolito_M.LoadModel("Models/arbolito.obj");
@@ -1352,10 +1366,477 @@ int main()
 	KeyFrame[35].giroAvionY = 361.0f;
 	KeyFrame[35].giroAvionX = 0.0f;
 
+	KeyFrames keyframe_Bryan = KeyFrames(70, 66, 66, false, 0);
+	keyframe_Bryan.arreglo[0].mov_x = 0.0f;
+	keyframe_Bryan.arreglo[0].mov_y = 0.0f;
+	keyframe_Bryan.arreglo[0].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[0].giroX = 0.0f;
+	keyframe_Bryan.arreglo[0].giroY = 0.0f;
+	keyframe_Bryan.arreglo[0].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[1].mov_x = -7.0f;
+	keyframe_Bryan.arreglo[1].mov_y = 3.0f;
+	keyframe_Bryan.arreglo[1].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[1].giroX = 0.0f;
+	keyframe_Bryan.arreglo[1].giroY = 0.0f;
+	keyframe_Bryan.arreglo[1].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[2].mov_x = -14.0f;
+	keyframe_Bryan.arreglo[2].mov_y = 6.0f;
+	keyframe_Bryan.arreglo[2].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[2].giroX = 0.0f;
+	keyframe_Bryan.arreglo[2].giroY = 0.0f;
+	keyframe_Bryan.arreglo[2].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[3].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[3].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[3].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[3].giroX = 0.0f;
+	keyframe_Bryan.arreglo[3].giroY = 0.0f;
+	keyframe_Bryan.arreglo[3].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[4].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[4].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[4].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[4].giroX = 24.0f;
+	keyframe_Bryan.arreglo[4].giroY = 50.0f;
+	keyframe_Bryan.arreglo[4].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[5].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[5].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[5].mov_z = 10.0f;
+	keyframe_Bryan.arreglo[5].giroX = 12.0f;
+	keyframe_Bryan.arreglo[5].giroY = 23.0f;
+	keyframe_Bryan.arreglo[5].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[6].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[6].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[6].mov_z = 10.0f;
+	keyframe_Bryan.arreglo[6].giroX = 22.5f;
+	keyframe_Bryan.arreglo[6].giroY = 45.0f;
+	keyframe_Bryan.arreglo[6].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[7].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[7].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[7].mov_z = 10.0f;
+	keyframe_Bryan.arreglo[7].giroX = 40.0f;
+	keyframe_Bryan.arreglo[7].giroY = 55.0f;
+	keyframe_Bryan.arreglo[7].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[8].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[8].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[8].mov_z = 12.0f;
+	keyframe_Bryan.arreglo[8].giroX = 30.0f;
+	keyframe_Bryan.arreglo[8].giroY = 70.0f;
+	keyframe_Bryan.arreglo[8].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[9].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[9].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[9].mov_z = 14.0f;
+	keyframe_Bryan.arreglo[9].giroX = 20.0f;
+	keyframe_Bryan.arreglo[9].giroY = 80.0f;
+	keyframe_Bryan.arreglo[9].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[10].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[10].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[10].mov_z = 16.0f;
+	keyframe_Bryan.arreglo[10].giroX = 10.0f;
+	keyframe_Bryan.arreglo[10].giroY = 90.0f;
+	keyframe_Bryan.arreglo[10].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[11].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[11].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[11].mov_z = 18.0f;
+	keyframe_Bryan.arreglo[11].giroX = 00.0f;
+	keyframe_Bryan.arreglo[11].giroY = 90.0f;
+	keyframe_Bryan.arreglo[11].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[12].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[12].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[12].mov_z = 30.0f;
+	keyframe_Bryan.arreglo[12].giroX = 00.0f;
+	keyframe_Bryan.arreglo[12].giroY = 90.0f;
+	keyframe_Bryan.arreglo[12].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[13].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[13].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[13].mov_z = 50.0f;
+	keyframe_Bryan.arreglo[13].giroX = 00.0f;
+	keyframe_Bryan.arreglo[13].giroY = 90.0f;
+	keyframe_Bryan.arreglo[13].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[14].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[14].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[14].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[14].giroX = 00.0f;
+	keyframe_Bryan.arreglo[14].giroY = 90.0f;
+	keyframe_Bryan.arreglo[14].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[15].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[15].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[15].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[15].giroX = -10.0f;
+	keyframe_Bryan.arreglo[15].giroY = 100.0f;
+	keyframe_Bryan.arreglo[15].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[16].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[16].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[16].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[16].giroX = -20.0f;
+	keyframe_Bryan.arreglo[16].giroY = 110.0f;
+	keyframe_Bryan.arreglo[16].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[17].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[17].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[17].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[17].giroX = -30.0f;
+	keyframe_Bryan.arreglo[17].giroY = 120.0f;
+	keyframe_Bryan.arreglo[17].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[18].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[18].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[18].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[18].giroX = -40.0f;
+	keyframe_Bryan.arreglo[18].giroY = 130.0f;
+	keyframe_Bryan.arreglo[18].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[19].mov_x = -28.0f;
+	keyframe_Bryan.arreglo[19].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[19].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[19].giroX = -45.0f;
+	keyframe_Bryan.arreglo[19].giroY = 140.0f;
+	keyframe_Bryan.arreglo[19].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[20].mov_x = -20.0f;
+	keyframe_Bryan.arreglo[20].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[20].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[20].giroX = -40.0f;
+	keyframe_Bryan.arreglo[20].giroY = 150.0f;
+	keyframe_Bryan.arreglo[20].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[21].mov_x = -10.0f;
+	keyframe_Bryan.arreglo[21].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[21].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[21].giroX = -30.0f;
+	keyframe_Bryan.arreglo[21].giroY = 160.0f;
+	keyframe_Bryan.arreglo[21].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[22].mov_x = 0.0f;
+	keyframe_Bryan.arreglo[22].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[22].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[22].giroX = -20.0f;
+	keyframe_Bryan.arreglo[22].giroY = 170.0f;
+	keyframe_Bryan.arreglo[22].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[23].mov_x = 10.0f;
+	keyframe_Bryan.arreglo[23].mov_y = 12.0f;
+	keyframe_Bryan.arreglo[23].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[23].giroX = -10.0f;
+	keyframe_Bryan.arreglo[23].giroY = 180.0f;
+	keyframe_Bryan.arreglo[23].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[24].mov_x = 20.0f;
+	keyframe_Bryan.arreglo[24].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[24].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[24].giroX = 0.0f;
+	keyframe_Bryan.arreglo[24].giroY = 180.0f;
+	keyframe_Bryan.arreglo[24].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[25].mov_x = 30.0f;
+	keyframe_Bryan.arreglo[25].mov_y = 5.0f;
+	keyframe_Bryan.arreglo[25].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[25].giroX = 0.0f;
+	keyframe_Bryan.arreglo[25].giroY = 180.0f;
+	keyframe_Bryan.arreglo[25].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[26].mov_x = 40.0f;
+	keyframe_Bryan.arreglo[26].mov_y = 0.0f;
+	keyframe_Bryan.arreglo[26].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[26].giroX = 0.0f;
+	keyframe_Bryan.arreglo[26].giroY = 180.0f;
+	keyframe_Bryan.arreglo[26].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[27].mov_x = 50.0f;
+	keyframe_Bryan.arreglo[27].mov_y = -5.0f;
+	keyframe_Bryan.arreglo[27].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[27].giroX = 0.0f;
+	keyframe_Bryan.arreglo[27].giroY = 180.0f;
+	keyframe_Bryan.arreglo[27].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[28].mov_x = 60.0f;
+	keyframe_Bryan.arreglo[28].mov_y = -10.0f;
+	keyframe_Bryan.arreglo[28].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[28].giroX = 0.0f;
+	keyframe_Bryan.arreglo[28].giroY = 180.0f;
+	keyframe_Bryan.arreglo[28].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[29].mov_x = 70.0f;
+	keyframe_Bryan.arreglo[29].mov_y = -5.0f;
+	keyframe_Bryan.arreglo[29].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[29].giroX = 0.0f;
+	keyframe_Bryan.arreglo[29].giroY = 180.0f;
+	keyframe_Bryan.arreglo[29].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[30].mov_x = 80.0f;
+	keyframe_Bryan.arreglo[30].mov_y = 0.0f;
+	keyframe_Bryan.arreglo[30].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[30].giroX = 0.0f;
+	keyframe_Bryan.arreglo[30].giroY = 180.0f;
+	keyframe_Bryan.arreglo[30].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[31].mov_x = 90.0f;
+	keyframe_Bryan.arreglo[31].mov_y = 5.0f;
+	keyframe_Bryan.arreglo[31].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[31].giroX = 0.0f;
+	keyframe_Bryan.arreglo[31].giroY = 180.0f;
+	keyframe_Bryan.arreglo[31].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[32].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[32].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[32].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[32].giroX = 0.0f;
+	keyframe_Bryan.arreglo[32].giroY = 180.0f;
+	keyframe_Bryan.arreglo[32].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[33].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[33].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[33].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[33].giroX = -10.0f;
+	keyframe_Bryan.arreglo[33].giroY = 190.0f;
+	keyframe_Bryan.arreglo[33].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[34].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[34].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[34].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[34].giroX = -20.0f;
+	keyframe_Bryan.arreglo[34].giroY = 200.0f;
+	keyframe_Bryan.arreglo[34].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[35].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[35].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[35].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[35].giroX = -30.0f;
+	keyframe_Bryan.arreglo[35].giroY = 210.0f;
+	keyframe_Bryan.arreglo[35].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[36].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[36].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[36].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[36].giroX = -40.0f;
+	keyframe_Bryan.arreglo[36].giroY = 220.0f;
+	keyframe_Bryan.arreglo[36].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[37].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[37].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[37].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[37].giroX = -45.0f;
+	keyframe_Bryan.arreglo[37].giroY = 235.0f;
+	keyframe_Bryan.arreglo[37].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[38].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[38].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[38].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[38].giroX = -40.0f;
+	keyframe_Bryan.arreglo[38].giroY = 240.0f;
+	keyframe_Bryan.arreglo[38].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[39].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[39].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[39].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[39].giroX = -30.0f;
+	keyframe_Bryan.arreglo[39].giroY = 250.0f;
+	keyframe_Bryan.arreglo[39].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[40].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[40].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[40].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[40].giroX = -20.0f;
+	keyframe_Bryan.arreglo[40].giroY = 260.0f;
+	keyframe_Bryan.arreglo[40].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[41].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[41].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[41].mov_z = 80.0f;
+	keyframe_Bryan.arreglo[41].giroX = -10.0f;
+	keyframe_Bryan.arreglo[41].giroY = 270.0f;
+	keyframe_Bryan.arreglo[41].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[42].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[42].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[42].mov_z = 70.0f;
+	keyframe_Bryan.arreglo[42].giroX = 0.0f;
+	keyframe_Bryan.arreglo[42].giroY = 270.0f;
+	keyframe_Bryan.arreglo[42].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[43].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[43].mov_y = 5.0f;
+	keyframe_Bryan.arreglo[43].mov_z = 60.0f;
+	keyframe_Bryan.arreglo[43].giroX = 0.0f;
+	keyframe_Bryan.arreglo[43].giroY = 270.0f;
+	keyframe_Bryan.arreglo[43].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[44].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[44].mov_y = 0.0f;
+	keyframe_Bryan.arreglo[44].mov_z = 50.0f;
+	keyframe_Bryan.arreglo[44].giroX = 0.0f;
+	keyframe_Bryan.arreglo[44].giroY = 270.0f;
+	keyframe_Bryan.arreglo[44].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[45].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[45].mov_y = -5.0f;
+	keyframe_Bryan.arreglo[45].mov_z = 40.0f;
+	keyframe_Bryan.arreglo[45].giroX = 0.0f;
+	keyframe_Bryan.arreglo[45].giroY = 270.0f;
+	keyframe_Bryan.arreglo[45].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[46].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[46].mov_y = 0.0f;
+	keyframe_Bryan.arreglo[46].mov_z = 30.0f;
+	keyframe_Bryan.arreglo[46].giroX = 0.0f;
+	keyframe_Bryan.arreglo[46].giroY = 270.0f;
+	keyframe_Bryan.arreglo[46].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[47].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[47].mov_y = 5.0f;
+	keyframe_Bryan.arreglo[47].mov_z = 20.0f;
+	keyframe_Bryan.arreglo[47].giroX = 0.0f;
+	keyframe_Bryan.arreglo[47].giroY = 270.0f;
+	keyframe_Bryan.arreglo[47].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[48].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[48].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[48].mov_z = 10.0f;
+	keyframe_Bryan.arreglo[48].giroX = 0.0f;
+	keyframe_Bryan.arreglo[48].giroY = 270.0f;
+	keyframe_Bryan.arreglo[48].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[49].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[49].mov_y = 15.0f;
+	keyframe_Bryan.arreglo[49].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[49].giroX = 0.0f;
+	keyframe_Bryan.arreglo[49].giroY = 270.0f;
+	keyframe_Bryan.arreglo[49].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[50].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[50].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[50].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[50].giroX = 10.0f;
+	keyframe_Bryan.arreglo[50].giroY = 280.0f;
+	keyframe_Bryan.arreglo[50].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[51].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[51].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[51].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[51].giroX = 20.0f;
+	keyframe_Bryan.arreglo[51].giroY = 290.0f;
+	keyframe_Bryan.arreglo[51].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[52].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[52].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[52].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[52].giroX = 30.0f;
+	keyframe_Bryan.arreglo[52].giroY = 300.0f;
+	keyframe_Bryan.arreglo[52].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[53].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[53].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[53].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[53].giroX = 40.0f;
+	keyframe_Bryan.arreglo[53].giroY = 310.0f;
+	keyframe_Bryan.arreglo[53].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[54].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[54].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[54].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[54].giroX = 45.0f;
+	keyframe_Bryan.arreglo[54].giroY = 320.0f;
+	keyframe_Bryan.arreglo[54].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[55].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[55].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[55].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[55].giroX = 40.0f;
+	keyframe_Bryan.arreglo[55].giroY = 330.0f;
+	keyframe_Bryan.arreglo[55].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[56].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[56].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[56].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[56].giroX = 30.0f;
+	keyframe_Bryan.arreglo[56].giroY = 340.0f;
+	keyframe_Bryan.arreglo[56].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[57].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[57].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[57].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[57].giroX = 20.0f;
+	keyframe_Bryan.arreglo[57].giroY = 350.0f;
+	keyframe_Bryan.arreglo[57].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[58].mov_x = 100.0f;
+	keyframe_Bryan.arreglo[58].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[58].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[58].giroX = 10.0f;
+	keyframe_Bryan.arreglo[58].giroY = 360.0f;
+	keyframe_Bryan.arreglo[58].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[59].mov_x = 90.0f;
+	keyframe_Bryan.arreglo[59].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[59].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[59].giroX = 0.0f;
+	keyframe_Bryan.arreglo[59].giroY = 360.0f;
+	keyframe_Bryan.arreglo[59].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[60].mov_x = 80.0f;
+	keyframe_Bryan.arreglo[60].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[60].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[60].giroX = 0.0f;
+	keyframe_Bryan.arreglo[60].giroY = 360.0f;
+	keyframe_Bryan.arreglo[60].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[61].mov_x = 60.0f;
+	keyframe_Bryan.arreglo[61].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[61].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[61].giroX = 0.0f;
+	keyframe_Bryan.arreglo[61].giroY = 360.0f;
+	keyframe_Bryan.arreglo[61].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[62].mov_x = 40.0f;
+	keyframe_Bryan.arreglo[62].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[62].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[62].giroX = 0.0f;
+	keyframe_Bryan.arreglo[62].giroY = 360.0f;
+	keyframe_Bryan.arreglo[62].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[63].mov_x = 20.0f;
+	keyframe_Bryan.arreglo[63].mov_y = 10.0f;
+	keyframe_Bryan.arreglo[63].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[63].giroX = 0.0f;
+	keyframe_Bryan.arreglo[63].giroY = 360.0f;
+	keyframe_Bryan.arreglo[63].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[64].mov_x = 10.0f;
+	keyframe_Bryan.arreglo[64].mov_y = 5.0f;
+	keyframe_Bryan.arreglo[64].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[64].giroX = 0.0f;
+	keyframe_Bryan.arreglo[64].giroY = 360.0f;
+	keyframe_Bryan.arreglo[64].giroZ = 0.0f;
+
+	keyframe_Bryan.arreglo[65].mov_x = 0.0f;
+	keyframe_Bryan.arreglo[65].mov_y = 0.0f;
+	keyframe_Bryan.arreglo[65].mov_z = 0.0f;
+	keyframe_Bryan.arreglo[65].giroX = 0.0f;
+	keyframe_Bryan.arreglo[65].giroY = 360.0f;
+	keyframe_Bryan.arreglo[65].giroZ = 0.0f;
+
+
+	KeyFrames keyframe_Piet = KeyFrames();
+
 	glm::vec3 posblackhawk = glm::vec3(-120.0f, 30.0f, -130.0f);
 
 	//Helice
 	float rotYHelice = 0.0f;
+	float rotRotor = 0.0f;
 	float rotYHeliceOffset=0.01f;
 	SpectreRotX = 90.0f;
 	SpectreRotY = 0.0f;
@@ -1391,7 +1872,13 @@ int main()
 			rotYHeliceOffset = 0.01f;
 			rotYHelice = 0.0f;
 		}
+		keyframe_Bryan.inputKeyframes(mainWindow.getsKeys(), mainWindow.getAction());
+
+		//keyframe_Piet.inputKeyframes(mainWindow.getsKeys(), mainWindow.getAction());
+
 		animate();
+		keyframe_Bryan.animate();
+		keyframe_Piet.animate();
 
 		//ANIMACION HELICE
 		rotYHelice += rotYHeliceOffset * deltaTime;
@@ -2385,6 +2872,34 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Spike_aro_M.RenderModel();
 
+		//HELICOPTERO BRYAN PARADA
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-70.0f, 70.0f, -290.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Helipuerto_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-70.0f + keyframe_Bryan.mov_x_p, 75.0f + keyframe_Bryan.mov_y_p, -290.0f + keyframe_Bryan.mov_z_p));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, keyframe_Bryan.giroX_p * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, keyframe_Bryan.giroY_p * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, keyframe_Bryan.giroZ_p * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Helicoptero_Bryan.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		model = glm::rotate(model, rotYHelice * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Helice_Bryan.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.9f, 0.0f, 0.1f));
+		model = glm::rotate(model, rotYHelice * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Rotor_Bryan.RenderModel();
 
 //	M U C H A  L U C H A
 
