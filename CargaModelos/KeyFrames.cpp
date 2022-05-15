@@ -65,11 +65,11 @@ void KeyFrames::animate(void) {
 		if (i_curr_steps >= i_max_steps) //end of animation between frames?
 		{
 			playIndex++;
-			printf("frame reproducido playindex : %d\n", playIndex - 1);
+			//printf("frame reproducido playindex : %d\n", playIndex - 1);
 			if (playIndex > FrameIndex - 2)	//end of total animation?
 			{
-				printf("ultimo Frame index= %d\n", FrameIndex - 1);
-				printf("termina animacion\n");
+				/*printf("ultimo Frame index= %d\n", FrameIndex - 1);
+				printf("termina animacion\n");*/
 				playIndex = 0;
 				play = false;
 			}
@@ -135,7 +135,12 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 		if (guardoFrame < 1)
 		{
 			saveFrame();
-			printf("\n--------- SE GUARDA -----------\n");
+			printf("KeyFrame[%d].mov_x es: %f\n", FrameIndex, mov_x_p);
+			printf("KeyFrame[%d].mov_y es: %f\n", FrameIndex, mov_y_p);
+			//("KeyFrame[%d].mov_z es: %f\n", FrameIndex, mov_z_p);
+			printf("KeyFrame[%d].giroY es: %f\n", FrameIndex, giroY_p);
+			printf("KeyFrame[%d].giroX es: %f\n", FrameIndex, giroZ_p);
+			/*printf("\n--------- SE GUARDA -----------\n");
 			printf("mov_x es: %f\n", mov_x_p);
 			printf("mov_y_p es: %f\n", mov_y_p);
 			printf("mov_z_p es: %f\n", mov_z_p);
@@ -144,7 +149,7 @@ void KeyFrames::inputKeyframes(bool* keys, int action)
 			printf("giroX_p es: %f\n", giroX_p);
 			printf("giroZ_p es: %f\n", giroZ_p);
 			printf("presiona R para habilitar guardar otro frame'\n");
-			printf("\n-----------------------------\n");
+			printf("\n-----------------------------\n");*/
 			guardoFrame++;
 			reinicioFrame = 0;
 		}
