@@ -2103,7 +2103,7 @@ int main()
 	irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
 	irrklang::ISoundEngine* ambiental = irrklang::createIrrKlangDevice();
 	//Sonido ambiente
-	ambiental->play2D("Media/background.ogg", true);
+	ambiental->play2D("Media/AmbienteToyStory.ogg", true);
 	ambiental->setSoundVolume(0.3);
 
 	//Helice
