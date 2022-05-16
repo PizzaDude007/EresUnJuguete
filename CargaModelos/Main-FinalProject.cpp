@@ -15,9 +15,9 @@ PROYECTO FINAL
 #include <glfw3.h>
 
 #include <glm.hpp>
-#include <gtc\matrix_transform.hpp>
-#include <gtc\type_ptr.hpp>
-#include <irrklang\irrKlang.h>
+//#include <gtc\matrix_transform.hpp>
+//#include <gtc\type_ptr.hpp>
+//#include <irrklang\irrKlang.h>
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
@@ -2100,11 +2100,11 @@ int main()
 	glm::vec3 posblackhawk = glm::vec3(-120.0f, 30.0f, -130.0f);
 
 	//-----------------------A U D I O ---------------------------------------
-	irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
-	irrklang::ISoundEngine* ambiental = irrklang::createIrrKlangDevice();
+	//irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
+	//irrklang::ISoundEngine* ambiental = irrklang::createIrrKlangDevice();
 	//Sonido ambiente
-	ambiental->play2D("Media/AmbienteToyStory.ogg", true);
-	ambiental->setSoundVolume(0.3);
+	//ambiental->play2D("Media/AmbienteToyStory.ogg", true);
+	//ambiental->setSoundVolume(0.3);
 
 	//Helice
 	float rotYHelice = 0.0f;
@@ -3887,8 +3887,8 @@ int main()
 		glUseProgram(0);
 		mainWindow.swapBuffers();
 	}
-	engine->drop();
-	ambiental->drop();
+	//engine->drop();
+	//ambiental->drop();
 	return 0;
 }
 
