@@ -17,7 +17,9 @@ PROYECTO FINAL
 #include <glm.hpp>
 //#include <gtc\matrix_transform.hpp>
 //#include <gtc\type_ptr.hpp>
-//#include <irrklang\irrKlang.h>
+#include <irrklang\irrKlang.h>
+using namespace irrklang;
+
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
@@ -2101,9 +2103,9 @@ int main()
 
 	//-----------------------A U D I O ---------------------------------------
 	//irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
-	//irrklang::ISoundEngine* ambiental = irrklang::createIrrKlangDevice();
+	ISoundEngine* ambiental = createIrrKlangDevice();
 	//Sonido ambiente
-	//ambiental->play2D("Media/AmbienteToyStory.ogg", true);
+	ambiental->play2D("Media/AmbienteToyStory.ogg", true);
 	//ambiental->setSoundVolume(0.3);
 
 	//Helice
