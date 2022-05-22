@@ -2126,7 +2126,7 @@ int main()
 	ISoundEngine* ambiental = createIrrKlangDevice();
 	//Sonido ambiente
 	ambiental->play2D("Media/AmbienteToyStory.ogg", true);
-	ambiental->setSoundVolume(0.0);
+	ambiental->setSoundVolume(0.2);
 
 	//Helice
 	float rotYHelice = 0.0f;
@@ -2695,17 +2695,75 @@ int main()
 
 			}
 			else if (estado_car2 == "EMPUJA_CAR2") {
-				if (posCar2X > -55.0f) {
+				if (posCar2X > -60.0f) {
 					posCar2X -= deltaTime * 0.3;
-					posEdi1X -= deltaTime * 0.3;
 				}
 				else {
 					estado_car2 = "GIRA_CAR2";
+					auxPosCar2x = posCar2X;
+					auxPosCar2z = posCar2Z;
 				}
 
 
 			}
+			else if (estado_car2 == "GIRA_CAR2") {
+				float radio = 70.0f;
+				float centroX = auxPosCar2x;
+				float centroZ = auxPosCar2z - radio;
 
+				if (angulo_car2Y > 0.0f) {
+					posCar2X = centroX + (radio * cos((180 - angulo_car2Y) * toRadians));
+					posCar2Z = centroZ + (radio * sin((180 - angulo_car2Y) * toRadians));
+					angulo_car2Y -= deltaTime * 0.25f;
+				}
+				else {
+					estado_car2 = "AVANZA2_CAR2";
+					auxPosCar2x = posCar2X;
+					auxPosCar2z = posCar2Z;
+				}
+			}
+			else if (estado_car2 == "AVANZA2_CAR2") {
+				if (posCar2Z > auxPosCar2z - 90.0f) {
+					posCar2Z -= deltaTime * 0.3;
+				}
+				else {
+					estado_car2 = "ACOMODA_CAR2";
+					auxPosCar2x = posCar2X;
+					auxPosCar2z = posCar2Z;
+				}
+
+
+			}
+			else if (estado_car2 == "ACOMODA_CAR2") {
+				float radio = 25.0f;
+				float centroX = auxPosCar2x - radio;
+				float centroZ = auxPosCar2z;
+
+				if (angulo_car2Y > -180.0f) {
+					posCar2X = centroX + (radio * cos((0 - angulo_car2Y) * toRadians));
+					posCar2Z = centroZ + (radio * sin((0 - angulo_car2Y) * toRadians));
+					angulo_car2Y -= deltaTime * 0.5f;
+				}
+				else {
+					estado_car2 = "CAR2_LISTO";
+					auxPosCar2x = posCar2X;
+					auxPosCar2z = posCar2Z;
+				}
+			}
+
+			// EMPUJA AUTOBUS
+			if (estado_car2 == "EMPUJA_CAR2" ||
+				estado_car2 == "GIRA_CAR2" ||
+				estado_car2 == "AVANZA2_CAR2") {
+
+				float anguloCarEmpuja = -angulo_car2Y;
+				float diffX = -15.5f;
+				float diffZ = 0.0f;
+				posEdi1X = posCar2X + ((diffZ * cos(anguloCarEmpuja* toRadians)) - (diffX * sin(anguloCarEmpuja* toRadians)));
+				posEdi1Z = posCar2Z + ((diffZ * sin(anguloCarEmpuja* toRadians)) + (diffX * cos(anguloCarEmpuja* toRadians)));
+				posEdi1Y = posCar2Y -1.0f;
+				angulo_EdiY = -anguloCarEmpuja;
+			}
 
 			////ANIMACION EDIFICIO
 			//if (estado_edificio == "PARAR_EDIFICIO") {
@@ -2786,7 +2844,7 @@ int main()
 			auxPosCar2z = posCar2Z;
 
 			//variables Edificio
-			angulo_EdiY = 0.0f;
+			angulo_EdiY = 90.0f;
 			angulo_EdiX = 0.0f;
 			posEdi1X = -40.0f;
 			posEdi1Y = 2.0f;
