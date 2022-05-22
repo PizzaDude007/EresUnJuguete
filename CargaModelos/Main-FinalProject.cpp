@@ -17,9 +17,7 @@ PROYECTO FINAL
 #include <glm.hpp>
 //#include <gtc\matrix_transform.hpp>
 //#include <gtc\type_ptr.hpp>
-//#include <irrklang\irrKlang.h>
-//para probar el importer
-//#include<assimp/Importer.hpp>
+#include <irrklang\irrKlang.h>
 
 #include "Window.h"
 #include "Mesh.h"
@@ -40,7 +38,8 @@ PROYECTO FINAL
 #include "SpotLight.h"
 #include "Material.h"
 
-
+//NAME SPACE
+using namespace irrklang;
 
 //#include "Modelos_MuchaLucha.h"
 
