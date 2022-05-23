@@ -116,6 +116,8 @@ Model Cama_M = Model();
 Model Alfombra_M = Model();
 Model Mueble_M = Model();
 Model Rampa_M = Model();
+Model Leds_M = Model();
+Model Leds_mini_M = Model();
 Model Helicoptero_M = Model();
 Model Helice_M = Model();
 
@@ -843,6 +845,8 @@ int main()
 	Alfombra_M.LoadModel("Models/alfombra.obj");
 	Mueble_M.LoadModel("Models/mueble.obj");
 	Rampa_M.LoadModel("Models/rampa.obj");
+	Leds_M.LoadModel("Models/led_line.obj");
+	Leds_mini_M.LoadModel("Models/led_mini_line.obj");
 	Helicoptero_M.LoadModel("Models/helicoptero.obj");
 	Helice_M.LoadModel("Models/helice.obj");
 
@@ -1100,7 +1104,7 @@ int main()
 	float movSpike = 0.0f;
 	glm::vec3 posSpike = glm::vec3(-80.0f, 69.0f, -330.0f); //-80, 69, -330
 	posicionLed1X = 0.0f;
-	posicionLed1Z = -374.0f;
+	posicionLed1Z = -380.0f;
 	banderaLedEscritorio = 0;
 	banderaParpadeoSpike = 0;
 	float avanzaOffset = 15.0f;
@@ -2765,53 +2769,6 @@ int main()
 				angulo_EdiY = -anguloCarEmpuja;
 			}
 
-			////ANIMACION EDIFICIO
-			//if (estado_edificio == "PARAR_EDIFICIO") {
-			//	if (posEdi1Y > 3.0f || angulo_EdiX > 0) {
-
-
-			//		if (angulo_EdiX > 0) {
-			//			angulo_EdiX -= deltaTime * angulo_EdiX_offset;
-			//		}
-			//		if (posEdi1Y > 3.0f) {
-			//			posEdi1Y -= deltaTime * 0.1f;
-			//		}
-			//	}
-			//	else {
-			//		estado_edificio = "VUELTA_EDIFICIO";
-			//		auxAngEdiy = angulo_EdiY;
-			//		auxPosEdix = posEdi1X;
-			//		auxPosEdiz = posEdi1Z;
-			//	}
-			//}
-			//else if (estado_edificio == "VUELTA_EDIFICIO") {
-			//	float radio = 120.0f;
-			//	float centroX = auxPosEdix - radio;
-			//	float centroZ = auxPosEdiz;
-
-			//	if (auxAngEdiy < 90.0f) {
-			//		auxAngEdiy += deltaTime * angulo_EdiY_offset * 0.6f;
-			//		posEdi1X = centroX + (radio * cos((0 - auxAngEdiy) * toRadians));
-			//		posEdi1Z = centroZ + (radio * sin((0 - auxAngEdiy) * toRadians));
-			//		angulo_EdiY = auxAngEdiy * 2;
-			//	}
-			//	else {
-			//		estado_edificio = "DESPLAZA_EDIFICIO";
-			//		auxPosEdiz = posEdi1Z;
-			//	}
-			//}
-			//else if (estado_edificio == "DESPLAZA_EDIFICIO") {
-			//	if (posEdi1Z > auxPosEdiz - 40) {
-			//		posEdi1Z -= deltaTime * 0.5f;
-			//	}
-			//	else
-			//	{
-			//		estado_edificio = "EDIFICIO_LISTO";
-			//	}
-
-			//}
-
-
 		}
 		else {
 			//variables bus
@@ -2981,11 +2938,87 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Cama_M.RenderModel();
 
+		//leds
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-220.0f, 20.0f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-164.0f, 20.0f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-108.0f, 20.0f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-73.0f, 19.8f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-59.0f, 19.8f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-51.8f, 19.8f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-44.7f, 20.0f, 67.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-44.7f, 19.8f, 102.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-44.7f, 19.8f, 116.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-44.7f, 19.8f, 130.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
 		//Alfombra
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, -100.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Alfombra_M.RenderModel();
 
 		//Escritorio2
@@ -3013,6 +3046,42 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Escritorio_M.RenderModel();
 
+		//tira de leds
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(130.0f, 64.0f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(74.0f, 64.0f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(39.0f, 64.2f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(25.0f, 64.2f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(11.0f, 64.2f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
 		//Lampara de escritorio
 		//color = glm::vec3(0.705f, 0.705f, 0.705f);
 		model = modelaux;
@@ -3025,6 +3094,7 @@ int main()
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -250.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Bote_basura_M.RenderModel();
 
 		//Silla Gamer
