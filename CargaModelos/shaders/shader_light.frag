@@ -9,7 +9,7 @@ in vec4 vColor;
 out vec4 color;
 
 const int MAX_POINT_LIGHTS = 5;
-const int MAX_SPOT_LIGHTS = 1;
+const int MAX_SPOT_LIGHTS = 2;
 
 struct Light
 {

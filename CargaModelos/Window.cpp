@@ -159,6 +159,15 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		theWindow->DeskLamp = 0;
 	}
 
+	if (key == GLFW_KEY_J and theWindow-> LampVal == 0 and action == GLFW_PRESS)
+	{
+		theWindow->LampVal = 1;
+	}
+	else if (key == GLFW_KEY_J and theWindow-> LampVal == 1 and action == GLFW_PRESS)
+	{
+		theWindow->LampVal = 0;
+	}
+
 	if (key == GLFW_KEY_W and action == GLFW_PRESS)
 	{
 		theWindow->direccion = 1;
