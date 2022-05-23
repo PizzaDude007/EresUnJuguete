@@ -792,7 +792,7 @@ int main()
 	cameraLibre = Camera(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraWheezy = Camera(glm::vec3(0.0f, 24.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraJett = Camera(glm::vec3(-240.0f, 92.0f, -340.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 1.0f, 0.5f);
-	cameraFrijolito = Camera(glm::vec3(180.0f, 66.0f, -50.0f), glm::vec3(0.0f, 1.0f, 0.0f), 60.0f, 0.0f, 1.0f, 0.5f);
+	cameraFrijolito = Camera(glm::vec3(180.0f, 50.1f, -50.0f), glm::vec3(0.0f, 1.0f, 0.0f), 60.0f, 0.0f, 1.0f, 0.5f);
 
 
 	brickTexture = Texture("Textures/brick.png");
@@ -827,7 +827,7 @@ int main()
 	Buena_Girl_Texture.LoadTextureA();
 
 	//Modelos para el proyecto
-	Cuarto_M.LoadModel("Models/cuarto_text.obj");
+	Cuarto_M.LoadModel("Models/cuarto.obj");
 	Escritorio_M.LoadModel("Models/SM_Prop_Desk_02_OBJ.obj");
 	Escritorio2_M.LoadModel("Models/desk_2.obj");
 	Escritorio3_M.LoadModel("Models/desk_3.obj");
@@ -2254,9 +2254,9 @@ int main()
 			angulo_cam_frijolito += (180 * toRadians);
 		}
 		glm::vec3 posFrijolito = glm::vec3(0, 0, 0);
-		posFrijolito.x = poscam.x + ((0 * cos(angulo_cam_frijolito)) - (50 * sin(angulo_cam_frijolito)));
-		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (50 * cos(angulo_cam_frijolito)));
-		posFrijolito.y = poscam.y - 20;
+		posFrijolito.x = poscam.x + ((0 * cos(angulo_cam_frijolito)) - (15 * sin(angulo_cam_frijolito)));
+		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (15 * cos(angulo_cam_frijolito)));
+		posFrijolito.y = poscam.y - 5;
 
 		//Cambio del ciclo de luz de dia y noche_____________________________________
 
