@@ -189,7 +189,7 @@ Model LamparaVal_M = Model();
 Model ML_Ring_M = Model();
 Model Luchador_M = Model();
 
-Skybox skybox;
+Skybox skyboxDay, skyboxNight;
 //materiales
 Material Material_brillante;
 Material Material_opaco;
@@ -986,16 +986,24 @@ int main()
 
 	// TODO: agreagar doble textura para que haya uno de día y uno de noche
 
-	std::vector<std::string> skyboxFaces;
+	std::vector<std::string> skyboxFacesDay, skyboxFacesNight;
 
-	skyboxFaces.push_back("Textures/Skybox_City/city_right_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_left_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_down_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_up_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_back_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_front_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_right_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_left_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_down_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_up_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_back_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_front_f.tga");
 
-	skybox = Skybox(skyboxFaces);
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_right_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_left_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_down_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_up_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_back_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_front_fN.tga");
+
+	skyboxDay = Skybox(skyboxFacesDay);
+	skyboxNight = Skybox(skyboxFacesNight);
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -3103,7 +3111,10 @@ int main()
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera->calculateViewMatrix(), projection);
+		if (contadorDiaNoche > 0.7)
+			skyboxDay.DrawSkybox(camera->calculateViewMatrix(), projection);
+		else
+			skyboxNight.DrawSkybox(camera->calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
