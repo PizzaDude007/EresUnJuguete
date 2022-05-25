@@ -18,6 +18,7 @@ public:
 	int getCamaraVal() { return camaraVal; }
 	int getLedCama() { return LedCama; }
 	int getDeskLamp() { return DeskLamp;  }
+	int getLampVal() { return LampVal;  }
 	bool getSaveToys() { return saveToys; }
 	int getDireccion() { return direccion; }
 	bool getShouldClose() {
@@ -40,7 +41,7 @@ private:
 	GLfloat yChange;
 	GLfloat muevex;
 	GLfloat carx;
-	int DeskLamp = 0, LedCama = 0, direccion;
+	int DeskLamp = 0, LedCama = 0, LampVal = 0, direccion;
 	bool mouseFirstMoved;
 	bool saveToys;
 	int camaraVal;

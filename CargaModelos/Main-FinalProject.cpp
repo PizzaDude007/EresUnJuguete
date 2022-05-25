@@ -15,8 +15,9 @@ PROYECTO FINAL
 #include <glfw3.h>
 
 #include <glm.hpp>
-#include <gtc\matrix_transform.hpp>
-#include <gtc\type_ptr.hpp>
+//#include <gtc\matrix_transform.hpp>
+//#include <gtc\type_ptr.hpp>
+#include <irrklang\irrKlang.h>
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
@@ -28,11 +29,11 @@ PROYECTO FINAL
 #include <stdlib.h>
 
 #include "Window.h"
-#include "Mesh.h"
 #include "Shader_light.h"
 #include "Camera.h"
 #include "Texture.h"
 #include "Sphere.h"
+#include "ToroideBralex.h"
 #include"Model.h"
 #include "Skybox.h"
 
@@ -47,8 +48,10 @@ PROYECTO FINAL
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "Material.h"
+#include "Toroide.h"
 
-
+//NAME SPACE
+using namespace irrklang;
 
 //#include "Modelos_MuchaLucha.h"
 
@@ -57,9 +60,11 @@ float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z, parpadeoSpike = 
 float SpectreRotX, SpectreRotY, SpectreMovX, SpectreMovY, SpectreMovZ, AuxSpectreRotX;
 float FenixBIrotX, FenixRot;
 float KillJBrazosRotX, KillJRotY, KillJRotX, KillJPIrotX, KillJPDrotX, KillJMovZ;
-int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike, AnimacionVal, DisparoSpectre, KillJCamina;
-bool  dia = false, spikeSube = false;
+int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike, AnimacionVal, DisparoSpectre, KillJCamina, LampVal;
+bool  dia = false, spikeSube = false, cancionVal = true;
+double alpha, betha;
 const float toRadians = 3.14159265f / 180.0f;
+const float PI = 3.14159265f;
 
 float giroSpike = 0.0f;
 float movAroSpike = 0.0f;
@@ -124,6 +129,9 @@ Model JettCompleta = Model();
 Model Cama_M = Model();
 Model Alfombra_M = Model();
 Model Mueble_M = Model();
+Model Rampa_M = Model();
+Model Leds_M = Model();
+Model Leds_mini_M = Model();
 Model Helicoptero_M = Model();
 Model Helice_M = Model();
 
@@ -144,6 +152,7 @@ Model Edificio_M = Model();
 Model Edificio2_M = Model();
 Model Car_M = Model();
 Model Bus_M = Model();
+Model CuboR_M = Model();
 
 //Wheezy
 Model Wheezy_torso_M = Model();
@@ -175,7 +184,7 @@ Model Valorant_FenixPD = Model();//Pie Derecho
 Model Spike_base_M = Model();
 Model Spike_cilindro_M = Model();
 Model Spike_aro_M = Model();
-
+Model LamparaVal_M = Model();
 
 Model ML_Ring_M = Model();
 Model Luchador_M = Model();
@@ -199,6 +208,7 @@ PointLight pointLightsCama[MAX_POINT_LIGHTS];
 PointLight pointLightsSpike[MAX_POINT_LIGHTS];//Todas las pointlights
 PointLight pointLightsSpike1[MAX_POINT_LIGHTS];//Pointlights sin los leds de la cama y el escritorio
 SpotLight spotLights[MAX_SPOT_LIGHTS];
+SpotLight spotlights1[MAX_SPOT_LIGHTS];//Arreglo con otra spotlight
 
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
@@ -207,6 +217,7 @@ static const char* vShader = "shaders/shader_light.vert";
 static const char* fShader = "shaders/shader_light.frag";
 
 Sphere sp = Sphere(10.0, 30, 30); //radio horizontal vertical
+ToroideBralex tBralex = ToroideBralex(1.0,1.4); //radio1 radio2
 
 
 
@@ -831,7 +842,7 @@ void animate(void)
 /* FIN KEYFRAMES*/
 
 
-
+Toroide toroParada = Toroide(4.0f, 6.0f);
 
 
 int main()
@@ -843,18 +854,25 @@ int main()
 	CreatePersonaje(); //0,1,2,3,4
 	sp.init(); //inicializar esfera
 	sp.load();//enviar la esfera al shader
+	
 	CreateStar(); // 5,6,7,8
-	CreateTorus_P(20, 30, 0.4f); //6
+	toroParada.CrearToroide(&meshList);//6
+	tBralex.init(); //inicializar toroide
+	tBralex.load();//enviar toroide al shader
+	//CreateTorus_P(20, 30, 0.4f); //6
 	torus_p.changeParams(20, 30, 0.4f);
 	torus_p.load();
 	CreateShaders();
+	
 
 	cameraLibre = Camera(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraWheezy = Camera(glm::vec3(0.0f, 24.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraJett = Camera(glm::vec3(-240.0f, 92.0f, -340.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 1.0f, 0.5f);
-	cameraFrijolito = Camera(glm::vec3(180.0f, 66.0f, -50.0f), glm::vec3(0.0f, 1.0f, 0.0f), 60.0f, 0.0f, 1.0f, 0.5f);
+	cameraFrijolito = Camera(glm::vec3(180.0f, 50.1f, -50.0f), glm::vec3(0.0f, 1.0f, 0.0f), 60.0f, 0.0f, 1.0f, 0.5f);
 
-
+	//========================================PRUEBA TOROIDES===================================
+	
+	
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
 	dirtTexture = Texture("Textures/dirt.png");
@@ -887,7 +905,7 @@ int main()
 	Buena_Girl_Texture.LoadTextureA();
 
 	//Modelos para el proyecto
-	Cuarto_M.LoadModel("Models/cuarto_text.obj");
+	Cuarto_M.LoadModel("Models/cuarto.obj");
 	Escritorio_M.LoadModel("Models/SM_Prop_Desk_02_OBJ.obj");
 	Escritorio2_M.LoadModel("Models/desk_2.obj");
 	Escritorio3_M.LoadModel("Models/desk_3.obj");
@@ -902,6 +920,9 @@ int main()
 	Cama_M.LoadModel("Models/bed_red.obj");
 	Alfombra_M.LoadModel("Models/alfombra.obj");
 	Mueble_M.LoadModel("Models/mueble.obj");
+	Rampa_M.LoadModel("Models/rampa.obj");
+	Leds_M.LoadModel("Models/led_line.obj");
+	Leds_mini_M.LoadModel("Models/led_mini_line.obj");
 	Helicoptero_M.LoadModel("Models/helicoptero.obj");
 	Helice_M.LoadModel("Models/helice.obj");
 
@@ -924,6 +945,7 @@ int main()
 	Edificio2_M.LoadModel("Models/edificio_azul.obj");
 	Car_M.LoadModel("Models/car_01.obj");
 	Bus_M.LoadModel("Models/bus.obj");
+	CuboR_M.LoadModel("Models/cubo_rubik.obj");
 
 	//Wheezy
 	Wheezy_torso_M.LoadModel("Models/wheezy_torso.obj");
@@ -946,7 +968,7 @@ int main()
 	Valorant_FenixBI.LoadModel("Models/FenixBrazoIzq.obj");
 	Valorant_FenixPD.LoadModel("Models/FenixPieDer.obj");
 	Valorant_FenixPI.LoadModel("Models/FenixPieIzq.obj");
-
+	LamparaVal_M.LoadModel("Models/LamparaValorant.obj");
 	Valorant_KillJC.LoadModel("Models/KillJoyCaraTorso.obj");
 	Valorant_KillJBD.LoadModel("Models/KillJoyBrazoDer.obj");
 	Valorant_KillJBI.LoadModel("Models/KillJoyBrazoIzq.obj");
@@ -1016,6 +1038,25 @@ int main()
 		1.0f, 0.01f, 0.0004f, //C,B,A: ECUACION DE SEGUNDO GRADO
 		15.0f); //ANGULO DE APERTURA
 	spotLightCount++;
+
+	//LUZ DE LA LAMPARA DE VALORANT
+	unsigned int spotLightCount1 = 0;
+	spotlights1[spotLightCount1] = SpotLight(1.0f, 0.0f, 1.0f, //COLOR
+		0.0f, 2.0f, //AMBIENTE, DIFUSA
+		-121.0f, 100.0f, -305.0f, //POSICION
+		0.0f, -1.0f, 0.0f, //DIRECCION
+		1.0f, 0.01f, 0.0004f, //C,B,A: ECUACION DE SEGUNDO GRADO
+		5.0f); //ANGULO DE APERTURA
+	spotLightCount1++;
+
+	//LUZ DE LA LAMPARA DE ESCRITORIO ARREGLO DE SPOTLIGHTS 0
+	spotlights1[spotLightCount1] = SpotLight(1.0f, 0.5f, 0.0f, //COLOR
+		0.0f, 2.0f, //AMBIENTE, DIFUSA
+		50.0f, 125.0f, -360.0f, //POSICION
+		0.0f, -1.0f, 1.0f, //DIRECCION
+		1.0f, 0.01f, 0.0004f, //C,B,A: ECUACION DE SEGUNDO GRADO
+		15.0f); //ANGULO DE APERTURA
+	spotLightCount1++;
 
 	unsigned int pointLightCount1 = 0;
 	//LUZ DE LEDS DE LA CAMA
@@ -1158,7 +1199,7 @@ int main()
 	float movSpike = 0.0f;
 	glm::vec3 posSpike = glm::vec3(-80.0f, 69.0f, -330.0f); //-80, 69, -330
 	posicionLed1X = 0.0f;
-	posicionLed1Z = -374.0f;
+	posicionLed1Z = -380.0f;
 	banderaLedEscritorio = 0;
 	banderaParpadeoSpike = 0;
 	float avanzaOffset = 15.0f;
@@ -1172,6 +1213,8 @@ int main()
 	float angulo_busZ_offset = 1.5f;
 	float angulo_busY = 30;
 	float angulo_busY_offset = 1.0f;
+	float angulo_busX = 0;
+	float angulo_busX_offset = 1.0f;
 	float posBus1X = 0.0f;
 	float posBus1Y = 0.0f;
 	float posBus1Z = 0.0f;
@@ -1184,11 +1227,25 @@ int main()
 	glm::vec3 posCar = glm::vec3(-70.0f, 3.0f, -120.0f);
 	float angulo_carY = 0.0f;
 	float angulo_carY_offset = 0.8f;
+	float angulo_carX = 0.0f;
+	float angulo_carX_offset = 0.8f;
 	float posCar1X = 0.0f;
 	float posCar1Y = 0.0f;
 	float posCar1Z = 0.0f;
 	float auxPosCarx = 0.0f;
 	float auxPosCarz = 0.0f;
+
+	std::string estado_car2 = "INICIO_CAR2";
+	glm::vec3 posCar2 = glm::vec3(0.0f, 3.0f, -80.0f);
+	float angulo_car2Y = -45.0f;
+	float angulo_car2Y_offset = 0.8f;
+	float angulo_car2X = 0.0f;
+	float angulo_car2X_offset = 0.8f;
+	float posCar2X = 0.0f;
+	float posCar2Y = 3.0f;
+	float posCar2Z = -80.0f;
+	float auxPosCar2x = 0.0f;
+	float auxPosCar2z = 0.0f;
 
 	std::string estado_edificio = "PARAR_EDIFICIO";
 	glm::vec3 posEdificio = glm::vec3(-10.0f, 10.0f, -150.0f);
@@ -2156,6 +2213,14 @@ int main()
 
 	glm::vec3 posblackhawk = glm::vec3(-120.0f, 30.0f, -130.0f);
 
+	//-----------------------A U D I O ---------------------------------------
+	irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
+	ISoundEngine* ambiental = createIrrKlangDevice();
+	//Sonido ambiente
+	ambiental->play2D("Media/AmbienteToyStory.ogg", true);
+	ambiental->setSoundVolume(0.1);
+	
+
 	//Helice
 	float rotYHelice = 0.0f;
 	float rotRotor = 0.0f;
@@ -2289,9 +2354,9 @@ int main()
 			angulo_cam_frijolito += (180 * toRadians);
 		}
 		glm::vec3 posFrijolito = glm::vec3(0, 0, 0);
-		posFrijolito.x = poscam.x + ((0 * cos(angulo_cam_frijolito)) - (50 * sin(angulo_cam_frijolito)));
-		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (50 * cos(angulo_cam_frijolito)));
-		posFrijolito.y = poscam.y - 20;
+		posFrijolito.x = poscam.x + ((0 * cos(angulo_cam_frijolito)) - (15 * sin(angulo_cam_frijolito)));
+		posFrijolito.z = poscam.z + ((0 * sin(angulo_cam_frijolito)) + (15 * cos(angulo_cam_frijolito)));
+		posFrijolito.y = poscam.y - 5;
 
 		//Cambio del ciclo de luz de dia y noche_____________________________________
 
@@ -2500,11 +2565,19 @@ int main()
 			movAroSpike += deltaTime * 0.02f;
 			giroSpike += deltaTime * 0.8f;
 			spikeSube = true;
+			ambiental->setSoundVolume(0.0);
+			if (cancionVal) {
+				cancionVal = false;
+				engine->play2D("Media/la-cumbia-de-valorant.ogg", true);
+			}
+			engine->setSoundVolume(0.3);
 		}
 		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
 			movAroSpike -= deltaTime * 0.02f;
 			giroSpike -= deltaTime * 0.8f;
 			spikeSube = false;
+			ambiental->setSoundVolume(0.3);
+			engine->setSoundVolume(0.0);
 		}
 
 		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
@@ -2573,7 +2646,7 @@ int main()
 		pointLightsCama[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
 		pointLightsSpike[1].SetPos(glm::vec3(posicionLed1X, 60.0f, posicionLed1Z));
 
-		//ANIMACION - GUARDAR JUGUETES
+	//ANIMACION - GUARDAR JUGUETES
 		if (mainWindow.getSaveToys()) {
 			// ANIMACION BUS
 			if (estado_bus == "PARAR_BUS")
@@ -2607,18 +2680,28 @@ int main()
 				float centroZ = auxposz;
 
 				if (angulo_busY < 90.0f) {
+					if (angulo_busY > 60.0f) {
+						if (angulo_busX < 15.5f){
+							angulo_busX += 0.5f * deltaTime;
+						}
+						posBus1Y += deltaTime * 0.18f;
+					}
 					angulo_busY += deltaTime * angulo_busY_offset * 0.8f;
 					posBus1X = centroX + (radio * cos((0 - angulo_busY) * toRadians));
 					posBus1Z = centroZ + (radio * sin((0 - angulo_busY) * toRadians));
 				}
 				else {
 					estado_bus = "SUBE_BUS";
+					auxposx = posBus1X;
+					auxposz = posBus1Z;
+
 				}
 			}
 			else if (estado_bus == "SUBE_BUS") {
 
-				if (posBus1Y < 14.0f) {
-					posBus1Y += deltaTime * 0.2f;
+				if (posBus1X > -225.0f) {
+					posBus1Y += deltaTime * 0.1f*1.2f;
+					posBus1X -= deltaTime * 0.3f*1.2f;
 				}
 				else {
 					estado_bus = "ACOMODA_BUS";
@@ -2627,12 +2710,20 @@ int main()
 				}
 			}
 			else if (estado_bus == "ACOMODA_BUS") {
-				float radio = 25.0f;
+				float radio = 20.0f;
 				float centroX = auxposx;
 				float centroZ = auxposz - radio;
 
 				if (angulo_busY > 20.0f) {
-					angulo_busY -= deltaTime * angulo_busY_offset * 0.8f;
+					if (posBus1Y < 14.0f) {
+						posBus1Y += deltaTime * 0.1f * 1.2f;
+					}
+					if(angulo_busX > 0.0f){
+						angulo_busX -= 0.6f * deltaTime;
+					}
+					
+
+					angulo_busY -= deltaTime * angulo_busY_offset * 0.6f;
 					posBus1X = centroX + (radio * cos((-180 - angulo_busY) * toRadians));
 					posBus1Z = centroZ + (radio * sin((-180 - angulo_busY) * toRadians));
 				}
@@ -2658,17 +2749,15 @@ int main()
 				}
 			}
 			else if (estado_car == "AVANZA_CAR") {
-				if (posCar1X > auxPosCarx - 112) {
+				if (posCar1X > auxPosCarx - 113) {
+					if (posCar1X < auxPosCarx - 80) {
+						if (angulo_carX < 15.5f) {
+							angulo_carX += 0.5f * deltaTime;
+						}
+						posCar1Y += deltaTime * 0.15f;
+					}
+					
 					posCar1X -= deltaTime * 0.5f;
-				}
-				else {
-					estado_car = "SUBE_CAR";
-				}
-			}
-			else if (estado_car == "SUBE_CAR")
-			{
-				if (posCar1Y < 14.0f) {
-					posCar1Y += deltaTime * 0.3f;
 				}
 				else {
 					estado_car = "ACOMODA_CAR";
@@ -2677,59 +2766,112 @@ int main()
 			}
 			else if (estado_car == "ACOMODA_CAR") {
 				if (posCar1X > auxPosCarx - 15) {
-					posCar1X -= deltaTime * 0.6f;
+					if (angulo_carX > 0.0f) {
+						angulo_carX -= 0.5f * deltaTime;
+					}
+					if (posCar1Y < 14.0f) {
+						posCar1Y += deltaTime * 0.15f;
+					}
+					posCar1X -= deltaTime * 0.5f;
 				}
 				else {
 					estado_car = "CAR_LISTO";
 				}
 			}
 
-			//ANIMACION EDIFICIO
-			if (estado_edificio == "PARAR_EDIFICIO") {
-				if (posEdi1Y > 3.0f || angulo_EdiX > 0) {
+			if (estado_car2 == "INICIO_CAR2") {
+				float radio = 35.0f;
+				float centroX = auxPosCar2x;
+				float centroZ = auxPosCar2z - radio;
 
-
-					if (angulo_EdiX > 0) {
-						angulo_EdiX -= deltaTime * angulo_EdiX_offset;
-					}
-					if (posEdi1Y > 3.0f) {
-						posEdi1Y -= deltaTime * 0.1f;
-					}
+				if (angulo_car2Y < 90.0f) {
+					posCar2X = centroX + (radio * cos((0 - angulo_car2Y) * toRadians));
+					posCar2Z = centroZ + (radio * sin((0 - angulo_car2Y) * toRadians));
+					angulo_car2Y += deltaTime * 0.9f;
 				}
 				else {
-					estado_edificio = "VUELTA_EDIFICIO";
-					auxAngEdiy = angulo_EdiY;
-					auxPosEdix = posEdi1X;
-					auxPosEdiz = posEdi1Z;
+					estado_car2 = "AVANZA_CAR2";
 				}
 			}
-			else if (estado_edificio == "VUELTA_EDIFICIO") {
-				float radio = 120.0f;
-				float centroX = auxPosEdix - radio;
-				float centroZ = auxPosEdiz;
-
-				if (auxAngEdiy < 90.0f) {
-					auxAngEdiy += deltaTime * angulo_EdiY_offset * 0.6f;
-					posEdi1X = centroX + (radio * cos((0 - auxAngEdiy) * toRadians));
-					posEdi1Z = centroZ + (radio * sin((0 - auxAngEdiy) * toRadians));
-					angulo_EdiY = auxAngEdiy * 2;
+			else if (estado_car2 == "AVANZA_CAR2") {
+				if (posCar2X > -25.0f) {
+					posCar2X -= deltaTime * 0.6;
 				}
 				else {
-					estado_edificio = "DESPLAZA_EDIFICIO";
-					auxPosEdiz = posEdi1Z;
-				}
-			}
-			else if (estado_edificio == "DESPLAZA_EDIFICIO") {
-				if (posEdi1Z > auxPosEdiz - 40) {
-					posEdi1Z -= deltaTime * 0.5f;
-				}
-				else
-				{
-					estado_edificio = "EDIFICIO_LISTO";
+					estado_car2 = "EMPUJA_CAR2";
 				}
 
 			}
+			else if (estado_car2 == "EMPUJA_CAR2") {
+				if (posCar2X > -60.0f) {
+					posCar2X -= deltaTime * 0.3;
+				}
+				else {
+					estado_car2 = "GIRA_CAR2";
+					auxPosCar2x = posCar2X;
+					auxPosCar2z = posCar2Z;
+				}
 
+
+			}
+			else if (estado_car2 == "GIRA_CAR2") {
+				float radio = 70.0f;
+				float centroX = auxPosCar2x;
+				float centroZ = auxPosCar2z - radio;
+
+				if (angulo_car2Y > 0.0f) {
+					posCar2X = centroX + (radio * cos((180 - angulo_car2Y) * toRadians));
+					posCar2Z = centroZ + (radio * sin((180 - angulo_car2Y) * toRadians));
+					angulo_car2Y -= deltaTime * 0.25f;
+				}
+				else {
+					estado_car2 = "AVANZA2_CAR2";
+					auxPosCar2x = posCar2X;
+					auxPosCar2z = posCar2Z;
+				}
+			}
+			else if (estado_car2 == "AVANZA2_CAR2") {
+				if (posCar2Z > auxPosCar2z - 90.0f) {
+					posCar2Z -= deltaTime * 0.3;
+				}
+				else {
+					estado_car2 = "ACOMODA_CAR2";
+					auxPosCar2x = posCar2X;
+					auxPosCar2z = posCar2Z;
+				}
+
+
+			}
+			else if (estado_car2 == "ACOMODA_CAR2") {
+				float radio = 25.0f;
+				float centroX = auxPosCar2x - radio;
+				float centroZ = auxPosCar2z;
+
+				if (angulo_car2Y > -180.0f) {
+					posCar2X = centroX + (radio * cos((0 - angulo_car2Y) * toRadians));
+					posCar2Z = centroZ + (radio * sin((0 - angulo_car2Y) * toRadians));
+					angulo_car2Y -= deltaTime * 0.5f;
+				}
+				else {
+					estado_car2 = "CAR2_LISTO";
+					auxPosCar2x = posCar2X;
+					auxPosCar2z = posCar2Z;
+				}
+			}
+
+			// EMPUJA AUTOBUS
+			if (estado_car2 == "EMPUJA_CAR2" ||
+				estado_car2 == "GIRA_CAR2" ||
+				estado_car2 == "AVANZA2_CAR2") {
+
+				float anguloCarEmpuja = -angulo_car2Y;
+				float diffX = -15.5f;
+				float diffZ = 0.0f;
+				posEdi1X = posCar2X + ((diffZ * cos(anguloCarEmpuja* toRadians)) - (diffX * sin(anguloCarEmpuja* toRadians)));
+				posEdi1Z = posCar2Z + ((diffZ * sin(anguloCarEmpuja* toRadians)) + (diffX * cos(anguloCarEmpuja* toRadians)));
+				posEdi1Y = posCar2Y -1.0f;
+				angulo_EdiY = -anguloCarEmpuja;
+			}
 
 		}
 		else {
@@ -2739,10 +2881,12 @@ int main()
 			posBus1Z = -90.0f;
 			angulo_busY = 30.0f;
 			angulo_busZ = -90;
+			angulo_busX = 0.0f;
 			estado_bus = "PARAR_BUS";
 
 			//variables car
 			angulo_carY = 0.0f;
+			angulo_carX = 0.0f;
 			posCar1X = -70.0f;
 			posCar1Y = 3.0f;
 			posCar1Z = -120.0f;
@@ -2750,17 +2894,29 @@ int main()
 			auxPosCarx = posCar1X;
 			auxPosCarz = posCar1Z;
 
+			//variables car2
+			angulo_car2Y = -90.0f;
+			angulo_car2X = 0.0f;
+			posCar2X = 0.0f;
+			posCar2Y = 3.0f;
+			posCar2Z = -80.0f;
+			estado_car2 = "INICIO_CAR2";
+			auxPosCar2x = posCar2X;
+			auxPosCar2z = posCar2Z;
+
 			//variables Edificio
-			angulo_EdiY = 0.0f;
-			angulo_EdiX = 90.0f;
-			posEdi1X = -10.0f;
-			posEdi1Y = 10.0f;
+			angulo_EdiY = 90.0f;
+			angulo_EdiX = 0.0f;
+			posEdi1X = -40.0f;
+			posEdi1Y = 2.0f;
 			posEdi1Z = -150.0f;
 			estado_edificio = "PARAR_EDIFICIO";
-
 		}
+		
+
 		posBus1 = glm::vec3(posBus1X, posBus1Y, posBus1Z);
 		posCar = glm::vec3(posCar1X, posCar1Y, posCar1Z);
+		posCar2 = glm::vec3(posCar2X, posCar2Y, posCar2Z);
 		posEdificio = glm::vec3(posEdi1X, posEdi1Y, posEdi1Z);
 
 		// ANIMACION PELOTA
@@ -2913,11 +3069,87 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Cama_M.RenderModel();
 
+		//leds
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-220.0f, 20.0f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-164.0f, 20.0f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-108.0f, 20.0f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-73.0f, 19.8f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-59.0f, 19.8f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-51.8f, 19.8f, 39.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-44.7f, 20.0f, 67.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-44.7f, 19.8f, 102.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-44.7f, 19.8f, 116.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-44.7f, 19.8f, 130.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
 		//Alfombra
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, -100.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Alfombra_M.RenderModel();
 
 		//Escritorio2
@@ -2945,6 +3177,42 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Escritorio_M.RenderModel();
 
+		//tira de leds
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(130.0f, 64.0f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(74.0f, 64.0f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(39.0f, 64.2f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(25.0f, 64.2f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(11.0f, 64.2f, -384.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Leds_mini_M.RenderModel();
+
 		//Lampara de escritorio
 		//color = glm::vec3(0.705f, 0.705f, 0.705f);
 		model = modelaux;
@@ -2957,6 +3225,7 @@ int main()
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -250.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Bote_basura_M.RenderModel();
 
 		//Silla Gamer
@@ -3009,9 +3278,16 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Mueble_M.RenderModel();
 
-		// TOY STORY
+		//Rampa
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-214.0f, 1.0f, -175.0f));
+		model = glm::rotate(model, 0 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Rampa_M.RenderModel();
 
-			//Casita
+	  // TOY STORY
+
+		//Casita
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-50.0f, 3.0f, -80.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -3019,20 +3295,17 @@ int main()
 
 		//Casita
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-100.0f, 3.0f, -80.0f));
-		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-249.0f, 64.0f, -170.0f) );
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Casita_M.RenderModel();
 
-
-
 		//Edificio
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-40.0f, 3.0f, -150.0f));
+		model = glm::translate(model, glm::vec3(-249.0f, 64.0f, -190.0f));
 		model = glm::rotate(model, -120 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Edificio_M.RenderModel();
-
 
 
 		//Edificio Largo
@@ -3073,17 +3346,20 @@ int main()
 
 		//Carro
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 3.0f, -80.0f));
-		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, posCar);
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, angulo_carY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, angulo_carX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Car_M.RenderModel();
 
 		//Carro
 		model = glm::mat4(1.0);
-		model = glm::translate(model, posCar);
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		model = glm::rotate(model, angulo_carY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, posCar2);
+
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		model = glm::rotate(model, angulo_car2Y * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, angulo_car2X * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Car_M.RenderModel();
 
@@ -3100,8 +3376,29 @@ int main()
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		model = glm::rotate(model, angulo_busY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, angulo_busZ * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, angulo_busX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Bus_M.RenderModel();
+
+		//Cubo Rubik
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-249.0f, 95.0f, -160.0f));
+		model = glm::rotate(model, -10 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		CuboR_M.RenderModel();
+
+		//ToroideBralex
+		color = glm::vec3(18.0f / 255.0f, 210.0f / 255.0f, 201.0f / 255.0f);
+		model = glm::mat4(1.0f);
+		glm::vec3 posToroideBralex = posEdificio;
+		posToroideBralex.y += 20.0f;
+		model = glm::translate(model,posToroideBralex);
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		plainTexture.UseTexture();
+		tBralex.render(); //ToroideBralex
+
 
 		//PELOTA
 		float auxRotPelotax = (rotPelotaX < 180) ? rotPelotaX : -rotPelotaX;
@@ -3170,6 +3467,12 @@ int main()
 		Valorant_Malla_M.RenderModel();
 
 		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-120.0f, 70.0f, -300.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		LamparaVal_M.RenderModel();
+
+		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-200.0f, 70.0f, -305.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera_M.RenderModel();
@@ -3183,6 +3486,12 @@ int main()
 		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -300.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[6]->RenderMesh();
 
 		//////////////////////////////// F E N I X ///////////////////////////////
 		model = glm::mat4(1.0);
@@ -3871,6 +4180,7 @@ int main()
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
 		LedCama = mainWindow.getLedCama();
+		LampVal = mainWindow.getLampVal();
 		if (contadorDiaNoche <= 0.7f) {
 			//printf("\nLedCama = %d", LedCama);
 			if (LedCama == 1 and !spikeSube)
@@ -3922,10 +4232,18 @@ int main()
 			else if (LedCama == 0 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount);
 
-			if(mainWindow.getDeskLamp() == 1)
+			if (mainWindow.getDeskLamp() == 1 and mainWindow.getLampVal() == 0) {
 				shaderList[0].SetSpotLights(spotLights, spotLightCount);
-			else 
+			}
+			else if (mainWindow.getDeskLamp() == 0 and mainWindow.getLampVal() == 0) {
 				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
+			}
+			else if (mainWindow.getDeskLamp() == 0 and mainWindow.getLampVal() == 1) {
+				shaderList[0].SetSpotLights(spotlights1, spotLightCount1 - 1);
+			}
+			else if (mainWindow.getDeskLamp() == 1 and mainWindow.getLampVal() == 1) {
+				shaderList[0].SetSpotLights(spotlights1, spotLightCount1);
+			}
 		}
 		else {
 			if (LedCama == 1 and !spikeSube)
@@ -3974,20 +4292,31 @@ int main()
 					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
 				}
 			}
-			else if (LedCama == 0 and !spikeSube)
+			else if (LedCama == 0 and !spikeSube) {
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount - 2);
+			}
 
-			if (mainWindow.getDeskLamp() == 1)
+
+			if (mainWindow.getDeskLamp() == 1 and mainWindow.getLampVal() == 0) {
 				shaderList[0].SetSpotLights(spotLights, spotLightCount);
-			else
+			}
+			else if (mainWindow.getDeskLamp() == 0 and mainWindow.getLampVal() == 0) {
 				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
+			}
+			else if (mainWindow.getDeskLamp() == 0 and mainWindow.getLampVal() == 1) {
+				shaderList[0].SetSpotLights(spotlights1, spotLightCount1 - 1);
+			}
+			else if (mainWindow.getDeskLamp() == 1 and mainWindow.getLampVal() == 1) {
+				shaderList[0].SetSpotLights(spotlights1, spotLightCount1);
+			}
 		}
 		
 
 		glUseProgram(0);
 		mainWindow.swapBuffers();
 	}
-
+	
+	ambiental->drop();
 	return 0;
 }
 
