@@ -157,6 +157,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Shader_light.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="Torus_P.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="CommonValues.h" />
     <ClInclude Include="definition.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Torus_P.h" />
     <ClInclude Include="KeyFrames.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
