@@ -779,7 +779,7 @@ void animate(void)
 /* FIN KEYFRAMES*/
 
 
-Toroide toroParada = Toroide(4.0f, 6.0f);
+Toroide toroParada = Toroide(4.0f, 6.0f, 100);
 
 
 int main()
@@ -2158,7 +2158,9 @@ int main()
 	ambiental->play2D("Media/AmbienteToyStory.ogg", true);
 	ambiental->setSoundVolume(0.1);
 	
-
+	ISound* music = engine->play3D("Media/la-cumbia-de-valorant.ogg", vec3df(-80.0f, 69.0f, -330.0f), true, false, true);
+	//engine->setSoundVolume(10.0);
+	music->setMinDistance(10.0f);
 	//Helice
 	float rotYHelice = 0.0f;
 	float rotRotor = 0.0f;
@@ -2499,9 +2501,9 @@ int main()
 			ambiental->setSoundVolume(0.0);
 			if (cancionVal) {
 				cancionVal = false;
-				engine->play2D("Media/la-cumbia-de-valorant.ogg", true);
+				//engine->play2D("Media/la-cumbia-de-valorant.ogg", true);
 			}
-			engine->setSoundVolume(0.3);
+			engine->setSoundVolume(15.0);
 		}
 		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
 			movAroSpike -= deltaTime * 0.02f;
@@ -3379,13 +3381,19 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
 
+		//// TOROIDE PARADA/////
+		color = glm::vec3(1.0f, 0.0f, 0.0f);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(100.0f, 100.0f, 100.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		plainTexture.UseTexture();
 		meshList[6]->RenderMesh();
 
+		
 		//////////////////////////////// F E N I X ///////////////////////////////
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -340.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
@@ -3393,6 +3401,7 @@ int main()
 		model = glm::rotate(model, FenixRot * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Valorant_FenixC.RenderModel();
 
 		model = modelaux;

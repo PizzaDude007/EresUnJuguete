@@ -15,7 +15,7 @@
 class Toroide
 {
 public:
-	Toroide(double radioMin, double radioMax);
+	Toroide(double radioMin, double radioMax, int resolucion);
 	~Toroide();
 	void CrearToroide(std::vector<Mesh*> *meshList);
 
@@ -25,8 +25,9 @@ private:
 	const float PI = 3.14159265f;
 	std::vector<float> puntos;
 	std::vector<unsigned int> indicesT;
-	int conIndices;
+	int conIndices, resolution;
 	double radioMinimo, radioMaximo;
+
 };
 
 
