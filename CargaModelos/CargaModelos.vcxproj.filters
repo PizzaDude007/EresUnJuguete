@@ -60,6 +60,7 @@
     <ClCompile Include="KeyFrames.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="ToroideBralex.cpp">
     <ClCompile Include="Toroide.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -116,6 +117,7 @@
     <ClInclude Include="KeyFrames.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="ToroideBralex.h">
     <ClInclude Include="Toroide.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
