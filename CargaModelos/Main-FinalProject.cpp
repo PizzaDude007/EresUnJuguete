@@ -38,6 +38,7 @@ PROYECTO FINAL
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "Material.h"
+#include "Toroide.h"
 
 //NAME SPACE
 using namespace irrklang;
@@ -51,7 +52,9 @@ float FenixBIrotX, FenixRot;
 float KillJBrazosRotX, KillJRotY, KillJRotX, KillJPIrotX, KillJPDrotX, KillJMovZ;
 int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike, AnimacionVal, DisparoSpectre, KillJCamina, LampVal;
 bool  dia = false, spikeSube = false, cancionVal = true;
+double alpha, betha;
 const float toRadians = 3.14159265f / 180.0f;
+const float PI = 3.14159265f;
 
 float giroSpike = 0.0f;
 float movAroSpike = 0.0f;
@@ -649,6 +652,7 @@ void CreatePersonaje() {
 	*/
 }
 
+
 void CreateShaders()
 {
 	Shader* shader1 = new Shader();
@@ -775,7 +779,7 @@ void animate(void)
 /* FIN KEYFRAMES*/
 
 
-
+Toroide toroParada = Toroide(4.0f, 6.0f);
 
 
 int main()
@@ -787,15 +791,19 @@ int main()
 	CreatePersonaje(); //0,1,2,3,4
 	sp.init(); //inicializar esfera
 	sp.load();//enviar la esfera al shader
-	CreateStar(); // 5,6,7,8
+	CreateStar(); // 5
+	toroParada.CrearToroide(&meshList);//6
 	CreateShaders();
+	
 
 	cameraLibre = Camera(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraWheezy = Camera(glm::vec3(0.0f, 24.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraJett = Camera(glm::vec3(-240.0f, 92.0f, -340.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 1.0f, 0.5f);
 	cameraFrijolito = Camera(glm::vec3(180.0f, 50.1f, -50.0f), glm::vec3(0.0f, 1.0f, 0.0f), 60.0f, 0.0f, 1.0f, 0.5f);
 
-
+	//========================================PRUEBA TOROIDES===================================
+	
+	
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
 	dirtTexture = Texture("Textures/dirt.png");
@@ -3371,6 +3379,12 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
 
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[6]->RenderMesh();
+
 		//////////////////////////////// F E N I X ///////////////////////////////
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -340.0f));
@@ -4037,6 +4051,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		White_Helicopter_Rotor_M.RenderModel();
 
+		
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		//informaci�n al shader de fuentes de iluminaci�n

@@ -1,31 +1,35 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(510,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (CargaModelos.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (CargaModelos.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
   Main-FinalProject.cpp
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2127,31): warning C4305: 'argumento': truncamiento de 'double' a 'irrklang::ik_f32'
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2150,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2152,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2275,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2316,33): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2326,36): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2327,37): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2376,33): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2383,27): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2392,36): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2393,37): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2447,27): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2448,33): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2472,30): warning C4305: 'argumento': truncamiento de 'double' a 'irrklang::ik_f32'
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2478,33): warning C4305: 'argumento': truncamiento de 'double' a 'irrklang::ik_f32'
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2534,43): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2540,43): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2623,52): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2750,26): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2159,31): warning C4305: 'argumento': truncamiento de 'double' a 'irrklang::ik_f32'
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2182,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2184,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2307,55): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2348,33): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2358,36): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2359,37): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2408,33): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2415,27): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2424,36): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2425,37): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2479,27): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2480,33): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2504,30): warning C4305: 'argumento': truncamiento de 'double' a 'irrklang::ik_f32'
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2510,33): warning C4305: 'argumento': truncamiento de 'double' a 'irrklang::ik_f32'
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2566,43): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2572,43): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2673,52): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2729,28): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2738,28): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2766,28): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2865,26): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
           with
           [
               T=float
           ]
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2758,56): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1134,7): warning C4101: 'anguloBusListo': variable local sin referencia
-H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1135,7): warning C4101: 'posBusListo': variable local sin referencia
-  CargaModelos.vcxproj -> H:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\Debug\FinalProject.exe
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(2873,56): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1152,7): warning C4101: 'anguloBusListo': variable local sin referencia
+D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\CargaModelos\Main-FinalProject.cpp(1153,7): warning C4101: 'posBusListo': variable local sin referencia
+LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
+  CargaModelos.vcxproj -> D:\ProgramFilesLaptop\CompuGrafica\ProyectoFinal\EresUnJuguete\Debug\FinalProject.exe
