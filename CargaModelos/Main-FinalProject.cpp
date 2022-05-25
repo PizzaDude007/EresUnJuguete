@@ -21,6 +21,13 @@ PROYECTO FINAL
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
+#include <iostream>
+#include <algorithm>
+#include <iterator>
+#include <list>
+#include <vector>
+#include <stdlib.h>
+
 #include "Window.h"
 #include "Shader_light.h"
 #include "Camera.h"
@@ -31,6 +38,8 @@ PROYECTO FINAL
 #include "Skybox.h"
 
 #include "KeyFrames.h"
+
+#include "Torus_P.h"
 
 
 //para iluminaci�n
@@ -73,6 +82,9 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
+//Toroides
+Torus_P torus_p = Torus_P();
+
 //Camaras
 Camera * camera;
 Camera cameraLibre;
@@ -98,6 +110,7 @@ Texture Ricochet_Texture;
 Texture La_Pulga_Texture;
 Texture Buena_Girl_Texture;
 
+Texture donut_Texture;
 
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
@@ -177,7 +190,7 @@ Model LamparaVal_M = Model();
 Model ML_Ring_M = Model();
 Model Luchador_M = Model();
 
-Skybox skybox;
+Skybox skyboxDay, skyboxNight;
 //materiales
 Material Material_brillante;
 Material Material_opaco;
@@ -651,6 +664,55 @@ void CreatePersonaje() {
 	*/
 }
 
+void CreateTorus_P(int ladosCilindro, int ladosCirculo, float grosor) {
+	//#define PI_ 3.14159265358979323846
+	int i, j, k;
+	unsigned int indiceCount = 1;
+	GLfloat s, t, x, y, z, twopi, mod;
+
+	twopi = 2 * 3.14159265358979323846;
+
+	std::vector<GLfloat> vertices;
+	std::vector<unsigned int>indices;
+
+	for (i = 0; i < ladosCilindro * ladosCirculo; i++) {
+		for (j = 0; j <= ladosCirculo *3; j++) { //(ladosCirculo-1)
+			if (i == 0 && j == 0) j = 1;
+			for (k = 1; k >= 0; k--) {
+				s = (i + k) % ladosCilindro + 0.5;
+				t = j % ladosCirculo;
+
+				x = (1 + grosor * cos(s * twopi / ladosCilindro)) * cos(t * twopi / ladosCirculo);
+				y = (1 + grosor * cos(s * twopi / ladosCilindro)) * sin(t * twopi / ladosCirculo);
+				z = grosor * sin(s * twopi / ladosCilindro);
+
+				mod = sqrt(x * x + y * y + z * z);
+
+				//vertices
+				vertices.push_back(x);
+				vertices.push_back(y);
+				vertices.push_back(z);
+				//para textura (no se ocupa)
+				vertices.push_back(0.0f);
+				vertices.push_back(0.0f);
+				//para vector normal (se hará unitario)
+				vertices.push_back(x/mod);
+				vertices.push_back(y/mod);
+				vertices.push_back(z/mod);
+				indices.push_back(indiceCount);
+				indiceCount++;
+
+				//printf("\n X=%.2f, Y=%.2f, Z=%.2f", x, y, z);
+			}
+		}
+		//printf("\n");
+	}
+	
+	
+	Mesh* toro = new Mesh();
+	toro->CreateMesh(&vertices[0], &indices[0], vertices.size(), indices.size());
+	meshList.push_back(toro);
+}
 
 void CreateShaders()
 {
@@ -703,7 +765,7 @@ int playIndex = 0;
 void saveFrame(void)
 {
 
-	printf("Se guard� el frame[ %d ]\n", FrameIndex);
+	//printf("Se guard� el frame[ %d ]\n", FrameIndex);
 
 
 	KeyFrame[FrameIndex].movAvion_x = movAvion_x;
@@ -778,7 +840,7 @@ void animate(void)
 /* FIN KEYFRAMES*/
 
 
-Toroide toroParada = Toroide(4.0f, 6.0f);
+Toroide toroParada = Toroide(4.0f, 6.0f, 100);
 
 
 int main()
@@ -790,10 +852,14 @@ int main()
 	CreatePersonaje(); //0,1,2,3,4
 	sp.init(); //inicializar esfera
 	sp.load();//enviar la esfera al shader
-	CreateStar(); // 5
+	
+	CreateStar(); // 5,6,7,8
 	toroParada.CrearToroide(&meshList);//6
 	tBralex.init(); //inicializar toroide
 	tBralex.load();//enviar toroide al shader
+	//CreateTorus_P(20, 30, 0.4f); //6
+	torus_p.changeParams(20, 30, 0.4f);
+	torus_p.load();
 	CreateShaders();
 	
 
@@ -814,7 +880,8 @@ int main()
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
 
-
+	donut_Texture = Texture("Textures/donut.jpg");
+	donut_Texture.LoadTextureA();
 
 	WheezyTexture = Texture("Textures/wheezy_textura.tga");
 	WheezyTexture.LoadTextureA();
@@ -918,16 +985,24 @@ int main()
 
 	// TODO: agreagar doble textura para que haya uno de día y uno de noche
 
-	std::vector<std::string> skyboxFaces;
+	std::vector<std::string> skyboxFacesDay, skyboxFacesNight;
 
-	skyboxFaces.push_back("Textures/Skybox_City/city_right_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_left_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_down_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_up_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_back_f.tga");
-	skyboxFaces.push_back("Textures/Skybox_City/city_front_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_right_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_left_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_down_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_up_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_back_f.tga");
+	skyboxFacesDay.push_back("Textures/Skybox_City/city_front_f.tga");
 
-	skybox = Skybox(skyboxFaces);
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_right_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_left_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_down_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_up_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_back_fN.tga");
+	skyboxFacesNight.push_back("Textures/Skybox_City/city_front_fN.tga");
+
+	skyboxDay = Skybox(skyboxFacesDay);
+	skyboxNight = Skybox(skyboxFacesNight);
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -1201,14 +1276,14 @@ int main()
 	float rotPelotaY = 0.0f;
 
 	float rotLuchador1 = 0.0f;
-	float rotRikochet = 0.0f;
-	float rotLa_Pulga = 0.0f, rotY_La_Pulga = 0.0f;
-	float rotBuena_Girl = 0.0f;
+	float rotRikochet = 0.0f, rotY_Rikochet = 0, rotBrazoIzq_R = 0.0f, rotBrazoDer_R = 0.0f;
+	float rotLa_Pulga = 0.0f, rotY_La_Pulga = 0.0f, rotBrazoDer_LP = 0.0f, rotBrazoIzq_LP = 0.0f;
+	float rotBuena_Girl = 0.0f, rotBrazoDer_BG = 0.0f, rotBrazoIzq_BG = 0.0f;
 	float movX_Rik = 5.0f, movY_Rik = 4.0f, movZ_Rik = -5.0f;
 	float movX_LP = 5.0f, movY_LP = 4.0f, movZ_LP = 5.0;
 	float movX_BG = -5.0f, movY_BG = 4.0f, movZ_BG = -5.0f;
 	float rotPiernasR = 0.0f, rotPiernasLP = 0.0f, rotPiernasBG = 0.0f;
-	int estado_ML = 0;
+	int estado_ML = 0, sumaAngulo = 0, count_tiempo = 0;
 
 
 	//KEYFRAMES DECLARADOS INICIALES
@@ -1907,21 +1982,21 @@ int main()
 	keyframe_Piet.arreglo[1].mov_x = 25.0f;
 	keyframe_Piet.arreglo[1].mov_y = 3.0f;
 	keyframe_Piet.arreglo[1].mov_z = 0.0f;
-	keyframe_Piet.arreglo[1].giroY = 360.0f;
+	keyframe_Piet.arreglo[1].giroY = -90.0f;
 	keyframe_Piet.arreglo[1].giroX = 0.0f;
 	keyframe_Piet.arreglo[1].giroZ = 0.0f;
 
 	keyframe_Piet.arreglo[2].mov_x = 42.0f;
 	keyframe_Piet.arreglo[2].mov_y = 3.0f;
 	keyframe_Piet.arreglo[2].mov_z = 0.0f;
-	keyframe_Piet.arreglo[2].giroY = 360.0f;
+	keyframe_Piet.arreglo[2].giroY = 0.0f;
 	keyframe_Piet.arreglo[2].giroX = 0.0f;
 	keyframe_Piet.arreglo[2].giroZ = 0.0f;
 
 	keyframe_Piet.arreglo[3].mov_x = 58.0f;
 	keyframe_Piet.arreglo[3].mov_y = 3.0f;
 	keyframe_Piet.arreglo[3].mov_z = -4.0f;
-	keyframe_Piet.arreglo[3].giroY = 380.0f;
+	keyframe_Piet.arreglo[3].giroY = -20.0f;
 	keyframe_Piet.arreglo[3].giroX = 0.0f;
 	keyframe_Piet.arreglo[3].giroZ = 0.0f;
 
@@ -2128,26 +2203,19 @@ int main()
 	keyframe_Piet.arreglo[32].giroX = 0;
 	keyframe_Piet.arreglo[32].giroZ = 0.0f;
 
-	keyframe_Piet.arreglo[33].mov_x = -7.0f;
-	keyframe_Piet.arreglo[33].mov_y = 7.0f;
+	keyframe_Piet.arreglo[33].mov_x = -20.0f;
+	keyframe_Piet.arreglo[33].mov_y = 20.0f;
 	keyframe_Piet.arreglo[33].mov_z = 0.0f;
 	keyframe_Piet.arreglo[33].giroY = 0;
 	keyframe_Piet.arreglo[33].giroX = 0;
 	keyframe_Piet.arreglo[33].giroZ = 0.0f;
 
-	keyframe_Piet.arreglo[34].mov_x = -3.0f;
-	keyframe_Piet.arreglo[34].mov_y = 3.0f;
+	keyframe_Piet.arreglo[34].mov_x = 0.0f;
+	keyframe_Piet.arreglo[34].mov_y = 0.0f;
 	keyframe_Piet.arreglo[34].mov_z = 0.0f;
 	keyframe_Piet.arreglo[34].giroY = 0;
 	keyframe_Piet.arreglo[34].giroX = 0;
 	keyframe_Piet.arreglo[34].giroZ = 0.0f;
-
-	keyframe_Piet.arreglo[35].mov_x = 0.0f;
-	keyframe_Piet.arreglo[35].mov_y = 0.0f;
-	keyframe_Piet.arreglo[35].mov_z = 0.0f;
-	keyframe_Piet.arreglo[35].giroY = 0;
-	keyframe_Piet.arreglo[35].giroX = 0;
-	keyframe_Piet.arreglo[35].giroZ = 0.0f;
 	
 
 	glm::vec3 posblackhawk = glm::vec3(-120.0f, 30.0f, -130.0f);
@@ -2159,7 +2227,9 @@ int main()
 	ambiental->play2D("Media/AmbienteToyStory.ogg", true);
 	ambiental->setSoundVolume(0.1);
 	
-
+	ISound* music = engine->play3D("Media/la-cumbia-de-valorant.ogg", vec3df(-80.0f, 69.0f, -330.0f), true, false, true);
+	//engine->setSoundVolume(10.0);
+	music->setMinDistance(10.0f);
 	//Helice
 	float rotYHelice = 0.0f;
 	float rotRotor = 0.0f;
@@ -2176,6 +2246,14 @@ int main()
 	KillJPDrotX = 0.0f;
 	KillJPIrotX = 0.0f;
 	KillJCamina = 0;
+
+	count_tiempo = 0;
+	estado_ML = 10; sumaAngulo = 0;
+	rotLa_Pulga = 0; rotY_La_Pulga = 0; rotBrazoDer_LP = 0; rotBrazoIzq_LP = 0;
+	movX_Rik = 5.0f; movY_Rik = 4.0f; movZ_Rik = -5.0f;
+	movX_LP = -5.0f; movY_LP = 4.0f, movZ_LP = -5.0;
+	movX_BG = 5.0f; movY_BG = 4.0f; movZ_BG = 5.0f;
+	rotPiernasR = 0.0f; rotPiernasLP = 0.0f; rotPiernasBG = 0.0f;
 
 	////Loop mientras no se cierra la ventana ############# INICIA CICLO WHILE ################
 	while (!mainWindow.getShouldClose())
@@ -2500,9 +2578,9 @@ int main()
 			ambiental->setSoundVolume(0.0);
 			if (cancionVal) {
 				cancionVal = false;
-				engine->play2D("Media/la-cumbia-de-valorant.ogg", true);
+				//engine->play2D("Media/la-cumbia-de-valorant.ogg", true);
 			}
-			engine->setSoundVolume(0.3);
+			engine->setSoundVolume(15.0);
 		}
 		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
 			movAroSpike -= deltaTime * 0.02f;
@@ -2875,58 +2953,170 @@ int main()
 		if (rotLuchador1 < 360.0f) rotLuchador1 += deltaTime * 2.5;
 		else rotLuchador1 = 0.0f;
 
-		//switch (estado_ML)
-		//{
-		//case 0:
-		//	//la pulga avanza hasta 0 en Z (mientras camina)
-		//	if (movZ_LP > 0) { 
-		//		movZ_LP -= deltaTime * 2.0f;
-		//		rotPiernasLP += deltaTime * avanzaOffset;
-		//	}
-		//	else if (movZ_LP <= 0 and rotLa_Pulga < 90) {
-	
-		//		rotLa_Pulga += deltaTime * avanzaOffset;
-		//		rotPiernasLP += deltaTime * avanzaOffset;
-		//	}//voltea 90° en y (mientras camina)
-		//	else if (movZ_LP <= 0 and rotLa_Pulga >= 90) { 
-		//		rotPiernasLP = 0.0f;
-		//		estado_ML++;
-		//	}
-		//	//avanza hasta 0 (o 2) en X
-		//	if (movZ_Rik > 1.5f) {
-		//		movZ_Rik -= deltaTime * 2.0f;
-		//		rotPiernasR += deltaTime * avanzaOffset;
-		//	}
+		//avanzaOffset = 0.5f;
+		float offsetNew = 0.2f;
 
-		//	if (movZ_BG < -1.5f) {
-		//		movZ_BG += deltaTime * 2.0f;
-		//		rotPiernasBG += deltaTime * avanzaOffset;
-		//	}
+		switch (estado_ML)
+		{
+		case 0://la pulga camina hacia BG
+			if (movX_LP < 3.5) {
+				movX_LP += deltaTime * offsetNew;
+				rotPiernasLP += deltaTime * avanzaOffset;
+			}
+			if (movZ_LP < 3.5) {
+				movZ_LP += deltaTime * offsetNew;
+			}
+			if (rotLa_Pulga < 45) {
+				rotLa_Pulga += deltaTime * avanzaOffset/2;
+			}
+			if (movX_LP >= 3.5 && movZ_LP >= 3.5 && rotLa_Pulga >= 45) {
+				estado_ML ++;
+				rotPiernasLP = 0; movY_LP = 4.0f;
+			}
+			break;
+		case 1: //La pulga da golpe a BG
+			if (rotBrazoIzq_LP < 90) {
+				rotBrazoIzq_LP += deltaTime * avanzaOffset/4;
+			}
+			else {
+				estado_ML ++;
+			}
+			break;
+		case 2: //BG se lo regresa
+			if (rotBrazoIzq_LP > 0) {
+				rotBrazoIzq_LP -= deltaTime * avanzaOffset / 4;
+			}
+			if (rotBuena_Girl < 45) {
+				rotBuena_Girl += deltaTime * avanzaOffset / 2;
+			}
+			if (rotBrazoIzq_BG < 90) {
+				rotBrazoIzq_BG += deltaTime * avanzaOffset / 4;
+			}
+			if (rotBuena_Girl >= 45 && rotBrazoIzq_LP <= 0 && rotBrazoIzq_BG >= 90) {
+				estado_ML ++;
+				rotBrazoDer_BG = rotBrazoIzq_BG = 45;
+			}
+			break;
+		case 3: // se golpean 
+			if (rotBrazoIzq_LP < 1800) {
+				sumaAngulo = 180 * toRadians;
+				rotBrazoIzq_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoIzq_BG += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_BG += deltaTime * avanzaOffset * 2;
+			}
+			else {
+				sumaAngulo = 0;
+				rotBrazoIzq_LP = rotBrazoDer_LP = rotBrazoIzq_BG = rotBrazoDer_BG = 0;
+				estado_ML++;
+			}
+			break;
+		case 4: // rikochet le entra
+			if (rotBrazoIzq_LP < 1200) {
+				sumaAngulo = 180 * toRadians;
+				rotBrazoIzq_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoIzq_BG += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_BG += deltaTime * avanzaOffset * 2;
+			}
+			
+			if (movZ_Rik < 2.3) {
+				if (movZ_Rik >= 1) {
+					movY_Rik += deltaTime * offsetNew;
+				}
+				movZ_Rik += deltaTime * offsetNew;
+				rotPiernasR += deltaTime * avanzaOffset;
+			}
+			else {
+				sumaAngulo = 0;
+				rotPiernasR = 0;
+				estado_ML++;
+			}
+			
+			break;
+		case 5: // rikochet los patea
+			if (rotBrazoIzq_LP < 600) {
+				sumaAngulo = 180 * toRadians;
+				rotBrazoIzq_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoIzq_BG += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_BG += deltaTime * avanzaOffset * 2;
+			}
+			if (rotRikochet > -30) {
+				rotRikochet -= deltaTime * avanzaOffset;
+			}
+			if (rotY_Rikochet > -30) {
+				rotY_Rikochet -= deltaTime * avanzaOffset;
+			}
+			if (rotPiernasR < 1800) {
+				rotPiernasR += deltaTime * avanzaOffset;
+			}
+			if (rotRikochet <= -30 && rotY_Rikochet <= -30 && rotPiernasR >= 1800) {
+				sumaAngulo = 0;
+				rotPiernasR = 0;
+				estado_ML++;
+			}
+			break;
+		case 6: //salen volando
+			if (rotY_Rikochet > -360) {
+				rotY_Rikochet -= deltaTime * avanzaOffset;
+			}
+			if (rotRikochet < 0) {
+				rotRikochet += deltaTime * avanzaOffset;
+			}
+			if (rotPiernasR > 0) {
+				rotPiernasR -= deltaTime * avanzaOffset;
+			}
+			if (movZ_Rik > -5) {
+				movZ_Rik -= deltaTime * offsetNew;
+			}
+			if (rotY_La_Pulga < 450) {
+				rotY_La_Pulga += deltaTime * avanzaOffset;
+			}
+			if (rotLa_Pulga > 0) {
+				rotLa_Pulga -= deltaTime * avanzaOffset;
+			}
+			if (rotBuena_Girl > 0) {
+				rotBuena_Girl -= deltaTime * avanzaOffset;
+			}
+			if (movX_LP > -5) {
+				movX_LP -= deltaTime * offsetNew;
+			}
+			if (movZ_LP > -5) {
+				movZ_LP -= deltaTime * offsetNew;
+			}
 
-		//	break;
-		//case 1:
-		//	//salto mortal (incrementa en Y, y en Z, mientras gira 270° en Z)
-		//	if (rotY_La_Pulga < 270) {
-		//		//movY_LP += deltaTime * avanzaOffset;
-		//		rotY_La_Pulga += deltaTime * avanzaOffset * 2;
-		//	}
-		//	break;
-		//case 2:
-		//	break;
-		//case 3:
-		//	break;
-		//case 4:
-		//	break;
-		//case 5:
-		//	break;
-		//default:
-		//	break;
-		//}
+			if (movZ_Rik <= -5 && movX_LP <= -5 && movZ_LP <= -5) {
+				estado_ML++;
+			}
+			break;
+		case 7: //espera unos segundos
+			if (count_tiempo < 1000) {
+				count_tiempo += deltaTime * avanzaOffset;
+			}
+			else {
+				estado_ML++;
+			}
+			break;
+		default:
+			estado_ML = 0; count_tiempo = 0;
+			rotRikochet = 0; rotY_Rikochet = 0;
+			rotLa_Pulga = 0; rotY_La_Pulga = 0; rotBrazoDer_LP = 0; rotBrazoIzq_LP = 0;
+			rotBuena_Girl = 0; rotBrazoDer_BG = 0; rotBrazoIzq_BG = 0;
+			movX_Rik = 5.0f; movY_Rik = 4.0f; movZ_Rik = -5.0f;
+			movX_LP = -5.0f; movY_LP = 4.0f, movZ_LP = -5.0;
+			movX_BG = 5.0f; movY_BG = 4.0f; movZ_BG = 5.0f;
+			rotPiernasR = 0.0f; rotPiernasLP = 0.0f; rotPiernasBG = 0.0f;
+			break;
+		}
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera->calculateViewMatrix(), projection);
+		if (contadorDiaNoche > 0.7)
+			skyboxDay.DrawSkybox(camera->calculateViewMatrix(), projection);
+		else
+			skyboxNight.DrawSkybox(camera->calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -3394,13 +3584,19 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
 
+		//// TOROIDE PARADA/////
+		color = glm::vec3(1.0f, 0.0f, 0.0f);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(100.0f, 100.0f, 100.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		plainTexture.UseTexture();
 		meshList[6]->RenderMesh();
 
+		
 		//////////////////////////////// F E N I X ///////////////////////////////
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -340.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
@@ -3408,6 +3604,7 @@ int main()
 		model = glm::rotate(model, FenixRot * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Valorant_FenixC.RenderModel();
 
 		model = modelaux;
@@ -3608,7 +3805,8 @@ int main()
 		model = glm::translate(model, glm::vec3(movX_Rik, movY_Rik, movZ_Rik));
 		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		model = glm::rotate(model, rotRikochet * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotRikochet * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotY_Rikochet * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
@@ -3624,28 +3822,28 @@ int main()
 		Ricochet_Texture.UseTexture();
 		meshList[0]->RenderMesh();
 
-		//Brazo izq
+		//Brazo der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
 		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotPiernasR * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotPiernasR * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotPiernasR + rotBrazoDer_R * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotPiernasR + rotBrazoDer_R * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
 		meshList[2]->RenderMesh();
 
-		//Brazo der
+		//Brazo izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
 		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotPiernasR * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotPiernasR * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotPiernasR + rotBrazoIzq_R * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotPiernasR + rotBrazoIzq_R * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -3696,28 +3894,32 @@ int main()
 		La_Pulga_Texture.UseTexture();
 		meshList[0]->RenderMesh();
 
-		//Brazo izq
+		//Brazo der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
 		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
+		//model = glm::translate(model, glm::vec3(tan(rotBrazoIzq_LP * toRadians), 0.0f, 0.0f));
+		//model = glm::rotate(model, cos(rotBrazoIzq_LP * toRadians), glm::vec3(1.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotPiernasLP * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotPiernasLP * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotPiernasLP + rotBrazoDer_LP * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotPiernasLP + rotBrazoDer_LP * toRadians) + sumaAngulo, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		La_Pulga_Texture.UseTexture();
 		meshList[2]->RenderMesh();
 
-		//Brazo der
+		//Brazo izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
 		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::translate(model, glm::vec3(sin(rotBrazoDer_LP * toRadians)*toRadians, 0.0f, sin(rotBrazoDer_LP * toRadians) * toRadians));
+		//model = glm::rotate(model, sin(rotBrazoDer_LP * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotPiernasLP * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotPiernasLP * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotPiernasLP + rotBrazoIzq_LP * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotPiernasLP + rotBrazoIzq_LP * toRadians) - sumaAngulo, glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		La_Pulga_Texture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -3750,7 +3952,7 @@ int main()
 		model = glm::translate(model, glm::vec3(movX_BG,movY_BG,movZ_BG));
 		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		model = glm::rotate(model, rotBuena_Girl * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotBuena_Girl * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Buena_Girl_Texture.UseTexture();
@@ -3766,28 +3968,28 @@ int main()
 		Buena_Girl_Texture.UseTexture();
 		meshList[0]->RenderMesh();
 
-		//Brazo izq
+		//Brazo der
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(-0.25f, 0.0, 0.0f));
 		model = glm::translate(model, glm::vec3(-tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, -1.0f));
 		model = glm::translate(model, glm::vec3(-0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotPiernasBG * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotPiernasBG * toRadians), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -tan(sin(rotPiernasBG + rotBrazoDer_BG * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotPiernasBG + rotBrazoDer_BG * toRadians) + sumaAngulo, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Buena_Girl_Texture.UseTexture();
 		meshList[2]->RenderMesh();
 
-		//Brazo der
+		//Brazo izq
 		model = auxPersonaje;
 		model = glm::translate(model, glm::vec3(0.25f, 0.0, 0.0f));
 		model = glm::translate(model, glm::vec3(tan(10 * toRadians) * 0.375f, 0.0f, 0.0f));
 		model = glm::rotate(model, 10 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(0.1f, 0.0f, 0.0f));
 		//rotación para la animación de caminar
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotPiernasBG * toRadians)) * 0.125f));
-		model = glm::rotate(model, sin(rotPiernasBG * toRadians), glm::vec3(-1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, tan(sin(rotPiernasBG + rotBrazoIzq_BG * toRadians)) * 0.125f));
+		model = glm::rotate(model, sin(rotPiernasBG + rotBrazoIzq_BG * toRadians) - sumaAngulo, glm::vec3(-1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Buena_Girl_Texture.UseTexture();
 		meshList[2]->RenderMesh();
@@ -4066,7 +4268,19 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		White_Helicopter_Rotor_M.RenderModel();
 
-		
+		//Toroide Pieter
+		//color = glm::vec3(1.0f, 0.0f, 1.0f);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(200.0f, 50.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//plainTexture.UseTexture();
+		donut_Texture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		//meshList[6]->RenderMesh();
+		torus_p.render();
+
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		//informaci�n al shader de fuentes de iluminaci�n
@@ -4252,14 +4466,14 @@ void inputKeyframes(bool* keys, int action)
 		if (guardoFrame < 1)
 		{
 			saveFrame();
-			printf("\n--------- SE GUARDA -----------\n");
+			/*printf("\n--------- SE GUARDA -----------\n");
 			printf("movAvion_x es: %f\n", movAvion_x);
 			printf("movAvion_y es: %f\n", movAvion_y);
 			printf("movAvion_z es: %f\n", movAvion_z);
 			printf("giroAvionY es: %f\n", giroAvionY);
 			printf("giroAvionX es: %f\n", giroAvionX);
 			printf("presiona R para habilitar guardar otro frame'\n");
-			printf("\n-----------------------------\n");
+			printf("\n-----------------------------\n");*/
 			guardoFrame++;
 			reinicioFrame = 0;
 		}
@@ -4277,7 +4491,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo_x < 1)
 		//{
 			movAvion_x -= 1.0f;
-			printf("movAvion_x es: %f\n", movAvion_x);
+			//printf("movAvion_x es: %f\n", movAvion_x);
 			//ciclo_x++;
 			//ciclo_x2 = 0;
 			//printf("reinicia con C\n");
@@ -4296,7 +4510,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo < 1)
 		//{
 			movAvion_x += 1.0f;
-			printf("movAvion_x es: %f\n", movAvion_x);
+			//printf("movAvion_x es: %f\n", movAvion_x);
 			//ciclo++;
 			//ciclo2 = 0;
 			//printf("reinicia con 2\n");
@@ -4313,7 +4527,7 @@ void inputKeyframes(bool* keys, int action)
 	if (keys[GLFW_KEY_RIGHT] && action == GLFW_PRESS) // DECREMENTA Z
 	{
 		movAvion_z -= 1.0f;
-		printf("movAvion_z es: %f\n", movAvion_z);
+		//printf("movAvion_z es: %f\n", movAvion_z);
 		//ciclo_x++;
 		//ciclo_x2 = 0;
 		//printf("reinicia con C\n");
@@ -4331,7 +4545,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo < 1)
 		//{
 		movAvion_z += 1.0f;
-		printf("movAvion_x es: %f\n", movAvion_z);
+		//printf("movAvion_x es: %f\n", movAvion_z);
 		//ciclo++;
 		//ciclo2 = 0;
 		//printf("reinicia con 2\n");
@@ -4350,7 +4564,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo_d < 1)
 		//{
 			movAvion_y += 1.0f;
-			printf("movAvion_y es: %f\n", movAvion_y);
+			//printf("movAvion_y es: %f\n", movAvion_y);
 			//ciclo_d++;
 			//ciclo_d2 = 0;
 			//printf("reinicia con 4\n");
@@ -4369,7 +4583,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo_y < 1)
 		//{
 			movAvion_y -= 1.0f;
-			printf("giroAvionY es: %f\n", giroAvionY);
+			//printf("giroAvionY es: %f\n", giroAvionY);
 			//ciclo_y++;
 			//ciclo_y2 = 0;
 			//printf("reinicia con 6\n");
@@ -4388,7 +4602,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo_g < 1)
 		//{
 			giroAvionY += 1.0f;
-			printf("giroAvionY es: %f\n", giroAvionY);
+			//printf("giroAvionY es: %f\n", giroAvionY);
 			//ciclo_g++;
 			//ciclo_g2 = 0;
 			//printf("reinicia con 8\n");
@@ -4400,7 +4614,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo_g < 1)
 		//{
 		giroAvionY -= 1.0f;
-		printf("giroAvionY es: %f\n", giroAvionY);
+		//printf("giroAvionY es: %f\n", giroAvionY);
 		//ciclo_g++;
 		//ciclo_g2 = 0;
 		//printf("reinicia con 8\n");
@@ -4412,7 +4626,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo_g < 1)
 		//{
 		giroAvionX += 1.0f;
-		printf("giroAvionX es: %f\n", giroAvionX);
+		//printf("giroAvionX es: %f\n", giroAvionX);
 		//ciclo_g++;
 		//ciclo_g2 = 0;
 		//printf("reinicia con 8\n");
@@ -4424,7 +4638,7 @@ void inputKeyframes(bool* keys, int action)
 		//if (ciclo_g < 1)
 		//{
 		giroAvionX -= 1.0f;
-		printf("giroAvionX es: %f\n", giroAvionX);
+		//printf("giroAvionX es: %f\n", giroAvionX);
 		//ciclo_g++;
 		//ciclo_g2 = 0;
 		//printf("reinicia con 8\n");

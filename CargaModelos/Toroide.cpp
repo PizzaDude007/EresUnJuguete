@@ -2,18 +2,18 @@
 
 
 
-Toroide::Toroide(double radioMin, double radioMax) {
+Toroide::Toroide(double radioMin, double radioMax, int resolucion) {
 	radioMaximo = radioMax;
 	radioMinimo = radioMin;
-	
+	resolution = resolucion;
 }
 
 void Toroide::CrearToroide(std::vector<Mesh*> *meshList) {
 
 	//CREACION DEL TOROIDE
-	for (int i = 0; i < 100; i++) { //Num C = 100, numC: Numero de caras del circulo interno (el que recorre al externo)
-		for (int j = 0; j <= 100; j++) { //Num T = 100, numT: es el nuero de caras del circulo externo
-			for (int k = 1; k >= 0; k--) { //num C
+	for (int i = 0; i < resolution; i++) { //Num C = 100, numC: Numero de caras del circulo interno (el que recorre al externo)
+		for (int j = 0; j <= resolution; j++) { //Num T = 100, numT: es el nuero de caras del circulo externo
+			for (int k = 1; k >= 0; k--) { 
 				alpha = (i + k) % 100 + 0.5; //alpha = (i + k) % numC + 0.5;
 				betha = j % 100; //betha = j % numt
 
