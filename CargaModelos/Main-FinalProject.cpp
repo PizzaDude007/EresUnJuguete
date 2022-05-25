@@ -205,10 +205,7 @@ static const char* vShader = "shaders/shader_light.vert";
 static const char* fShader = "shaders/shader_light.frag";
 
 Sphere sp = Sphere(10.0, 30, 30); //radio horizontal vertical
-ToroideBralex tBralex = ToroideBralex(1.0,1.4); //radio1 radio2
-
-
-
+ToroideBralex tBralex = ToroideBralex(1.0,1.4,100); //radio1 radio2 resolucion
 
 
 //c�lculo del promedio de las normales para sombreado de Phong
@@ -2714,6 +2711,7 @@ int main()
 				}
 			}
 
+			//ANIMACION CAR 2
 			if (estado_car2 == "INICIO_CAR2") {
 				float radio = 35.0f;
 				float centroX = auxPosCar2x;
@@ -3296,15 +3294,16 @@ int main()
 		CuboR_M.RenderModel();
 
 		//ToroideBralex
-		color = glm::vec3(18.0f / 255.0f, 210.0f / 255.0f, 201.0f / 255.0f);
+		color = glm::vec3(76.0f / 255.0f, 255.0f / 255.0f, 231.0f / 255.0f);
 		model = glm::mat4(1.0f);
-		glm::vec3 posToroideBralex = posEdificio;
-		posToroideBralex.y += 20.0f;
+		glm::vec3 posToroideBralex = glm::vec3(-10.0f, 10.0f, -150.0f);
+		posToroideBralex.y += 50.0f;
 		model = glm::translate(model,posToroideBralex);
 		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		plainTexture.UseTexture();
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		tBralex.render(); //ToroideBralex
 
 

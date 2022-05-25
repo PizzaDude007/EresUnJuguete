@@ -2,8 +2,8 @@
 
 
 
-ToroideBralex::ToroideBralex(double radio1, double radio2): 
-	radio1(radio1), radio2(radio2), VAO(0), VBO(0), EBO(0) {
+ToroideBralex::ToroideBralex(double radio1, double radio2, double resolucion): 
+	radio1(radio1), radio2(radio2), resolucion(resolucion), VAO(0), VBO(0), EBO(0) {
 }
 
 ToroideBralex::~ToroideBralex()
@@ -25,25 +25,17 @@ ToroideBralex::~ToroideBralex()
 
 void ToroideBralex::init() {
 	
-	//float radio2 = 1.5f;
-	//float radio1 = 0.7f;
 	float ancho = radio2-radio1;
-	float alpha, betha;
 	//CREACION DEL TOROIDE
-	for (int i = 0; i < 100; i++) { //Num C = 100, numC: Numero de caras del circulo interno (el que recorre al externo)
-		for (int j = 0; j <= 100; j++) { //Num T = 100, numT: es el nuero de caras del circulo externo
-			for (int k = 1; k >= 0; k--) { //num C
-				alpha = (i + k) % 100 + 0.5; //alpha = (i + k) % numC + 0.5;
-				betha = j % 100; //betha = j % numt
-				
-				//x = (1 + .1 * cos(s * 2 * PI / numc)) * cos(t * 2 * PI / numt)
-				float X = (radio2 + ancho * cos(alpha * 2 * PI / 100)) * cos(betha * 2 * PI / 100); //S es alpha, t es betha
+	for (int i = 0; i < resolucion; i++) { 
+		for (int j = 0; j <= resolucion; j++) { 
+			for (int k = 1; k >= 0; k--) { 
+				float alpha = (i + k) % int(resolucion) + 0.5; 
+				float betha = j % int(resolucion); 
 
-				//y = (1 + .1 * cos(s * 2 * PI / numc)) * sin(t * 2 * PI / numt)
-				float Z = (radio2 + ancho * cos(alpha * 2 * PI / 100)) * sin(betha * 2 * PI / 100);//S es alpha, t es betha
-
-				//z = .1 * sin(s * 2 * PI / numc);
-				float Y = ancho * sin(alpha * 2 * PI / 100);//S es alpha, t es betha
+				float X = (radio2 + ancho * cos(alpha * 2 * PI / resolucion)) * cos(betha * 2 * PI / resolucion);
+				float Z = (radio2 + ancho * cos(alpha * 2 * PI / resolucion)) * sin(betha * 2 * PI / resolucion);
+				float Y = ancho * sin(alpha * 2 * PI / resolucion); 
 
 				VertexColor v = VertexColor(glm::vec3(X, Y, Z), glm::sphericalRand(1.0));
 				vertexC.push_back(v);

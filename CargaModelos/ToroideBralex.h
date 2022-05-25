@@ -17,8 +17,7 @@
 class ToroideBralex
 {
 public:
-	ToroideBralex(double alpha,double betha);
-	void CrearToroide();
+	ToroideBralex(double radio1,double radio2, double resolucion);
 	void init();
 	void load();
 	void render();
@@ -27,10 +26,9 @@ public:
 private:
 	std::vector<VertexColor> vertexC;
 	std::vector<GLuint> index;
-	double radio1, radio2;
+	double radio1, radio2, resolucion;
 	const float PI = 3.14159265f;
 	int conIndices=0;
-	//MODEL_MODE mode;
 
 	GLuint VAO, VBO, EBO;
 };
