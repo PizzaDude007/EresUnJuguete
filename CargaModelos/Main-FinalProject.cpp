@@ -29,6 +29,7 @@ using namespace irrklang;
 #include "Camera.h"
 #include "Texture.h"
 #include "Sphere.h"
+#include "ToroideBralex.h"
 #include"Model.h"
 #include "Skybox.h"
 
@@ -202,6 +203,7 @@ static const char* vShader = "shaders/shader_light.vert";
 static const char* fShader = "shaders/shader_light.frag";
 
 Sphere sp = Sphere(10.0, 30, 30); //radio horizontal vertical
+ToroideBralex tBralex = ToroideBralex(1.0,1.4); //radio1 radio2
 
 
 
@@ -789,6 +791,8 @@ int main()
 	sp.init(); //inicializar esfera
 	sp.load();//enviar la esfera al shader
 	CreateStar(); // 5,6,7,8
+	tBralex.init(); //inicializar esfera
+	tBralex.load();//enviar la esfera al shader
 	CreateShaders();
 
 	cameraLibre = Camera(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
@@ -3255,6 +3259,18 @@ int main()
 		model = glm::rotate(model, -10 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		CuboR_M.RenderModel();
+
+		//ToroideBralex
+		color = glm::vec3(18.0f / 255.0f, 210.0f / 255.0f, 201.0f / 255.0f);
+		model = glm::mat4(1.0f);
+		glm::vec3 posToroideBralex = posEdificio;
+		posToroideBralex.y += 20.0f;
+		model = glm::translate(model,posToroideBralex);
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		plainTexture.UseTexture();
+		tBralex.render(); //ToroideBralex
 
 
 		//PELOTA
