@@ -167,6 +167,7 @@
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="ToroideBralex.cpp" />
+    <ClCompile Include="Toroide.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +188,7 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="ToroideBralex.h" />
+    <ClInclude Include="Toroide.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

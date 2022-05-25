@@ -18,13 +18,10 @@ PROYECTO FINAL
 //#include <gtc\matrix_transform.hpp>
 //#include <gtc\type_ptr.hpp>
 #include <irrklang\irrKlang.h>
-using namespace irrklang;
-
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
 #include "Window.h"
-#include "Mesh.h"
 #include "Shader_light.h"
 #include "Camera.h"
 #include "Texture.h"
@@ -42,8 +39,10 @@ using namespace irrklang;
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "Material.h"
+#include "Toroide.h"
 
-
+//NAME SPACE
+using namespace irrklang;
 
 //#include "Modelos_MuchaLucha.h"
 
@@ -52,9 +51,11 @@ float posicionLedX, posicionLedZ, posicionLed1X, posicionLed1Z, parpadeoSpike = 
 float SpectreRotX, SpectreRotY, SpectreMovX, SpectreMovY, SpectreMovZ, AuxSpectreRotX;
 float FenixBIrotX, FenixRot;
 float KillJBrazosRotX, KillJRotY, KillJRotX, KillJPIrotX, KillJPDrotX, KillJMovZ;
-int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike, AnimacionVal, DisparoSpectre, KillJCamina;
-bool  dia = false, spikeSube = false;
+int banderaLedCama, banderaLedEscritorio, LedCama, banderaParpadeoSpike, AnimacionVal, DisparoSpectre, KillJCamina, LampVal;
+bool  dia = false, spikeSube = false, cancionVal = true;
+double alpha, betha;
 const float toRadians = 3.14159265f / 180.0f;
+const float PI = 3.14159265f;
 
 float giroSpike = 0.0f;
 float movAroSpike = 0.0f;
@@ -171,7 +172,7 @@ Model Valorant_FenixPD = Model();//Pie Derecho
 Model Spike_base_M = Model();
 Model Spike_cilindro_M = Model();
 Model Spike_aro_M = Model();
-
+Model LamparaVal_M = Model();
 
 Model ML_Ring_M = Model();
 Model Luchador_M = Model();
@@ -195,6 +196,7 @@ PointLight pointLightsCama[MAX_POINT_LIGHTS];
 PointLight pointLightsSpike[MAX_POINT_LIGHTS];//Todas las pointlights
 PointLight pointLightsSpike1[MAX_POINT_LIGHTS];//Pointlights sin los leds de la cama y el escritorio
 SpotLight spotLights[MAX_SPOT_LIGHTS];
+SpotLight spotlights1[MAX_SPOT_LIGHTS];//Arreglo con otra spotlight
 
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
@@ -652,6 +654,7 @@ void CreatePersonaje() {
 	*/
 }
 
+
 void CreateShaders()
 {
 	Shader* shader1 = new Shader();
@@ -778,7 +781,7 @@ void animate(void)
 /* FIN KEYFRAMES*/
 
 
-
+Toroide toroParada = Toroide(4.0f, 6.0f);
 
 
 int main()
@@ -790,17 +793,21 @@ int main()
 	CreatePersonaje(); //0,1,2,3,4
 	sp.init(); //inicializar esfera
 	sp.load();//enviar la esfera al shader
-	CreateStar(); // 5,6,7,8
-	tBralex.init(); //inicializar esfera
-	tBralex.load();//enviar la esfera al shader
+	CreateStar(); // 5
+	toroParada.CrearToroide(&meshList);//6
+	tBralex.init(); //inicializar toroide
+	tBralex.load();//enviar toroide al shader
 	CreateShaders();
+	
 
 	cameraLibre = Camera(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraWheezy = Camera(glm::vec3(0.0f, 24.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 1.0f, 0.5f);
 	cameraJett = Camera(glm::vec3(-240.0f, 92.0f, -340.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 1.0f, 0.5f);
 	cameraFrijolito = Camera(glm::vec3(180.0f, 50.1f, -50.0f), glm::vec3(0.0f, 1.0f, 0.0f), 60.0f, 0.0f, 1.0f, 0.5f);
 
-
+	//========================================PRUEBA TOROIDES===================================
+	
+	
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
 	dirtTexture = Texture("Textures/dirt.png");
@@ -896,7 +903,7 @@ int main()
 	Valorant_FenixBI.LoadModel("Models/FenixBrazoIzq.obj");
 	Valorant_FenixPD.LoadModel("Models/FenixPieDer.obj");
 	Valorant_FenixPI.LoadModel("Models/FenixPieIzq.obj");
-
+	LamparaVal_M.LoadModel("Models/LamparaValorant.obj");
 	Valorant_KillJC.LoadModel("Models/KillJoyCaraTorso.obj");
 	Valorant_KillJBD.LoadModel("Models/KillJoyBrazoDer.obj");
 	Valorant_KillJBI.LoadModel("Models/KillJoyBrazoIzq.obj");
@@ -966,6 +973,25 @@ int main()
 		1.0f, 0.01f, 0.0004f, //C,B,A: ECUACION DE SEGUNDO GRADO
 		15.0f); //ANGULO DE APERTURA
 	spotLightCount++;
+
+	//LUZ DE LA LAMPARA DE VALORANT
+	unsigned int spotLightCount1 = 0;
+	spotlights1[spotLightCount1] = SpotLight(1.0f, 0.0f, 1.0f, //COLOR
+		0.0f, 2.0f, //AMBIENTE, DIFUSA
+		-121.0f, 100.0f, -305.0f, //POSICION
+		0.0f, -1.0f, 0.0f, //DIRECCION
+		1.0f, 0.01f, 0.0004f, //C,B,A: ECUACION DE SEGUNDO GRADO
+		5.0f); //ANGULO DE APERTURA
+	spotLightCount1++;
+
+	//LUZ DE LA LAMPARA DE ESCRITORIO ARREGLO DE SPOTLIGHTS 0
+	spotlights1[spotLightCount1] = SpotLight(1.0f, 0.5f, 0.0f, //COLOR
+		0.0f, 2.0f, //AMBIENTE, DIFUSA
+		50.0f, 125.0f, -360.0f, //POSICION
+		0.0f, -1.0f, 1.0f, //DIRECCION
+		1.0f, 0.01f, 0.0004f, //C,B,A: ECUACION DE SEGUNDO GRADO
+		15.0f); //ANGULO DE APERTURA
+	spotLightCount1++;
 
 	unsigned int pointLightCount1 = 0;
 	//LUZ DE LEDS DE LA CAMA
@@ -2130,11 +2156,12 @@ int main()
 	glm::vec3 posblackhawk = glm::vec3(-120.0f, 30.0f, -130.0f);
 
 	//-----------------------A U D I O ---------------------------------------
-	//irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
+	irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
 	ISoundEngine* ambiental = createIrrKlangDevice();
 	//Sonido ambiente
 	ambiental->play2D("Media/AmbienteToyStory.ogg", true);
-	ambiental->setSoundVolume(0.2);
+	ambiental->setSoundVolume(0.1);
+	
 
 	//Helice
 	float rotYHelice = 0.0f;
@@ -2473,11 +2500,19 @@ int main()
 			movAroSpike += deltaTime * 0.02f;
 			giroSpike += deltaTime * 0.8f;
 			spikeSube = true;
+			ambiental->setSoundVolume(0.0);
+			if (cancionVal) {
+				cancionVal = false;
+				engine->play2D("Media/la-cumbia-de-valorant.ogg", true);
+			}
+			engine->setSoundVolume(0.3);
 		}
 		else if (distance(posJett, posSpike) > 25.0f and movAroSpike > 0.0f) {
 			movAroSpike -= deltaTime * 0.02f;
 			giroSpike -= deltaTime * 0.8f;
 			spikeSube = false;
+			ambiental->setSoundVolume(0.3);
+			engine->setSoundVolume(0.0);
 		}
 
 		//printf("\nDistancia a Spike = %f\nAltura Spike = %f", distance(posJett, posSpike),movAroSpike);
@@ -3340,6 +3375,12 @@ int main()
 		Valorant_Malla_M.RenderModel();
 
 		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-120.0f, 70.0f, -300.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		LamparaVal_M.RenderModel();
+
+		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-200.0f, 70.0f, -305.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera_M.RenderModel();
@@ -3353,6 +3394,12 @@ int main()
 		model = glm::translate(model, glm::vec3(-90.0f, 70.0f, -300.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Valorant_CajaMadera2_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[6]->RenderMesh();
 
 		//////////////////////////////// F E N I X ///////////////////////////////
 		model = glm::mat4(1.0);
@@ -4020,11 +4067,13 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		White_Helicopter_Rotor_M.RenderModel();
 
+		
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
 		LedCama = mainWindow.getLedCama();
+		LampVal = mainWindow.getLampVal();
 		if (contadorDiaNoche <= 0.7f) {
 			//printf("\nLedCama = %d", LedCama);
 			if (LedCama == 1 and !spikeSube)
@@ -4076,10 +4125,18 @@ int main()
 			else if (LedCama == 0 and !spikeSube)
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount);
 
-			if(mainWindow.getDeskLamp() == 1)
+			if (mainWindow.getDeskLamp() == 1 and mainWindow.getLampVal() == 0) {
 				shaderList[0].SetSpotLights(spotLights, spotLightCount);
-			else 
+			}
+			else if (mainWindow.getDeskLamp() == 0 and mainWindow.getLampVal() == 0) {
 				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
+			}
+			else if (mainWindow.getDeskLamp() == 0 and mainWindow.getLampVal() == 1) {
+				shaderList[0].SetSpotLights(spotlights1, spotLightCount1 - 1);
+			}
+			else if (mainWindow.getDeskLamp() == 1 and mainWindow.getLampVal() == 1) {
+				shaderList[0].SetSpotLights(spotlights1, spotLightCount1);
+			}
 		}
 		else {
 			if (LedCama == 1 and !spikeSube)
@@ -4128,21 +4185,31 @@ int main()
 					shaderList[0].SetPointLights(pointLightsSpike1, pointLightCount3 - 2);
 				}
 			}
-			else if (LedCama == 0 and !spikeSube)
+			else if (LedCama == 0 and !spikeSube) {
 				shaderList[0].SetPointLights(pointLightsNoche, pointLightCount - 2);
+			}
 
-			if (mainWindow.getDeskLamp() == 1)
+
+			if (mainWindow.getDeskLamp() == 1 and mainWindow.getLampVal() == 0) {
 				shaderList[0].SetSpotLights(spotLights, spotLightCount);
-			else
+			}
+			else if (mainWindow.getDeskLamp() == 0 and mainWindow.getLampVal() == 0) {
 				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
+			}
+			else if (mainWindow.getDeskLamp() == 0 and mainWindow.getLampVal() == 1) {
+				shaderList[0].SetSpotLights(spotlights1, spotLightCount1 - 1);
+			}
+			else if (mainWindow.getDeskLamp() == 1 and mainWindow.getLampVal() == 1) {
+				shaderList[0].SetSpotLights(spotlights1, spotLightCount1);
+			}
 		}
 		
 
 		glUseProgram(0);
 		mainWindow.swapBuffers();
 	}
-	//engine->drop();
-	//ambiental->drop();
+	
+	ambiental->drop();
 	return 0;
 }
 
