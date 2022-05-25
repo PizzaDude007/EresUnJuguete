@@ -1269,14 +1269,14 @@ int main()
 	float rotPelotaY = 0.0f;
 
 	float rotLuchador1 = 0.0f;
-	float rotRikochet = 0.0f, rotBrazoIzq_R = 0.0f, rotBrazoDer_R = 0.0f;
+	float rotRikochet = 0.0f, rotY_Rikochet = 0, rotBrazoIzq_R = 0.0f, rotBrazoDer_R = 0.0f;
 	float rotLa_Pulga = 0.0f, rotY_La_Pulga = 0.0f, rotBrazoDer_LP = 0.0f, rotBrazoIzq_LP = 0.0f;
 	float rotBuena_Girl = 0.0f, rotBrazoDer_BG = 0.0f, rotBrazoIzq_BG = 0.0f;
 	float movX_Rik = 5.0f, movY_Rik = 4.0f, movZ_Rik = -5.0f;
 	float movX_LP = 5.0f, movY_LP = 4.0f, movZ_LP = 5.0;
 	float movX_BG = -5.0f, movY_BG = 4.0f, movZ_BG = -5.0f;
 	float rotPiernasR = 0.0f, rotPiernasLP = 0.0f, rotPiernasBG = 0.0f;
-	int estado_ML = 0, sumaAngulo = 0;
+	int estado_ML = 0, sumaAngulo = 0, count_tiempo = 0;
 
 
 	//KEYFRAMES DECLARADOS INICIALES
@@ -2238,6 +2238,7 @@ int main()
 	KillJPIrotX = 0.0f;
 	KillJCamina = 0;
 
+	count_tiempo = 0;
 	estado_ML = 10; sumaAngulo = 0;
 	rotLa_Pulga = 0; rotY_La_Pulga = 0; rotBrazoDer_LP = 0; rotBrazoIzq_LP = 0;
 	movX_Rik = 5.0f; movY_Rik = 4.0f; movZ_Rik = -5.0f;
@@ -2986,13 +2987,13 @@ int main()
 				rotBrazoDer_BG = rotBrazoIzq_BG = 45;
 			}
 			break;
-		case 3:
-			if (rotBrazoIzq_LP < 3600) {
+		case 3: // se golpean 
+			if (rotBrazoIzq_LP < 1800) {
 				sumaAngulo = 180 * toRadians;
-				rotBrazoIzq_LP += deltaTime * avanzaOffset / 2;
-				rotBrazoDer_LP += deltaTime * avanzaOffset / 2;
-				rotBrazoIzq_BG += deltaTime * avanzaOffset / 2;
-				rotBrazoDer_BG += deltaTime * avanzaOffset / 2;
+				rotBrazoIzq_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoIzq_BG += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_BG += deltaTime * avanzaOffset * 2;
 			}
 			else {
 				sumaAngulo = 0;
@@ -3000,14 +3001,96 @@ int main()
 				estado_ML++;
 			}
 			break;
-		case 4:
-			estado_ML++;
+		case 4: // rikochet le entra
+			if (rotBrazoIzq_LP < 1200) {
+				sumaAngulo = 180 * toRadians;
+				rotBrazoIzq_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoIzq_BG += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_BG += deltaTime * avanzaOffset * 2;
+			}
+			
+			if (movZ_Rik < 2.3) {
+				if (movZ_Rik >= 1) {
+					movY_Rik += deltaTime * offsetNew;
+				}
+				movZ_Rik += deltaTime * offsetNew;
+				rotPiernasR += deltaTime * avanzaOffset;
+			}
+			else {
+				sumaAngulo = 0;
+				rotPiernasR = 0;
+				estado_ML++;
+			}
+			
 			break;
-		case 5:
-			estado_ML++;
+		case 5: // rikochet los patea
+			if (rotBrazoIzq_LP < 600) {
+				sumaAngulo = 180 * toRadians;
+				rotBrazoIzq_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_LP += deltaTime * avanzaOffset * 2;
+				rotBrazoIzq_BG += deltaTime * avanzaOffset * 2;
+				rotBrazoDer_BG += deltaTime * avanzaOffset * 2;
+			}
+			if (rotRikochet > -30) {
+				rotRikochet -= deltaTime * avanzaOffset;
+			}
+			if (rotY_Rikochet > -30) {
+				rotY_Rikochet -= deltaTime * avanzaOffset;
+			}
+			if (rotPiernasR < 1800) {
+				rotPiernasR += deltaTime * avanzaOffset;
+			}
+			if (rotRikochet <= -30 && rotY_Rikochet <= -30 && rotPiernasR >= 1800) {
+				sumaAngulo = 0;
+				rotPiernasR = 0;
+				estado_ML++;
+			}
+			break;
+		case 6: //salen volando
+			if (rotY_Rikochet > -360) {
+				rotY_Rikochet -= deltaTime * avanzaOffset;
+			}
+			if (rotRikochet < 0) {
+				rotRikochet += deltaTime * avanzaOffset;
+			}
+			if (rotPiernasR > 0) {
+				rotPiernasR -= deltaTime * avanzaOffset;
+			}
+			if (movZ_Rik > -5) {
+				movZ_Rik -= deltaTime * offsetNew;
+			}
+			if (rotY_La_Pulga < 450) {
+				rotY_La_Pulga += deltaTime * avanzaOffset;
+			}
+			if (rotLa_Pulga > 0) {
+				rotLa_Pulga -= deltaTime * avanzaOffset;
+			}
+			if (rotBuena_Girl > 0) {
+				rotBuena_Girl -= deltaTime * avanzaOffset;
+			}
+			if (movX_LP > -5) {
+				movX_LP -= deltaTime * offsetNew;
+			}
+			if (movZ_LP > -5) {
+				movZ_LP -= deltaTime * offsetNew;
+			}
+
+			if (movZ_Rik <= -5 && movX_LP <= -5 && movZ_LP <= -5) {
+				estado_ML++;
+			}
+			break;
+		case 7: //espera unos segundos
+			if (count_tiempo < 1000) {
+				count_tiempo += deltaTime * avanzaOffset;
+			}
+			else {
+				estado_ML++;
+			}
 			break;
 		default:
-			estado_ML = 0;
+			estado_ML = 0; count_tiempo = 0;
+			rotRikochet = 0; rotY_Rikochet = 0;
 			rotLa_Pulga = 0; rotY_La_Pulga = 0; rotBrazoDer_LP = 0; rotBrazoIzq_LP = 0;
 			rotBuena_Girl = 0; rotBrazoDer_BG = 0; rotBrazoIzq_BG = 0;
 			movX_Rik = 5.0f; movY_Rik = 4.0f; movZ_Rik = -5.0f;
@@ -3701,7 +3784,8 @@ int main()
 		model = glm::translate(model, glm::vec3(movX_Rik, movY_Rik, movZ_Rik));
 		//model = glm::rotate(model, -angulo_cam, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		model = glm::rotate(model, rotRikochet * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotRikochet * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotY_Rikochet * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		auxPersonaje = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Ricochet_Texture.UseTexture();
