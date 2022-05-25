@@ -110,6 +110,7 @@ Texture Ricochet_Texture;
 Texture La_Pulga_Texture;
 Texture Buena_Girl_Texture;
 
+Texture donut_Texture;
 
 Model Cuarto_M = Model();
 Model Escritorio_M = Model();
@@ -882,7 +883,8 @@ int main()
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
 
-
+	donut_Texture = Texture("Textures/donut.jpg");
+	donut_Texture.LoadTextureA();
 
 	WheezyTexture = Texture("Textures/wheezy_textura.tga");
 	WheezyTexture.LoadTextureA();
@@ -4259,13 +4261,14 @@ int main()
 		White_Helicopter_Rotor_M.RenderModel();
 
 		//Toroide Pieter
-		color = glm::vec3(1.0f, 0.0f, 1.0f);
+		//color = glm::vec3(1.0f, 0.0f, 1.0f);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(200.0f, 50.0f, -50.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		plainTexture.UseTexture();
+		//plainTexture.UseTexture();
+		donut_Texture.UseTexture();
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		//meshList[6]->RenderMesh();
 		torus_p.render();
