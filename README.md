@@ -98,7 +98,7 @@ For our main room environment we imported the models of the main furniture, some
 
 These models were imported and textured using external software such as Blender, in order to give a more blocky aesthetic and follow the voxel art model. The other purpose of having the furniture is to make the scenery more recognizable and feel like a child’s room.
 
-<a href="https://drive.google.com/uc?export=view&id=1yCLy5-vYVNm0fYAhiHbsj-wni8_JM383"><img src="https://drive.google.com/uc?export=view&id=1yCLy5-vYVNm0fYAhiHbsj-wni8_JM383" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1yCLy5-vYVNm0fYAhiHbsj-wni8_JM383"><img src="https://drive.google.com/uc?export=view&id=1yCLy5-vYVNm0fYAhiHbsj-wni8_JM383" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 1. Room overhead perspective
 
 
@@ -286,7 +286,7 @@ void CreatePersonaje() {
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1lirY-bIDmpFgrYLuRyGt91OdULlHq3uT"><img src="https://drive.google.com/uc?export=view&id=1lirY-bIDmpFgrYLuRyGt91OdULlHq3uT" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1lirY-bIDmpFgrYLuRyGt91OdULlHq3uT"><img src="https://drive.google.com/uc?export=view&id=1lirY-bIDmpFgrYLuRyGt91OdULlHq3uT" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
  
 3. Image Character model (Jett)
 
@@ -381,7 +381,7 @@ void CreateStar()
 
 The resulting model for our ball can be seen in the following image:
 
-<a href="https://drive.google.com/uc?export=view&id=1ls7cN80Lb0KYq8BYFwnmYbRkvXsJ0ppc"><img src="https://drive.google.com/uc?export=view&id=1ls7cN80Lb0KYq8BYFwnmYbRkvXsJ0ppc" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1ls7cN80Lb0KYq8BYFwnmYbRkvXsJ0ppc"><img src="https://drive.google.com/uc?export=view&id=1ls7cN80Lb0KYq8BYFwnmYbRkvXsJ0ppc" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 4. Image, Toy Story Ball
 
@@ -399,7 +399,7 @@ Lastly, to have each table and desk, as well as the rug occupied, different mode
 ```
 
 
-<a href="https://drive.google.com/uc?export=view&id=1gGfLNszzidBvarwPPMeP8z4M5N8XofoT"><img src="https://drive.google.com/uc?export=view&id=1gGfLNszzidBvarwPPMeP8z4M5N8XofoT" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1gGfLNszzidBvarwPPMeP8z4M5N8XofoT"><img src="https://drive.google.com/uc?export=view&id=1gGfLNszzidBvarwPPMeP8z4M5N8XofoT" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
 5. Image, Wheezy’s rug environment
@@ -420,13 +420,13 @@ Texture Buena_Girl_Texture;
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1MhyqCLjFynymP2k_b5neMHCkbOvDYMyi"><img src="https://drive.google.com/uc?export=view&id=1MhyqCLjFynymP2k_b5neMHCkbOvDYMyi" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1MhyqCLjFynymP2k_b5neMHCkbOvDYMyi"><img src="https://drive.google.com/uc?export=view&id=1MhyqCLjFynymP2k_b5neMHCkbOvDYMyi" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
-<a href="https://drive.google.com/uc?export=view&id=156XFGLHlETGmpA7M5mwmUrmoVqdesHcN"><img src="https://drive.google.com/uc?export=view&id=156XFGLHlETGmpA7M5mwmUrmoVqdesHcN" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=156XFGLHlETGmpA7M5mwmUrmoVqdesHcN"><img src="https://drive.google.com/uc?export=view&id=156XFGLHlETGmpA7M5mwmUrmoVqdesHcN" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
-<a href="https://drive.google.com/uc?export=view&id=1VE1K2TZEcFiswv9sPTQ-6VsKoxc7zAs8"><img src="https://drive.google.com/uc?export=view&id=1VE1K2TZEcFiswv9sPTQ-6VsKoxc7zAs8" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1VE1K2TZEcFiswv9sPTQ-6VsKoxc7zAs8"><img src="https://drive.google.com/uc?export=view&id=1VE1K2TZEcFiswv9sPTQ-6VsKoxc7zAs8" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 6. Image, Frijolito’s desk
 
@@ -460,7 +460,7 @@ Model Spike_aro_M = Model();
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1Xl5Z_1-v8cK09-yNmDZeZ4YFVfcQMtQ7"><img src="https://drive.google.com/uc?export=view&id=1Xl5Z_1-v8cK09-yNmDZeZ4YFVfcQMtQ7" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1Xl5Z_1-v8cK09-yNmDZeZ4YFVfcQMtQ7"><img src="https://drive.google.com/uc?export=view&id=1Xl5Z_1-v8cK09-yNmDZeZ4YFVfcQMtQ7" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 7. Imagen  de escenario Jett
 
@@ -513,14 +513,14 @@ Shown below, is how both daytime instances can be observed:
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1zgiSo9NkupaatUsRkV7rJNRA6oNFHi8F"><img src="https://drive.google.com/uc?export=view&id=1zgiSo9NkupaatUsRkV7rJNRA6oNFHi8F" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1zgiSo9NkupaatUsRkV7rJNRA6oNFHi8F"><img src="https://drive.google.com/uc?export=view&id=1zgiSo9NkupaatUsRkV7rJNRA6oNFHi8F" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
 Image  Skybox during Daytime
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1ZC_wUVkAwcWw9VJF0BZNYS_AuTiHQY21"><img src="https://drive.google.com/uc?export=view&id=1ZC_wUVkAwcWw9VJF0BZNYS_AuTiHQY21" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1ZC_wUVkAwcWw9VJF0BZNYS_AuTiHQY21"><img src="https://drive.google.com/uc?export=view&id=1ZC_wUVkAwcWw9VJF0BZNYS_AuTiHQY21" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
 Image  Skybox during Nightime
@@ -976,7 +976,7 @@ Therefore, we have an animation where the ball follows an ellipse-shaped traject
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1EpbEqh5t0QiXtS9bYsEWUl_CQSsUPHvb"><img src="https://drive.google.com/uc?export=view&id=1EpbEqh5t0QiXtS9bYsEWUl_CQSsUPHvb" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1EpbEqh5t0QiXtS9bYsEWUl_CQSsUPHvb"><img src="https://drive.google.com/uc?export=view&id=1EpbEqh5t0QiXtS9bYsEWUl_CQSsUPHvb" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
 .Image Bouncing Ball.
@@ -1159,7 +1159,7 @@ Below is the animation of the toys when they moved to the furniture to be stored
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1-MGA2iy85r2q7VlZOSaIUAlG4E0dMRzF"><img src="https://drive.google.com/uc?export=view&id=1-MGA2iy85r2q7VlZOSaIUAlG4E0dMRzF" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1-MGA2iy85r2q7VlZOSaIUAlG4E0dMRzF"><img src="https://drive.google.com/uc?export=view&id=1-MGA2iy85r2q7VlZOSaIUAlG4E0dMRzF" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
 Images of Toys getting put away
@@ -1228,7 +1228,7 @@ The next animation was using the _Mucha Lucha_ characters, having a small fight.
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1q5ugO4ccpSgRvuH3wig7eRgYNMYI_r-Q"><img src="https://drive.google.com/uc?export=view&id=1q5ugO4ccpSgRvuH3wig7eRgYNMYI_r-Q" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1q5ugO4ccpSgRvuH3wig7eRgYNMYI_r-Q"><img src="https://drive.google.com/uc?export=view&id=1q5ugO4ccpSgRvuH3wig7eRgYNMYI_r-Q" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
 Image Mucha Lucha Animation
@@ -1412,7 +1412,7 @@ Added the following to the project's input-linker: irrKlang.lib;
 
 
 
-<a href="https://drive.google.com/uc?export=view&id=1md8CUPodQF-yHOrxeQ1LLEv3WVKEbWXy"><img src="https://drive.google.com/uc?export=view&id=1md8CUPodQF-yHOrxeQ1LLEv3WVKEbWXy" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1md8CUPodQF-yHOrxeQ1LLEv3WVKEbWXy"><img src="https://drive.google.com/uc?export=view&id=1md8CUPodQF-yHOrxeQ1LLEv3WVKEbWXy" style="max-width: 100%; height: auto" title="Click to enlarge picture" />
 
 
 A namespace had to be created for its use, as well as creating two ISoundEngine class objects .
