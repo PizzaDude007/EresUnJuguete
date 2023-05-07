@@ -6,7 +6,7 @@ Proyecto final de Computación Gráfica
 
 ### **Facultad de Ingeniería**
 
-### **Computación gráfica e interacción humano computadora**
+#### **Computación gráfica e interacción humano computadora**
 
 <p style="text-align: right">
 <strong>Student Names:</strong></p>
@@ -66,21 +66,23 @@ Proyecto final de Computación Gráfica
 
 ## **Index**
 
-[ Geometry. ]((#geometry)  ………………………………………………….………………………………………  
+[ Geometry. ](#geometry)
 
-[ Avatar. ](#avatar) ……………………………………………………………….………………………………… 
+[ Skybox. ](#skybox)
 
-[ Route. ](#route) …………………………………………………….……………………………………………… 
+[ Avatar. ](#avatar)
 
-[ Lighting. ](#lighting) ………………………………………………………………………………………………
+[ Route. ](#route) 
 
-[ Animation. ](#animation)  ………………………………………………………………………………………… 
+[ Lighting. ](#lighting)
 
-[ Audio. ](#audio) ………………………………………………………………………………………………………
+[ Animation. ](#animation) 
+
+[ Audio. ](#audio)
 
 
 <a name="geomtry"></a>
-### **Geometry**
+## **Geometry**
 
 For our main room environment we imported the models of the main furniture, some of which are:
 
@@ -96,7 +98,7 @@ For our main room environment we imported the models of the main furniture, some
 
 These models were imported and textured using external software such as Blender, in order to give a more blocky aesthetic and follow the voxel art model. The other purpose of having the furniture is to make the scenery more recognizable and feel like a child’s room.
 
-<a href="https://drive.google.com/uc?export=view&id=1yCLy5-vYVNm0fYAhiHbsj-wni8_JM383"><img src="https://drive.google.com/uc?export=view&id=1yCLy5-vYVNm0fYAhiHbsj-wni8_JM383" style="width: 200px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+<a href="https://drive.google.com/uc?export=view&id=1yCLy5-vYVNm0fYAhiHbsj-wni8_JM383"><img src="https://drive.google.com/uc?export=view&id=1yCLy5-vYVNm0fYAhiHbsj-wni8_JM383" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
 1. Room overhead perspective
 
 
@@ -464,7 +466,8 @@ Model Spike_aro_M = Model();
 
 As you can see, every franchise has its own corner of the room in which different models are imported to correctly represent each character’s franchise and make the room more lively.
 
-### **Skybox**
+<a name="skybox"></a>
+## **Skybox**
 
 For ourSkybox implementation, two sets of 6 images were used, each of which represents the internal faces of the cube that represents the sky of our world environment. In order to do this, it is required to import the 6 images and load them in different vectors as well as a skybox object type for each one.
 
@@ -697,7 +700,7 @@ For the main camera movement we need to use a 3 variable vector to which a given
 ```
 
 <a name="lighting"></a>
-### **Lighting**
+## **Lighting**
 
 In the lighting section, we have a directional light that acts as the sun, as well as 4 light arrays that represent pointlights and one array of spotlights.
 
@@ -929,7 +932,7 @@ It is important to mention that the spike light flashes, this was made with a va
 In case the light from the bed and desk are off, the light just  from the spike is sended to the shader  and the same process of shining is remade  
 
 <a name="animation"></a>
-### **Animation**
+## **Animation**
 
 The first of our animations that is visible to the naked eye on stage is the one with the ball bouncing around the mat. To create this animation we decided to take the main model of our ball, which is the yellow sphere, and make its position follow an oval path, for this we took the parametric functions of the sphere and from the angle it moved.
 
@@ -1399,7 +1402,7 @@ The cases used where as follows:
 ```
 
 <a name="audio"></a>
-### **AUDIO**
+## **AUDIO**
 
 For audio usage, irrklang library was used, to use this library it was necessary to download the .h, .ddl and .lib files from the following link:
 
