@@ -1,9 +1,14 @@
 # EresUnJuguete (You Are a Toy!)
 Proyecto final de Computación Gráfica
 ---
-The videogame prototype project is a virtual world designed as a boy's room filled with toys and inspired by the iconic movie Toy Story. The virtual landscape is made using voxel art, and the toys and avatars have a blocky appearance to follow the same design style. The movement in the game follows the standard PC layout of WASD and mouse movement, and the world has four different cameras that can be switched using the C key. The virtual world has different types of lights, including day and night cycle lights, ceiling lights, desk lamps, LED lights, and spike lights. The world consists of seven animations, including Valorant-themed animations and a lot of fighting animations. The game has background music playing at all times, which is the instrumental for the movie Toy Story. There is also another implementation of audio within the game, which is activated when the Jett character approaches the spike.
+- The videogame prototype project is a virtual world designed as a boy's room filled with toys and inspired by the iconic movie Toy Story. 
+- The virtual landscape is made using voxel art, and the toys and avatars have a blocky appearance to follow the same design style. 
+- The movement in the game follows the standard PC layout of WASD and mouse movement, and the world has four different cameras that can be switched using the C key. 
+- The virtual world has different types of lights, including day and night cycle lights, ceiling lights, desk lamps, LED lights, and spike lights. 
+- The world consists of seven animations, including Valorant-themed animations and a lot of fighting animations. 
+- The game has background music playing at all times, which is the instrumental for the movie Toy Story. There is also another implementation of audio within the game, which is activated when the Jett character approaches the spike.
 
-####Techincal Manual
+#### Techincal Manual
 ---
 ## **Universidad Nacional Autónoma de México**
 
