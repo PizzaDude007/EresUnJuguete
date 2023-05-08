@@ -1,4 +1,4 @@
-# EresUnJuguete (You're just a toy)
+# EresUnJuguete (You Are a Toy!)
 Proyecto final de Computación Gráfica
 
 
