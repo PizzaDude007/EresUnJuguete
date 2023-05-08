@@ -1,5 +1,4 @@
 # EresUnJuguete (You Are a Toy!)
----
 - The videogame prototype project is a virtual world designed as a boy's room filled with toys and inspired by the iconic movie Toy Story. 
 - The virtual landscape is made using voxel art, and the toys and avatars have a blocky appearance to follow the same design style. 
 - The movement in the game follows the standard PC layout of WASD and mouse movement, and the world has four different cameras that can be switched using the C key. 
